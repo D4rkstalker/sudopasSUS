@@ -1,0 +1,20 @@
+﻿  glad.c
+  nanovg.c
+  CP_Color.c
+  CP_File.c
+  CP_Graphics.c
+  CP_Image.c
+  CP_Input.c
+  CP_Math.c
+  CP_Noise.c
+  CP_Random.c
+  CP_Setting.c
+  CP_Sound.c
+  CP_Text.c
+  CP_System.c
+  dllmain.c
+  tinycthread.c
+  vect.c
+     Creating library C:\Users\xxxfi\OneDrive\Documents\GitHub\1401project\Processing_Sample\CProcessing\lib\x64\CProcessingd.lib and object C:\Users\xxxfi\OneDrive\Documents\GitHub\1401project\Processing_Sample\CProcessing\lib\x64\CProcessingd.exp
+  CProcessing.vcxproj -> C:\Users\xxxfi\OneDrive\Documents\GitHub\1401project\Processing_Sample\CProcessing\lib\x64\CProcessingd.dll
+  1 File(s) copied
