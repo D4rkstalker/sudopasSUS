@@ -6,5 +6,5 @@ build
 **/.vs/*
 **.log
 /Refrence/**
-.tmp/**
-bin/**
+*/.tmp/**
+*/bin/**
