@@ -3,4 +3,6 @@ build
 *.user
 
 *.idx
-*/.vs/*
+**/.vs/*
+**.log
+/Refrence/**
