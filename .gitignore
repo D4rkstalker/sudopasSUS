@@ -1,6 +1,11 @@
+
 build
 .git
 *.user
 
 *.idx
-*/.vs/*
+**/.vs/*
+**.log
+/Refrence/**
+*/.tmp/**
+*/bin/**
