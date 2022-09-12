@@ -33,6 +33,7 @@ typedef struct _Particle
 	CP_Vector pos;
 	CP_Vector vel;
 	CP_Color* color;
+	bool isStatic;
 } Particle;
 
 Particle particles[240];
@@ -43,9 +44,10 @@ typedef struct _Ray
 	Particle mid;
 	Particle tail;
 	CP_Color* color;
+	bool hasMid;
 } Ray;
 
-Ray rays[360];
+Ray rays[1];
 
 CP_Color randomColors[] = {
 	{ 127, 0,   0,   255 },
@@ -58,8 +60,8 @@ CP_Color randomColors[] = {
 void CreateRay(float x, float y) {
 	Ray* ray = &rays[raycount];
 	raycount++;
-	int velocityx = CP_Random_RangeFloat(-150, 150);
-	int velocityy = CP_Random_RangeFloat(-150, 150);
+	int velocityx = CP_Random_RangeFloat(-550, 550);
+	int velocityy = CP_Random_RangeFloat(-550, 550);
 	Particle head;
 	Particle tail;
 	head.vel.x = velocityx;
@@ -69,24 +71,52 @@ void CreateRay(float x, float y) {
 
 	head.pos.x = x;
 	head.pos.y = y;
-	tail.pos.x = x-velocityx;
-	tail.pos.y = y-velocityy;
+	tail.pos.x = x - velocityx;
+	tail.pos.y = y - velocityy;
+
+	head.isStatic = false;
+	tail.isStatic = false;
+
+	ray->hasMid = false;
 
 	ray->head = head;
 	ray->tail = tail;
 
 	ray->color = &randomColors[CP_Random_RangeInt(0, 5)];
 }
+void CreateMidRay(float x, float y, Particle head, Particle tail, Ray* ray) {
+	raycount++;
+	Particle mid;
+	mid.vel.x = 0;
+	mid.vel.y = 0;
+
+	mid.pos.x = x;
+	mid.pos.y = y;
+
+	mid.isStatic = true;
+	mid.color = head.color;
+
+	ray->head = head;
+	ray->mid = mid;
+	ray->tail = tail;
+
+	ray->color = head.color;
+	ray->hasMid = true;
+}
 
 
-void ParticleCreate() {
+void CreateParticle(float x, float y, CP_Color* color, bool isStatic) {
+	//if (particleCount > 10) {
+	//	particleCount = 0;
+	//}
 	Particle* part = &particles[particleCount];
 	particleCount++;
-	part->pos.x = CP_Random_RangeFloat(0, (float)CP_System_GetWindowWidth());
-	part->pos.y = CP_Random_RangeFloat(0, (float)CP_System_GetWindowHeight());
-	part->vel.x = CP_Random_RangeFloat(-150, 150);
-	part->vel.y = CP_Random_RangeFloat(-150, 150);
-	part->color = &randomColors[CP_Random_RangeInt(0, 5)];
+	part->pos.x = x;
+	part->pos.y = y;
+	part->vel.x = 0;
+	part->vel.y = 0;
+	part->color = color;
+	part->isStatic = isStatic;
 }
 
 void ParticleDisplay(Particle* part)
@@ -95,9 +125,12 @@ void ParticleDisplay(Particle* part)
 }
 
 
-void ParticleUpdate(Particle* part)
+void ParticleUpdate(Particle* part, Ray* ray, bool head)
 {
 	// move particle based on velocity and correct for wall collisions
+	if (part->isStatic) {
+		return;
+	}
 	float time = CP_System_GetDt();
 	float timeX = time;
 	float timeY = time;
@@ -106,6 +139,7 @@ void ParticleUpdate(Particle* part)
 	{
 		bool collisionX = false;
 		bool collisionY = false;
+		//part->vel.y += 3;
 
 		float newPosX = part->pos.x + part->vel.x * time;
 		float newPosY = part->pos.y + part->vel.y * time;
@@ -180,6 +214,8 @@ void ParticleUpdate(Particle* part)
 
 			// decrease time and iterate
 			time -= newTime;
+			CreateMidRay(part->pos.x, part->pos.y, ray->head, ray->tail, ray);
+
 		}
 		else
 		{
@@ -192,19 +228,23 @@ void ParticleUpdate(Particle* part)
 }
 
 void RayUpdate(Ray* ray) {
-	ParticleUpdate(&ray->head);
-	ParticleUpdate(&ray->tail);
+	ParticleUpdate(&ray->head, ray, true);
+	ParticleUpdate(&ray->tail, ray, false);
 	CP_Settings_NoStroke();
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_BlendMode(CP_BLEND_ADD);
 	CP_Settings_StrokeWeight(3);
-	CP_Color lineColor;
-	lineColor.r = ray->color->r + ray->color->r;
-	lineColor.g = ray->color->g + ray->color->g;
-	lineColor.b = ray->color->b + ray->color->b;
-	lineColor.a = 255;
+	CP_Color lineColor = randomColors[CP_Random_RangeInt(0, 5)];;
 	CP_Settings_Stroke(lineColor);
-	CP_Graphics_DrawLine(ray->head.pos.x, ray->head.pos.y, ray->tail.pos.x, ray->tail.pos.y);
+	if (!ray->hasMid) {
+		CP_Graphics_DrawLine(ray->head.pos.x, ray->head.pos.y, ray->tail.pos.x, ray->tail.pos.y);
+
+	}
+	else {
+		CP_Graphics_DrawLine(ray->head.pos.x, ray->head.pos.y, ray->mid.pos.x, ray->mid.pos.y);
+		CP_Graphics_DrawLine(ray->mid.pos.x, ray->mid.pos.y, ray->tail.pos.x, ray->tail.pos.y);
+
+	}
 }
 
 
