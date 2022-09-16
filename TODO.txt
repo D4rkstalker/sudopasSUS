@@ -1,0 +1,38 @@
+Things to do:
+	Map gen- KC
+		-bit mask?
+			-create a square with random location at each black pixel
+			OR 
+			-connect nearest 2 pixels with lines 
+			
+	Ray/Particle cast - HQ
+
+	Sub controller - Jun
+		WASD
+		Map key
+		Abilities
+			Left click to aoe pulse scan
+			right click to focus scan
+				-ray cast with specified direction and strength/ angle
+				-Lures enemies to hit position
+			Energy Usage
+			emergency shutdown
+		-Main menu
+		-Map
+			right click to waypoint
+		-Main UI
+	
+	Enemies/map features - jon
+		-Enemies (red)follows the particle that activates it
+		-PoI (yellow)
+		-Currents (blue)
+		-terrain shifting (unstable techtonic plates?)
+	
+	Misc
+		-Sound
+		-trigger collider/volume
+		-tutorial
+		-Intro sequence
+		
+		
+		

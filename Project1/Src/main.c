@@ -214,7 +214,7 @@ void ParticleUpdate(Particle* part, Ray* ray, bool head)
 
 			// decrease time and iterate
 			time -= newTime;
-			CreateMidRay(part->pos.x, part->pos.y, ray->head, ray->tail, ray);
+			//CreateMidRay(part->pos.x, part->pos.y, ray->head, ray->tail, ray);
 
 		}
 		else
