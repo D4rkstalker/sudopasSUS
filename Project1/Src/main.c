@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include "game.h"
 
 CP_Image logo;
 
@@ -298,7 +299,8 @@ void game_update(void)
 	//CP_Image_Draw(logo, 0.f, 0.f, CP_Image_GetWidth(logo), CP_Image_GetHeight(logo), 255);
 	if (CP_Input_KeyDown(KEY_Q))
 	{
-		CP_Engine_Terminate();
+		CP_Engine_SetNextGameState(subgame_init, subgame_update, subgame_exit);
+		//CP_Engine_Terminate();
 	}
 
 }

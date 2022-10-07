@@ -157,6 +157,10 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Src\main.c" />
+    <ClCompile Include="game.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="game.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
