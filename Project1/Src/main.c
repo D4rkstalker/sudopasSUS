@@ -7,6 +7,10 @@
 #include <math.h>
 #include "game.h"
 
+#define MAXRAYS 100
+#define MAXBOUNCES 20
+#define MAXPARTICLES 2000
+
 CP_Image logo;
 
 const float EPSILON = 0.0000001f;
@@ -15,8 +19,6 @@ float particleSize = 3.0f;
 
 int particleCount = 0;
 int raycount = 0;
-
-int numParticles = 240;
 
 float lineProximityDistance = 100.0f;
 float mouseProximityDistance = 200.0f;
@@ -33,100 +35,92 @@ typedef struct _Particle
 {
 	CP_Vector pos;
 	CP_Vector vel;
-	CP_Color* color;
+	CP_Color color;
 	bool isStatic;
+	bool isHead;
+	bool isTail;
 } Particle;
 
-Particle particles[240];
+Particle particles[MAXPARTICLES];
 
 typedef struct _Ray
 {
 	Particle head;
-	Particle mid;
+	Particle midpoints[MAXBOUNCES];
 	Particle tail;
-	CP_Color* color;
-	bool hasMid;
+	CP_Color color;
+	int length;
+	int maxLength;
+	int mids;
+	int trail;
 } Ray;
 
-Ray rays[1];
-
-CP_Color randomColors[] = {
-	{ 127, 0,   0,   255 },
-	{ 127, 127, 0,   255 },
-	{ 0,   127, 0,   255 },
-	{ 0,   127, 127, 255 },
-	{ 0,   0,   127, 255 },
-	{ 127, 0,   127, 255 } };
-
-void CreateRay(float x, float y) {
-	Ray* ray = &rays[raycount];
-	raycount++;
-	int velocityx = CP_Random_RangeFloat(-550, 550);
-	int velocityy = CP_Random_RangeFloat(-550, 550);
-	Particle head;
-	Particle tail;
-	head.vel.x = velocityx;
-	head.vel.y = velocityy;
-	tail.vel.x = velocityx;
-	tail.vel.y = velocityy;
-
-	head.pos.x = x;
-	head.pos.y = y;
-	tail.pos.x = x - velocityx;
-	tail.pos.y = y - velocityy;
-
-	head.isStatic = false;
-	tail.isStatic = false;
-
-	ray->hasMid = false;
-
-	ray->head = head;
-	ray->tail = tail;
-
-	ray->color = &randomColors[CP_Random_RangeInt(0, 5)];
-}
-void CreateMidRay(float x, float y, Particle head, Particle tail, Ray* ray) {
-	raycount++;
-	Particle mid;
-	mid.vel.x = 0;
-	mid.vel.y = 0;
-
-	mid.pos.x = x;
-	mid.pos.y = y;
-
-	mid.isStatic = true;
-	mid.color = head.color;
-
-	ray->head = head;
-	ray->mid = mid;
-	ray->tail = tail;
-
-	ray->color = head.color;
-	ray->hasMid = true;
-}
+Ray rays[MAXRAYS];
 
 
-void CreateParticle(float x, float y, CP_Color* color, bool isStatic) {
+Particle CreateParticle(float x, float y,float velx, float vely, CP_Color color, bool isStatic, bool head,bool tail) {
 	//if (particleCount > 10) {
 	//	particleCount = 0;
 	//}
-	Particle* part = &particles[particleCount];
+	Particle part = particles[particleCount];
 	particleCount++;
-	part->pos.x = x;
-	part->pos.y = y;
-	part->vel.x = 0;
-	part->vel.y = 0;
-	part->color = color;
-	part->isStatic = isStatic;
+	if (particleCount > MAXPARTICLES) {
+		particleCount = 0;
+	}
+	part.pos.x = x;
+	part.pos.y = y;
+	part.vel.x = velx;
+	part.vel.y = vely;
+	part.color = color;
+	part.isStatic = isStatic;
+	part.isHead = head;
+	part.isTail = tail;
+	return part;
 }
+
+void CreateRay(float x, float y, int length) {
+	Ray* ray = &rays[raycount];
+
+	int velocityx = CP_Random_RangeFloat(-550, 550);
+	int velocityy = CP_Random_RangeFloat(-550, 550);
+	ray->color = CP_Color_Create(255, 255, 255, 255);
+
+	Particle head = CreateParticle(x , y ,velocityx,velocityy, ray->color, false, true, false);
+	Particle tail = CreateParticle(x, y , velocityx, velocityy, ray->color, true, false, true);
+	ray->mids = 0;
+	ray->trail = 0;
+
+	ray->head = head;
+	ray->tail = tail;
+	ray->maxLength = length;
+	raycount++;
+}
+
 
 void ParticleDisplay(Particle* part)
 {
 	CP_Graphics_DrawEllipse(part->pos.x, part->pos.y, particleSize, particleSize);
 }
+void AddMidpoint(Ray *ray, int posx, int posy) {
+	Particle part = CreateParticle(posx, posy,0,0, ray->color, true, false, false);
+	ray->midpoints[ray->mids] = part;
+	ray->mids++;
+	//if (ray->mids > MAXBOUNCES) {
+	//	ray->mids = 0;
+	//}
+}
+
+void RemoveMidpoint(Ray *ray) {
+	ray->midpoints[ray->trail].color.a = 0;
+	ray->trail++;
+	//if (ray->trail > MAXBOUNCES) {
+	//	ray->trail = 0;
+	//}
+
+}
 
 
-void ParticleUpdate(Particle* part, Ray* ray, bool head)
+void ParticleUpdate(Particle *part, Ray *ray)
 {
 	// move particle based on velocity and correct for wall collisions
 	if (part->isStatic) {
@@ -215,7 +209,13 @@ void ParticleUpdate(Particle* part, Ray* ray, bool head)
 
 			// decrease time and iterate
 			time -= newTime;
-			//CreateMidRay(part->pos.x, part->pos.y, ray->head, ray->tail, ray);
+			if (part->isHead) {
+				AddMidpoint(ray, part->pos.x, part->pos.y);
+
+			}
+			else {
+				RemoveMidpoint(ray);
+			}
 
 		}
 		else
@@ -228,24 +228,42 @@ void ParticleUpdate(Particle* part, Ray* ray, bool head)
 	}
 }
 
-void RayUpdate(Ray* ray) {
+
+void RayUpdate(Ray *ray) {
+	if (ray->color.a < 10) return;
+	if (ray->length < ray->maxLength) {
+		ray->length++;
+	}
+	else {
+		ray->tail.isStatic = false;
+	}
 	ParticleUpdate(&ray->head, ray, true);
 	ParticleUpdate(&ray->tail, ray, false);
 	CP_Settings_NoStroke();
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_BlendMode(CP_BLEND_ADD);
 	CP_Settings_StrokeWeight(3);
-	CP_Color lineColor = randomColors[CP_Random_RangeInt(0, 5)];;
-	CP_Settings_Stroke(lineColor);
-	if (!ray->hasMid) {
-		CP_Graphics_DrawLine(ray->head.pos.x, ray->head.pos.y, ray->tail.pos.x, ray->tail.pos.y);
+	CP_Settings_Stroke(ray->color);
+	if (ray->mids - ray->trail == 1) {
+		CP_Graphics_DrawLine(ray->head.pos.x, ray->head.pos.y, ray->midpoints[ray->trail].pos.x, ray->midpoints[ray->trail].pos.y);
+		CP_Graphics_DrawLine(ray->midpoints[ray->trail].pos.x, ray->midpoints[ray->trail].pos.y, ray->tail.pos.x, ray->tail.pos.y);
+
+	}
+
+	else if(ray->mids - ray->trail > 1){
+		CP_Graphics_DrawLine(ray->head.pos.x, ray->head.pos.y, ray->midpoints[ray->mids-1].pos.x, ray->midpoints[ray->mids-1].pos.y);
+
+		for (int i = 1; i < ray->mids - ray->trail; i++) {
+			CP_Graphics_DrawLine(ray->midpoints[ray->trail].pos.x, ray->midpoints[ray->trail ].pos.y, ray->midpoints[ray->trail + i].pos.x, ray->midpoints[ray->trail + i].pos.y);
+		}
+		CP_Graphics_DrawLine(ray->midpoints[ray->trail].pos.x, ray->midpoints[ray->trail].pos.y, ray->tail.pos.x, ray->tail.pos.y);
 
 	}
 	else {
-		CP_Graphics_DrawLine(ray->head.pos.x, ray->head.pos.y, ray->mid.pos.x, ray->mid.pos.y);
-		CP_Graphics_DrawLine(ray->mid.pos.x, ray->mid.pos.y, ray->tail.pos.x, ray->tail.pos.y);
+		CP_Graphics_DrawLine(ray->head.pos.x, ray->head.pos.y, ray->tail.pos.x, ray->tail.pos.y);
 
 	}
+	ray->color.a--;
 }
 
 
@@ -268,7 +286,7 @@ void game_update(void)
 	CP_Graphics_ClearBackground(CP_Color_Create(51, 51, 51, 255));
 
 	if (CP_Input_MouseClicked()) {
-		CreateRay(CP_Input_GetMouseWorldX(), CP_Input_GetMouseWorldY());
+		CreateRay(CP_Input_GetMouseWorldX(), CP_Input_GetMouseWorldY(),10);
 
 	}
 
