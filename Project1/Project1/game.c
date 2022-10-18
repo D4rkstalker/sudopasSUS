@@ -43,6 +43,20 @@ Wall wall[9999];
 /*
 Made by Nigel
 
+After creating 3 draw points, wall_init creates a triangle wall in the world.
+*/
+void Wall_Init(double x, double y) {
+	wall[CWall].x1 = drawx1;
+	wall[CWall].x2 = drawx2;
+	wall[CWall].y1 = drawy1;
+	wall[CWall].y2 = drawy2;
+	wall[CWall].x3 = x;
+	wall[CWall].y3 = y;
+}
+
+/*
+Made by Nigel
+
 Draw the triangle walls for each frame
 */
 void DrawWalls(void) {
@@ -108,20 +122,6 @@ void CheckControls(void) {
 			CWall += 1;
 		}
 	}
-}
-
-/*
-Made by Nigel
-
-After creating 3 draw points, wall_init creates a triangle wall in the world.
-*/
-void Wall_Init(double x, double y) {
-	wall[CWall].x1 = drawx1;
-	wall[CWall].x2 = drawx2;
-	wall[CWall].y1 = drawy1;
-	wall[CWall].y2 = drawy2;
-	wall[CWall].x3 = x;
-	wall[CWall].y3 = y;
 }
 
 void subgame_init(void) {
