@@ -6,6 +6,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "game.h"
+#include "menu.h"
 
 #define MAXRAYS 100
 #define MAXBOUNCES 20
@@ -318,6 +319,11 @@ void game_update(void)
 	if (CP_Input_KeyDown(KEY_Q))
 	{
 		CP_Engine_SetNextGameState(subgame_init, subgame_update, subgame_exit);
+		//CP_Engine_Terminate();
+	}
+	if (CP_Input_KeyDown(KEY_W))
+	{
+		CP_Engine_SetNextGameState(mainmenu_init, mainmenu_update, mainmenu_exit);
 		//CP_Engine_Terminate();
 	}
 
