@@ -57,6 +57,14 @@ typedef struct _Ray
 
 Ray rays[MAXRAYS];
 
+CP_Vector AngleToVector(float angle)
+{
+	float rads = CP_Math_Radians(angle);
+	CP_Vector ret = { cos(rads),sin(rads) };
+
+	return CP_Vector_Normalize(ret);
+}
+
 
 Particle CreateParticle(float x, float y,float velx, float vely, CP_Color color, bool isStatic, bool head,bool tail) {
 	//if (particleCount > 10) {
@@ -78,15 +86,13 @@ Particle CreateParticle(float x, float y,float velx, float vely, CP_Color color,
 	return part;
 }
 
-void CreateRay(float x, float y, int length) {
+void CreateRay(float x, float y, int length,int velx, int vely) {
 	Ray* ray = &rays[raycount];
 
-	int velocityx = CP_Random_RangeFloat(-550, 550);
-	int velocityy = CP_Random_RangeFloat(-550, 550);
-	ray->color = CP_Color_Create(255, 255, 255, 255);
+	ray->color = CP_Color_Create(255, 50, 50, 255);
 
-	Particle head = CreateParticle(x , y ,velocityx,velocityy, ray->color, false, true, false);
-	Particle tail = CreateParticle(x, y , velocityx, velocityy, ray->color, true, false, true);
+	Particle head = CreateParticle(x , y ,velx,vely, ray->color, false, true, false);
+	Particle tail = CreateParticle(x, y , velx, vely, ray->color, true, false, true);
 	ray->mids = 0;
 	ray->trail = 0;
 
@@ -283,10 +289,15 @@ void game_init(void)
 void game_update(void)
 {
 	CP_Settings_BlendMode(CP_BLEND_ALPHA);
-	CP_Graphics_ClearBackground(CP_Color_Create(51, 51, 51, 255));
+	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
 	if (CP_Input_MouseClicked()) {
-		CreateRay(CP_Input_GetMouseWorldX(), CP_Input_GetMouseWorldY(),10);
+		for (int i = 0; i < 36; i++) {
+			CP_Vector v = AngleToVector(i * 10);
+			CreateRay(CP_Input_GetMouseWorldX(), CP_Input_GetMouseWorldY(), 50,v.x*200,v.y*200);
+
+
+		}
 
 	}
 
@@ -322,6 +333,7 @@ void game_update(void)
 	}
 
 }
+
 
 void game_exit(void)
 {
