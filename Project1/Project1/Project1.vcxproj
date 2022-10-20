@@ -161,6 +161,7 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q
     <ClCompile Include="..\Src\SoundCast.c" />
     <ClCompile Include="..\Src\Utils.c" />
     <ClCompile Include="game.c" />
+    <ClCompile Include="subcontroller.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Src\menu.h" />
@@ -168,6 +169,9 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q
     <ClInclude Include="..\Src\Utils.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="subcontroller.h">
+      <DeploymentContent>true</DeploymentContent>
+    </ClInclude>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

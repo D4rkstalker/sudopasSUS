@@ -9,6 +9,8 @@
 #include "menu.h"
 #include "SoundCast.h"
 #include "utils.h"
+#include "subcontroller.h"
+
 
 CP_Image logo;
 
@@ -90,6 +92,14 @@ void game_update(void)
 		//CP_Engine_Terminate();
 	}
 
+
+	// MR's controller testing 
+	if (CP_Input_KeyDown(KEY_L))
+	{
+		CP_Engine_SetNextGameState(controller_init, controller_update, controller_exit);
+
+	}
+	
 }
 
 
