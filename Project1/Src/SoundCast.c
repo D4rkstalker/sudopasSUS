@@ -1,9 +1,9 @@
 
 #include <cprocessing.h>
 #include <stdbool.h>
-#define MAXRAYS 100
+#define MAXRAYS 1000
 #define MAXBOUNCES 20
-#define MAXPARTICLES 2000
+#define MAXPARTICLES 3000
 const float EPSILON = 0.0000001f;
 
 typedef struct _Particle
@@ -71,10 +71,10 @@ void RemoveMidpoint(Ray* ray) {
 
 }
 
-void CreateRay(float x, float y, int length, int velx, int vely) {
+void CreateRay(float x, float y, int length, int velx, int vely, CP_Color color) {
 	Ray* ray = &rays[rayCount];
 
-	ray->color = CP_Color_Create(255, 255, 255, 255);
+	ray->color = color;
 
 	Particle head = CreateParticle(x, y, velx, vely, ray->color, false, true, false);
 	Particle tail = CreateParticle(x, y, velx, vely, ray->color, true, false, true);
