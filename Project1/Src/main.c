@@ -10,7 +10,7 @@
 #include "SoundCast.h"
 #include "utils.h"
 #include "subcontroller.h"
-
+#include "enemy.h"
 
 CP_Image logo;
 
@@ -97,6 +97,12 @@ void game_update(void)
 	if (CP_Input_KeyDown(KEY_L))
 	{
 		CP_Engine_SetNextGameState(controller_init, controller_update, controller_exit);
+
+	}
+
+	if (CP_Input_KeyDown(KEY_K))
+	{
+		CP_Engine_SetNextGameState(enemy_init, enemy_update, enemy_exit);
 
 	}
 	
