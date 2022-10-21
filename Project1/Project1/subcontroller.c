@@ -7,8 +7,8 @@ struct Player {
 	float y;
 	float velocity_x;
 	float velocity_y;
-	float acceleration_x;
-	float acceleration_y;
+	float acceleration;
+	//float acceleration;
 
 
 } player1;
@@ -58,54 +58,54 @@ void movement(void) {
 
 	if (!isPaused) {
 		if (CP_Input_KeyDown(KEY_W)) {
-			player1.acceleration_y += 1;
-			player1.velocity_y += player1.acceleration_y * CP_System_GetDt();
-			player1.y -= player1.velocity_y * CP_System_GetDt();
+			player1.acceleration += 1;
+			player1.velocity_y += player1.acceleration * 0.1;
+			player1.y -= player1.velocity_y * 0.1;
 		}
 		else if (CP_Input_KeyReleased(KEY_W)) {
 			
-				player1.y += player1.velocity_y * CP_System_GetDt();
+				player1.y += player1.velocity_y * 0.1;
 				player1.velocity_y = 10;
-				player1.acceleration_y = 10;
+				player1.acceleration = 10;
 			
 		}
 
 		if (CP_Input_KeyDown(KEY_S)) {
 
-			player1.acceleration_y += 1;
-			player1.velocity_y += player1.acceleration_y * CP_System_GetDt();
-			player1.y += player1.velocity_y * CP_System_GetDt();
+			player1.acceleration += 1;
+			player1.velocity_y += player1.acceleration * 0.1;
+			player1.y += player1.velocity_y * 0.1;
 		}
 		else if (CP_Input_KeyReleased(KEY_S)) {
 
-				player1.y += player1.velocity_y * CP_System_GetDt();
+				player1.y += player1.velocity_y * 0.1;
 				player1.velocity_y = 10;
-				player1.acceleration_y = 10;
+				player1.acceleration = 10;
 			
 		}
 
 		if (CP_Input_KeyDown(KEY_D)) {
-			player1.acceleration_x += 1;
-			player1.velocity_x += player1.acceleration_x * CP_System_GetDt();
-			player1.x += player1.velocity_x * CP_System_GetDt();
+			player1.acceleration += 1;
+			player1.velocity_x += player1.acceleration * 0.1;
+			player1.x += player1.velocity_x * 0.1;
 		}
 		else if (CP_Input_KeyReleased(KEY_D)) {
 		
-				player1.x += player1.velocity_x * CP_System_GetDt();
+				player1.x += player1.velocity_x * 0.1;
 				player1.velocity_x = 10;
-				player1.acceleration_x = 10;
+				player1.acceleration = 10;
 			
 			
 		}
 		if (CP_Input_KeyDown(KEY_A)) {
-			player1.acceleration_x += 1;
-			player1.velocity_x += player1.acceleration_x * CP_System_GetDt();
-			player1.x -= player1.velocity_x * CP_System_GetDt();
+			player1.acceleration += 1;
+			player1.velocity_x += player1.acceleration * 0.1;
+			player1.x -= player1.velocity_x * 0.1;
 		}
 		else if (CP_Input_KeyReleased(KEY_A)) {
 			
-				player1.x -= player1.velocity_x * CP_System_GetDt();
-				player1.acceleration_x = 10;
+				player1.x -= player1.velocity_x * 0.1;
+				player1.acceleration = 10;
 				player1.velocity_x = 10;
 			
 		}
@@ -124,10 +124,10 @@ void controller_init(void) {
 
 	player1.x = center_x;
 	player1.y = center_y;
-	player1.acceleration_x = 10;
-	player1.acceleration_y = 10;
-	player1.velocity_x = 10;
-	player1.velocity_y = 10;
+	//player1.acceleration = 10;
+	//player1.acceleration = 10;
+	//player1.velocity_x = 50;
+	//player1.velocity_y = 10;
 
 
 	

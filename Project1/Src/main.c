@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#define _USE_MATH_DEFINES
 #include <math.h>
 #include "game.h"
 #include "menu.h"
@@ -14,6 +13,7 @@
 
 CP_Image logo;
 
+#define _USE_MATH_DEFINES
 
 float particleSize = 3.0f;
 

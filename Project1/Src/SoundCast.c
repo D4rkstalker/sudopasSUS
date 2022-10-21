@@ -1,7 +1,7 @@
 
 #include <cprocessing.h>
 #include <stdbool.h>
-#define MAXRAYS 100
+#define MAXRAYS 10000
 #define MAXBOUNCES 20
 #define MAXPARTICLES 2000
 const float EPSILON = 0.0000001f;
