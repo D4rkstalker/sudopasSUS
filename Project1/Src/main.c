@@ -52,7 +52,7 @@ void game_update(void)
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
-		CP_Color color = CP_Color_Create(50, 255, 50, 255);
+		CP_Color color = CP_Color_Create(90, 180, 77, 155);
 		for (int i = 0; i < 36; i++) {
 			CP_Vector v = AngleToVector(i * 10);
 			CreateRay(CP_Input_GetMouseWorldX(), CP_Input_GetMouseWorldY(), 50,v.x*200,v.y*200, color);
