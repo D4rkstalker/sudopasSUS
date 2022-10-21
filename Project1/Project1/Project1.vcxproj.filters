@@ -30,6 +30,12 @@
     <ClCompile Include="..\Src\Utils.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="subcontroller.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\enemy.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -45,6 +51,12 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Src\Utils.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="subcontroller.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\enemy.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

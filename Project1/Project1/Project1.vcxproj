@@ -156,18 +156,24 @@ xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Src\enemy.c" />
     <ClCompile Include="..\Src\main.c" />
     <ClCompile Include="..\Src\menu.c" />
     <ClCompile Include="..\Src\SoundCast.c" />
     <ClCompile Include="..\Src\Utils.c" />
     <ClCompile Include="game.c" />
+    <ClCompile Include="subcontroller.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Src\enemy.h" />
     <ClInclude Include="..\Src\menu.h" />
     <ClInclude Include="..\Src\SoundCast.h" />
     <ClInclude Include="..\Src\Utils.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="subcontroller.h">
+      <DeploymentContent>true</DeploymentContent>
+    </ClInclude>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

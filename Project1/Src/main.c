@@ -3,15 +3,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#define _USE_MATH_DEFINES
 #include <math.h>
 #include "game.h"
 #include "menu.h"
 #include "SoundCast.h"
 #include "utils.h"
+#include "subcontroller.h"
+#include "enemy.h"
 
 CP_Image logo;
 
+#define _USE_MATH_DEFINES
 
 float particleSize = 3.0f;
 
@@ -113,6 +115,20 @@ void game_update(void)
 		//CP_Engine_Terminate();
 	}
 
+
+	// MR's controller testing 
+	if (CP_Input_KeyDown(KEY_L))
+	{
+		CP_Engine_SetNextGameState(controller_init, controller_update, controller_exit);
+
+	}
+
+	if (CP_Input_KeyDown(KEY_K))
+	{
+		CP_Engine_SetNextGameState(enemy_init, enemy_update, enemy_exit);
+
+	}
+	
 }
 
 
