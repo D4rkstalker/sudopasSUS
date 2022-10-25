@@ -3,7 +3,7 @@
 #define TutorialWalls (10)
 
 
-double title_alpha = 0;
+double title_alpha = -100;
 double tutorial_alpha = 0;
 int loop = 0;
 
@@ -78,7 +78,7 @@ void mainmenu_update(void) {
 		}
 
 		//Fade in TITLE
-		int title_alpha_speed = 2;
+		int title_alpha_speed = 1;
 
 		if (title_alpha < 255 && loop == 2) {
 			title_alpha += 1 * title_alpha_speed;
@@ -101,9 +101,10 @@ void mainmenu_update(void) {
 
 	}
 
-	if (loop == 3) {
+
 		//DRAW MAP
-		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 150));
+		CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 0));
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 10));
 		CP_Settings_RectMode(CP_POSITION_CORNER);
 
 		map tut[TutorialWalls];
@@ -138,19 +139,34 @@ void mainmenu_update(void) {
 		tut[4].h = 250;
 		CP_Graphics_DrawRect(tut[4].x, tut[4].y, tut[4].w, tut[4].h);
 
-	}
 
 
 
 
-	if (CP_Input_KeyDown(KEY_B))
+	if (CP_Input_KeyTriggered(KEY_Q))
 	{
 		title_alpha = 0;
 		tutorial_alpha = 0;
 		loop = 0;
-		CP_Engine_SetNextGameState(game_init, game_update, game_exit);
+		CP_Engine_SetNextGameState(subgame_init, subgame_update, subgame_exit);
 		//CP_Engine_Terminate();
 	}
+
+
+
+	// MR's controller testing 
+	if (CP_Input_KeyTriggered(KEY_L))
+	{
+		CP_Engine_SetNextGameState(controller_init, controller_update, controller_exit);
+
+	}
+
+	if (CP_Input_KeyTriggered(KEY_K))
+	{
+		CP_Engine_SetNextGameState(enemy_init, enemy_update, enemy_exit);
+
+	}
+
 
 }
 

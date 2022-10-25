@@ -10,3 +10,7 @@ typedef struct Wall {
 void subgame_init(void);
 void subgame_update(void);
 void subgame_exit(void);
+
+void mainmenu_init(void);
+void mainmenu_update(void);
+void mainmenu_exit(void);
