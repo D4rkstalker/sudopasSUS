@@ -161,6 +161,11 @@ void CheckControls(void) {
 
 	}
 
+	if (CP_Input_KeyTriggered(KEY_Q))
+	{
+		CP_Engine_SetNextGameState(mainmenu_init, mainmenu_update, mainmenu_exit);
+	}
+
 }
 
 void subgame_init(void) {
