@@ -87,14 +87,17 @@ void DrawWalls(void) {
 
 void loadwalls(void) {
 	int c;
+	int i = 0;
 	FILE* in = _fsopen("walls.txt", "r", _SH_DENYNO);
 	while (1) {
 		c = fgetc(in);
 		if (feof(in)) {
 			break;
 		}
-		printf("%c", c);
+		fscanf_s(in,"%f %f %f %f %f %f\n", &wall[i].pos1.x, &wall[i].pos1.y, &wall[i].pos2.x, &wall[i].pos2.y, &wall[i].pos3.x, &wall[i].pos3.y);
+		++i;
 	}
+	CWall = i;
 	fclose(in);
 }
 
@@ -152,7 +155,7 @@ void CheckControls(void) {
 		}
 	}
 
-	if (CP_Input_KeyTriggered(KEY_T)) {
+	if (CP_Input_KeyTriggered(KEY_S)) {
 		savewalls();
 	}
 
