@@ -1,4 +1,15 @@
 #include "cprocessing.h"
+#include "SoundCast.h"
+#include "Utils.h"
+#include "game.h"
+
+//Ray cast stuff -HQ
+float particleSize = 3.0f;
+
+//-------------------
+
+
+
 
 /*
 Made by Nigel
@@ -28,14 +39,6 @@ Made by Nigel
 Triangle structures meant to function as walls in game
 Contains the x and y coordinates of all 3 points of the triangle
 */
-typedef struct Wall {
-	double x1;
-	double y1;
-	double x2;
-	double y2;
-	double x3;
-	double y3;
-} Wall;
 
 int CWall = 0;
 Wall wall[9999];
@@ -46,12 +49,11 @@ Made by Nigel
 After creating 3 draw points, wall_init creates a triangle wall in the world.
 */
 void Wall_Init(double x, double y) {
-	wall[CWall].x1 = drawx1;
-	wall[CWall].x2 = drawx2;
-	wall[CWall].y1 = drawy1;
-	wall[CWall].y2 = drawy2;
-	wall[CWall].x3 = x;
-	wall[CWall].y3 = y;
+
+	wall[CWall].pos1 = CP_Vector_Set(drawx1, drawy1);
+	wall[CWall].pos2 = CP_Vector_Set(drawx2, drawy2);
+	wall[CWall].pos3 = CP_Vector_Set(x, y);
+
 }
 
 /*
@@ -61,6 +63,7 @@ Draw the triangle walls for each frame
 */
 void DrawWalls(void) {
 	int i;
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 
 	//draw wall markers
 	if (drawpoint > 0)
@@ -71,7 +74,7 @@ void DrawWalls(void) {
 
 	//draw walls
 	for (i = 0; i < CWall + 1; i++) {
-		CP_Graphics_DrawTriangle(WorldX + wall[i].x1, WorldY + wall[i].y1, WorldX + wall[i].x2, WorldY + wall[i].y2, WorldX + wall[i].x3, WorldY + wall[i].y3);
+		CP_Graphics_DrawTriangle(WorldX + wall[i].pos1.x, WorldY + wall[i].pos1.y, WorldX + wall[i].pos2.x, WorldY + wall[i].pos2.y, WorldX + wall[i].pos3.x, WorldY + wall[i].pos3.y);
 		//CP_Graphics_DrawRect(WorldX + wall[i].x1, WorldY + wall[i].y1, wall[i].w, wall[i].h);
 	}
 }
@@ -122,11 +125,51 @@ void CheckControls(void) {
 			CWall += 1;
 		}
 	}
+
+	//HQ stuff
+
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
+		CP_Color color = CP_Color_Create(90, 180, 77, 155);
+		for (int i = 0; i < 36; i++) {
+			CP_Vector v = AngleToVector(i * 10);
+			CreateRay(CP_Input_GetMouseWorldX(), CP_Input_GetMouseWorldY(), 50, v.x * 200, v.y * 200, color);
+
+
+		}
+
+	}
+	else if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) {
+		CP_Color color = CP_Color_Create(255, 50, 50, 255);
+		for (int i = 0; i < 36; i++) {
+			CP_Vector v = AngleToVector(i * 10);
+			CreateRay(CP_Input_GetMouseWorldX(), CP_Input_GetMouseWorldY(), 50, v.x * 200, v.y * 200, color);
+
+
+		}
+
+
+	}
+	else if (CP_Input_MouseTriggered(MOUSE_BUTTON_3)) {
+		CP_Color color = CP_Color_Create(50, 50, 255, 255);
+		for (int i = 0; i < 36; i++) {
+			CP_Vector v = AngleToVector(i * 10);
+			CreateRay(CP_Input_GetMouseWorldX(), CP_Input_GetMouseWorldY(), 50, v.x * 200, v.y * 200, color);
+
+
+		}
+
+
+	}
+
 }
 
 void subgame_init(void) {
-	CP_System_SetWindowSize(2000, 2000);
+	CP_System_SetWindowSize(1920, 1080);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
+	CP_Settings_BlendMode(CP_BLEND_ALPHA);
+
+	//set up sound cast system
+	InitScene(wall,CWall);
 }
 
 void subgame_update(void) {
@@ -135,10 +178,10 @@ void subgame_update(void) {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
 	//2nd draw layer, the walls of the game
-	DrawWalls();
+	DrawWalls(wall);
 
 	//3rd draw layer, the raycast
-
+	RayUpdate();
 	//4th draw layer, the UI for the game
 
 	//Check the controls pressed each frame
@@ -158,6 +201,10 @@ void subgame_update(void) {
 		wall[i].w = 50;
 		wall[i].h = 50; */
 	}
+
+
+
+
 
 }
 
