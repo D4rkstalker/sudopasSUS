@@ -1,32 +1,14 @@
 
 #include <cprocessing.h>
-#include <cstdbool>
-#define MAXRAYS 100
-#define MAXBOUNCES 20
-#define MAXPARTICLES 2000
+#include <stdbool.h>
+#include "SoundCast.h"
+#include "game.h"
+#include <math.h>
 const float EPSILON = 0.0000001f;
 
-typedef struct _Particle
-{
-	CP_Vector pos;
-	CP_Vector vel;
-	CP_Color color;
-	bool isStatic;
-	bool isHead;
-	bool isTail;
-} Particle;
+Wall* walls;
+int maxWalls;
 
-typedef struct _Ray
-{
-	Particle head;
-	Particle midpoints[MAXBOUNCES];
-	Particle tail;
-	CP_Color color;
-	int length;
-	int maxLength;
-	int mids;
-	int trail;
-} Ray;
 
 Particle particles[MAXPARTICLES];
 int particleCount = 0;
@@ -71,16 +53,135 @@ void RemoveMidpoint(Ray* ray) {
 
 }
 
-void RayUpdate(Ray* ray) {
-	if (ray->color.a < 10) return;
+void CreateRay(float x, float y, int length, int velx, int vely, CP_Color color) {
+	Ray* ray = &rays[rayCount];
+
+	ray->color = color;
+
+	Particle head = CreateParticle(x, y, velx, vely, ray->color, false, true, false);
+	Particle tail = CreateParticle(x, y, velx, vely, ray->color, true, false, true);
+	ray->mids = 0;
+	ray->trail = 0;
+
+	ray->head = head;
+	ray->tail = tail;
+	ray->maxLength = length;
+	rayCount++;
+}
+
+
+void ParticleDisplay(Particle* part, int size)
+{
+	CP_Graphics_DrawEllipse(part->pos.x, part->pos.y, size, size);
+}
+
+float CalcArea(float pos1, float pos2, float pos3) {
+	//abs((x1 - px) * (y2 - py) - (x2 - px) * (y1 - py));
+}
+
+int CheckCollision(Ray* ray, CP_Vector newPos) {
+	for (int i = 0; i < maxWalls; i++) {
+
+	}
+}
+
+void ParticleUpdate(Particle* part, Ray* ray)
+{
+	// move particle based on velocity and correct for wall collisions
+	if (part->isStatic) {
+		return;
+	}
+	float time = CP_System_GetDt();
+	float timeX = time;
+	float timeY = time;
+
+	while (time > EPSILON)
+	{
+		bool collisionX = false;
+		bool collisionY = false;
+		//part->vel.y += 3;
+
+		CP_Vector newPos = CP_Vector_Set(part->pos.x + part->vel.x * time, part->pos.y + part->vel.y * time);
+		float newTime = time;
+		//if (CheckCollision != -1) {
+
+		//}
+		//else
+		//{
+			// no collision
+			part->pos.x = newPos.x;
+			part->pos.y = newPos.y;
+			time = 0;
+		//}
+	}
+
+//// resolve collisions
+//if ((collisionX == true) || (collisionY == true))
+//{
+
+//	// take the nearest time
+//	if (timeX < timeY)
+//	{
+//		newTime = timeX;
+//	}
+//	else
+//	{
+//		newTime = timeY;
+//	}
+
+//	// move the particle
+//	part->pos.x += part->vel.x * newTime;
+//	part->pos.y += part->vel.y * newTime;
+
+//	// flip velocity vectors to reflect off walls
+//	if ((collisionX == true) && (collisionY == false))
+//	{
+//		part->vel.x *= -1;
+//	}
+//	else if ((collisionX == false) && (collisionY == true))
+//	{
+//		part->vel.y *= -1;
+//	}
+//	else
+//	{	// they must both be colliding for this condition to occur
+//		if (timeX < timeY)
+//		{
+//			part->vel.x *= -1;
+//		}
+//		else if (timeX > timeY)
+//		{
+//			part->vel.y *= -1;
+//		}
+//		else
+//		{	// they must be colliding at the same time (ie. a corner)
+//			part->vel.x *= -1;
+//			part->vel.y *= -1;
+//		}
+//	}
+
+//	// decrease time and iterate
+//	time -= newTime;
+//	if (part->isHead) {
+//		AddMidpoint(ray, part->pos.x, part->pos.y);
+
+//	}
+//	else {
+//		RemoveMidpoint(ray);
+//	}
+
+//}
+
+}
+void _RayUpdate(Ray* ray) {
+	if (ray->color.a < 1) return;
 	if (ray->length < ray->maxLength) {
 		ray->length++;
 	}
 	else {
 		ray->tail.isStatic = false;
 	}
-	ParticleUpdate(&ray->head, ray, true);
-	ParticleUpdate(&ray->tail, ray, false);
+	ParticleUpdate(&ray->head, ray);
+	ParticleUpdate(&ray->tail, ray);
 	CP_Settings_NoStroke();
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_BlendMode(CP_BLEND_ADD);
@@ -107,133 +208,17 @@ void RayUpdate(Ray* ray) {
 	}
 	ray->color.a--;
 }
-void CreateRay(float x, float y, int length, int velx, int vely) {
-	Ray* ray = &rays[rayCount];
-
-	ray->color = CP_Color_Create(255, 50, 50, 255);
-
-	Particle head = CreateParticle(x, y, velx, vely, ray->color, false, true, false);
-	Particle tail = CreateParticle(x, y, velx, vely, ray->color, true, false, true);
-	ray->mids = 0;
-	ray->trail = 0;
-
-	ray->head = head;
-	ray->tail = tail;
-	ray->maxLength = length;
-	rayCount++;
-}
-
-
-void ParticleDisplay(Particle* part, int size)
-{
-	CP_Graphics_DrawEllipse(part->pos.x, part->pos.y, size, size);
-}
-
-
-void ParticleUpdate(Particle* part, Ray* ray)
-{
-	// move particle based on velocity and correct for wall collisions
-	if (part->isStatic) {
-		return;
-	}
-	float time = CP_System_GetDt();
-	float timeX = time;
-	float timeY = time;
-
-	while (time > EPSILON)
+void RayUpdate() {
+	for (int i = 0; i < rayCount; ++i)
 	{
-		bool collisionX = false;
-		bool collisionY = false;
-		//part->vel.y += 3;
-
-		float newPosX = part->pos.x + part->vel.x * time;
-		float newPosY = part->pos.y + part->vel.y * time;
-		float newTime = time;
-
-		// check wall collisions X and Y
-		if (newPosX <= 0)
-		{
-			timeX = part->pos.x / (part->pos.x - newPosX) * time;
-			collisionX = true;
-		}
-		else if (newPosX >= CP_System_GetWindowWidth())
-		{
-			timeX = (CP_System_GetWindowWidth() - part->pos.x) / (newPosX - part->pos.x) * time;
-			collisionX = true;
-		}
-
-		if (newPosY <= 0)
-		{
-			timeY = part->pos.y / (part->pos.y - newPosY) * time;
-			collisionY = true;
-		}
-		else if (newPosY >= CP_System_GetWindowHeight())
-		{
-			timeY = (CP_System_GetWindowHeight() - part->pos.y) / (newPosY - part->pos.y) * time;
-			collisionY = true;
-		}
-
-		// resolve collisions
-		if ((collisionX == true) || (collisionY == true))
-		{
-
-			// take the nearest time
-			if (timeX < timeY)
-			{
-				newTime = timeX;
-			}
-			else
-			{
-				newTime = timeY;
-			}
-
-			// move the particle
-			part->pos.x += part->vel.x * newTime;
-			part->pos.y += part->vel.y * newTime;
-
-			// flip velocity vectors to reflect off walls
-			if ((collisionX == true) && (collisionY == false))
-			{
-				part->vel.x *= -1;
-			}
-			else if ((collisionX == false) && (collisionY == true))
-			{
-				part->vel.y *= -1;
-			}
-			else
-			{	// they must both be colliding for this condition to occur
-				if (timeX < timeY)
-				{
-					part->vel.x *= -1;
-				}
-				else if (timeX > timeY)
-				{
-					part->vel.y *= -1;
-				}
-				else
-				{	// they must be colliding at the same time (ie. a corner)
-					part->vel.x *= -1;
-					part->vel.y *= -1;
-				}
-			}
-
-			// decrease time and iterate
-			time -= newTime;
-			if (part->isHead) {
-				AddMidpoint(ray, part->pos.x, part->pos.y);
-
-			}
-			else {
-				RemoveMidpoint(ray);
-			}
-
-		}
-		else
-		{
-			// no collision
-			part->pos.x = newPosX;
-			part->pos.y = newPosY;
-			time = 0;
-		}
+		_RayUpdate(&rays[i]);
 	}
+	
 }
+
+void InitScene(Wall* _walls, int _maxWalls) {
+	walls = _walls;
+	maxWalls = _maxWalls;
+}
+
+

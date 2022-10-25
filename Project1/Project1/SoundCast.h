@@ -1,14 +1,34 @@
+#include <stdbool.h>
+#include "game.h"
 #pragma once
-#include <cprocessing.h>
 
-typedef struct _Particle {}Particle;
-typedef struct _Ray {}Ray;
-Particle CreateParticle(float x, float y, float velx, float vely, CP_Color color, bool isStatic, bool head, bool tail);
+#define MAXRAYS 10000
+#define MAXBOUNCES 20
+#define MAXPARTICLES 3000
 
-void AddMidpoint(Ray* ray, int posx, int posy);
-void RemoveMidpoint(Ray* ray);
-void RayUpdate(Ray* ray);
-void CreateRay(float x, float y, int length, int velx, int vely);
-void ParticleDisplay(Particle* part, int size);
-void ParticleUpdate(Particle* part, Ray* ray);
+typedef struct _Particle
+{
+	CP_Vector pos;
+	CP_Vector vel;
+	CP_Color color;
+	bool isStatic;
+	bool isHead;
+	bool isTail;
+} Particle;
+
+typedef struct _Ray
+{
+	Particle head;
+	Particle midpoints[MAXBOUNCES];
+	Particle tail;
+	CP_Color color;
+	int length;
+	int maxLength;
+	int mids;
+	int trail;
+} Ray;
+void InitScene(Wall* _walls, int _maxWalls);
+
+void RayUpdate();
+void CreateRay(float x, float y, int length, int velx, int vely, CP_Color color);
 
