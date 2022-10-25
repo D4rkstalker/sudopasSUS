@@ -9,10 +9,6 @@
 
 #include <stdbool.h>
 
-struct Player {
-	float x;
-	float y;
-} player1;
 
 bool player_detection;
 

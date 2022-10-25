@@ -1,4 +1,16 @@
 #include <cprocessing.h>
+#pragma once
+
+struct Player {
+	float x;
+	float y;
+	float velocity_x;
+	float velocity_y;
+	float acceleration_x;
+	float acceleration_y;
+
+
+} player1;
 
 void theVolume(void);
 void energyConsumption(void);
