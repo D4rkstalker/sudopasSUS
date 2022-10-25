@@ -11,9 +11,25 @@ float particleSize = 3.0f;
 
 
 
-/*
-Made by Nigel
+int WorldX = 0;
+int WorldY = 0;
+int CarR[3] = { 0,0,255 };
+int CarG[3] = { 0,255,0 };
+int CarB[3] = { 255,0,0 };
+float CarX[3] = { 100,200,300 };
+float CarY[3] = { 100,200,300 };
+float CarRot[3] = { 0,0,0 };
+float WorldRot = 0;
+int CarDiameter = 50;
 
+typedef struct Wall {
+	int x;
+	int y;
+	int w;
+	int h;
+} Wall;
+
+/*
 WorldX and WorldY functions as the offset for the camera system.
 All coordinates used by all game objects will need to be offset by the WorldX and WorldY coordinates.
 */
@@ -42,6 +58,14 @@ Contains the x and y coordinates of all 3 points of the triangle
 
 int CWall = 0;
 Wall wall[9999];
+
+void subgame_init(void) {
+
+}
+
+void subgame_update(void) {
+
+}
 
 /*
 Made by Nigel
@@ -189,22 +213,14 @@ void subgame_update(void) {
 
 	if (CP_Input_KeyDown(KEY_C))
 	{
-		/*
-		Code to create squares, deprecated
-		Keeping just in case we want to revert to square/rectangle walls
-
 		int i;
 		CWall += 1;
 		i = CWall;
-		wall[i].x1 = CP_Input_GetMouseX() - WorldX;
-		wall[i].y1 = CP_Input_GetMouseY() - WorldY;
+		wall[i].x = CP_Input_GetMouseX() - WorldX;
+		wall[i].y = CP_Input_GetMouseY() - WorldY;
 		wall[i].w = 50;
-		wall[i].h = 50; */
+		wall[i].h = 50;
 	}
-
-
-
-
 
 }
 
