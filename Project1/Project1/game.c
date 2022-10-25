@@ -2,32 +2,22 @@
 #include "SoundCast.h"
 #include "Utils.h"
 #include "game.h"
+#include <stdio.h>
+#include <Share.h>
 
 //Ray cast stuff -HQ
 float particleSize = 3.0f;
 
 //-------------------
 
-
-
-
-int WorldX = 0;
-int WorldY = 0;
-int CarR[3] = { 0,0,255 };
-int CarG[3] = { 0,255,0 };
-int CarB[3] = { 255,0,0 };
-float CarX[3] = { 100,200,300 };
-float CarY[3] = { 100,200,300 };
-float CarRot[3] = { 0,0,0 };
 float WorldRot = 0;
-int CarDiameter = 50;
 
-typedef struct Wall {
-	int x;
-	int y;
-	int w;
-	int h;
-} Wall;
+/*
+typedef struct Wall{
+	CP_Vector pos1;
+	CP_Vector pos2;
+	CP_Vector pos3;
+} Wall; */
 
 /*
 WorldX and WorldY functions as the offset for the camera system.
@@ -58,14 +48,6 @@ Contains the x and y coordinates of all 3 points of the triangle
 
 int CWall = 0;
 Wall wall[9999];
-
-void subgame_init(void) {
-
-}
-
-void subgame_update(void) {
-
-}
 
 /*
 Made by Nigel
@@ -100,6 +82,26 @@ void DrawWalls(void) {
 	for (i = 0; i < CWall + 1; i++) {
 		CP_Graphics_DrawTriangle(WorldX + wall[i].pos1.x, WorldY + wall[i].pos1.y, WorldX + wall[i].pos2.x, WorldY + wall[i].pos2.y, WorldX + wall[i].pos3.x, WorldY + wall[i].pos3.y);
 		//CP_Graphics_DrawRect(WorldX + wall[i].x1, WorldY + wall[i].y1, wall[i].w, wall[i].h);
+	}
+}
+
+void loadwalls(void) {
+	int c;
+	FILE* in = _fsopen("walls.txt", "r", _SH_DENYNO);
+	while (1) {
+		c = fgetc(in);
+		if (feof(in)) {
+			break;
+		}
+		printf("%c", c);
+	}
+	fclose(in);
+}
+
+void savewalls(void) {
+	FILE* out = _fsopen("walls.txt", "w", _SH_DENYNO);
+	for (int i = 0; i < CWall; i++) {
+		fprintf(out, "%f %f %f %f %f %f\n", wall[i].pos1.x, wall[i].pos1.y, wall[i].pos2.x, wall[i].pos2.y, wall[i].pos3.x, wall[i].pos3.y);
 	}
 }
 
@@ -150,6 +152,10 @@ void CheckControls(void) {
 		}
 	}
 
+	if (CP_Input_KeyTriggered(KEY_T)) {
+		savewalls();
+	}
+
 	//HQ stuff
 
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
@@ -187,12 +193,15 @@ void CheckControls(void) {
 
 }
 
+
+
 void subgame_init(void) {
 	CP_System_SetWindowSize(1920, 1080);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_BlendMode(CP_BLEND_ALPHA);
 
 	//set up sound cast system
+	loadwalls();
 	InitScene(wall,CWall);
 }
 
@@ -210,17 +219,6 @@ void subgame_update(void) {
 
 	//Check the controls pressed each frame
 	CheckControls();
-
-	if (CP_Input_KeyDown(KEY_C))
-	{
-		int i;
-		CWall += 1;
-		i = CWall;
-		wall[i].x = CP_Input_GetMouseX() - WorldX;
-		wall[i].y = CP_Input_GetMouseY() - WorldY;
-		wall[i].w = 50;
-		wall[i].h = 50;
-	}
 
 }
 
