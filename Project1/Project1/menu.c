@@ -1,7 +1,5 @@
 #include "cprocessing.h"
 #include "menu.h"
-
-#pragma once
 #define TutorialWalls (10)
 
 
@@ -9,6 +7,12 @@ double title_alpha = -100;
 double tutorial_alpha = 0;
 int loop = 0;
 
+typedef struct tutorial_map {
+	float x;
+	float y;
+	float w;
+	float h;
+}map;
 
 
 void mainmenu_init(void) {

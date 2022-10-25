@@ -1,3 +1,4 @@
+
 #include <cprocessing.h>
 #pragma once
 typedef struct Wall {
@@ -5,7 +6,6 @@ typedef struct Wall {
 	CP_Vector pos2;
 	CP_Vector pos3;
 } Wall;
-
 
 void subgame_init(void);
 void subgame_update(void);
