@@ -2,6 +2,7 @@
 #include "SoundCast.h"
 #include "Utils.h"
 #include "game.h"
+#include "menu.h"
 #include <stdio.h>
 #include <Share.h>
 
@@ -11,13 +12,6 @@ float particleSize = 3.0f;
 //-------------------
 
 float WorldRot = 0;
-
-/*
-typedef struct Wall{
-	CP_Vector pos1;
-	CP_Vector pos2;
-	CP_Vector pos3;
-} Wall; */
 
 /*
 WorldX and WorldY functions as the offset for the camera system.
@@ -57,32 +51,30 @@ After creating 3 draw points, wall_init creates a triangle wall in the world.
 void Wall_Init(double x, double y) {
 
 	wall[CWall].pos1 = CP_Vector_Set(drawx1, drawy1);
-	wall[CWall].pos2 = CP_Vector_Set(drawx2, drawy2);
-	wall[CWall].pos3 = CP_Vector_Set(x, y);
+	wall[CWall].pos2 = CP_Vector_Set(x, y);
 
 }
 
 /*
 Made by Nigel
 
-Draw the triangle walls for each frame
+Draw the line walls for each frame
 */
 void DrawWalls(void) {
 	int i;
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-
-	//draw wall markers
-	if (drawpoint > 0)
-	CP_Graphics_DrawCircle(WorldX + drawx1, WorldY + drawy1, 20);
-	if (drawpoint > 1)
-	CP_Graphics_DrawCircle(WorldX + drawx2, WorldY + drawy2, 20);
-	
+	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
 
 	//draw walls
 	for (i = 0; i < CWall + 1; i++) {
-		CP_Graphics_DrawTriangle(WorldX + wall[i].pos1.x, WorldY + wall[i].pos1.y, WorldX + wall[i].pos2.x, WorldY + wall[i].pos2.y, WorldX + wall[i].pos3.x, WorldY + wall[i].pos3.y);
+		CP_Graphics_DrawLine(WorldX + wall[i].pos1.x, WorldY + wall[i].pos1.y, WorldX + wall[i].pos2.x, WorldY + wall[i].pos2.y);
+		//CP_Graphics_DrawTriangle(WorldX + wall[i].pos1.x, WorldY + wall[i].pos1.y, WorldX + wall[i].pos2.x, WorldY + wall[i].pos2.y, WorldX + wall[i].pos3.x, WorldY + wall[i].pos3.y);
 		//CP_Graphics_DrawRect(WorldX + wall[i].x1, WorldY + wall[i].y1, wall[i].w, wall[i].h);
 	}
+
+	//draw wall markers
+	if (drawpoint > 0)
+		CP_Graphics_DrawCircle(WorldX + drawx1, WorldY + drawy1, 20);
 }
 
 void loadwalls(void) {
@@ -94,7 +86,7 @@ void loadwalls(void) {
 		if (feof(in)) {
 			break;
 		}
-		fscanf_s(in,"%f %f %f %f %f %f\n", &wall[i].pos1.x, &wall[i].pos1.y, &wall[i].pos2.x, &wall[i].pos2.y, &wall[i].pos3.x, &wall[i].pos3.y);
+		fscanf_s(in,"%f %f %f %f\n", &wall[i].pos1.x, &wall[i].pos1.y, &wall[i].pos2.x, &wall[i].pos2.y);
 		++i;
 	}
 	CWall = i;
@@ -104,7 +96,7 @@ void loadwalls(void) {
 void savewalls(void) {
 	FILE* out = _fsopen("walls.txt", "w", _SH_DENYNO);
 	for (int i = 0; i < CWall; i++) {
-		fprintf(out, "%f %f %f %f %f %f\n", wall[i].pos1.x, wall[i].pos1.y, wall[i].pos2.x, wall[i].pos2.y, wall[i].pos3.x, wall[i].pos3.y);
+		fprintf(out, "%f %f %f %f\n", wall[i].pos1.x, wall[i].pos1.y, wall[i].pos2.x, wall[i].pos2.y);
 	}
 }
 
@@ -141,11 +133,6 @@ void CheckControls(void) {
 		if (drawpoint == 0) {
 			drawx1 = CP_Input_GetMouseX() - WorldX;
 			drawy1 = CP_Input_GetMouseY() - WorldY;
-			drawpoint += 1;
-		}
-		else if (drawpoint == 1) {
-			drawx2 = CP_Input_GetMouseX() - WorldX;
-			drawy2 = CP_Input_GetMouseY() - WorldY;
 			drawpoint += 1;
 		}
 		else {
