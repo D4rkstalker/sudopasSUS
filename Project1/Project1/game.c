@@ -12,9 +12,8 @@ CP_Sound ping = NULL;
 //Ray cast stuff -HQ
 float particleSize = 3.0f;
 
-//-------------------
-
-float WorldRot = 0;
+//energy used for pings -Nigel
+int energy = 0;
 
 /*
 WorldX and WorldY functions as the offset for the camera system.
@@ -83,6 +82,17 @@ void DrawWalls(void) {
 	//draw wall markers
 	if (drawpoint > 0)
 		CP_Graphics_DrawCircle(WorldX + drawx1, WorldY + drawy1, 20);
+}
+
+void DrawEnergy(void) {
+	float barx = 0;
+	float bary = 0;
+	float barw = 150;
+	float barh = 1000;
+	CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
+	CP_Graphics_DrawRect(barx, bary, barw, barh);
+	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
+	CP_Graphics_DrawRect(barx, bary, barw, barh * ((float)energy/100));
 }
 
 void loadwalls(void) {
@@ -155,7 +165,8 @@ void CheckControls(void) {
 
 	//HQ stuff
 
-	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1) && energy > 10) {
+
 		CP_Color color = CP_Color_Create(90, 180, 77, 155);
 		//CP_Vector v = AngleToVector(90);
 		//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
@@ -167,6 +178,9 @@ void CheckControls(void) {
 			CP_Sound_PlayAdvanced(ping,0.01,1,FALSE,1);
 
 		}
+		
+		energy -= 10;
+		CP_Sound_PlayAdvanced(ping, 0.01, 1, FALSE, 1);
 		
 	}
 	else if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) {
@@ -235,12 +249,16 @@ void subgame_update(void) {
 	//3rd draw layer, the raycast
 	RayUpdate(WorldX,WorldY);
 	//4th draw layer, the UI for the game
+	DrawEnergy();
 
 	//Check the controls pressed each frame
 	CheckControls();
 
+	if (energy < 100) energy += 1;
+
 }
 
 void subgame_exit(void) {
-
+	//free sounds from memory
+	CP_Sound_Free(&ping);
 }
