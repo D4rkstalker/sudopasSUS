@@ -6,6 +6,9 @@
 #include <stdio.h>
 #include <Share.h>
 
+//sonar ping sound
+CP_Sound ping = NULL;
+
 //Ray cast stuff -HQ
 float particleSize = 3.0f;
 
@@ -52,7 +55,12 @@ void Wall_Init(double x, double y) {
 
 	wall[CWall].pos1 = CP_Vector_Set(drawx1, drawy1);
 	wall[CWall].pos2 = CP_Vector_Set(x, y);
+}
 
+void UndoWall(void) {
+	CWall -= 1;
+	wall[CWall].pos1 = CP_Vector_Set(0, 0);
+	wall[CWall].pos2 = CP_Vector_Set(0, 0);
 }
 
 /*
@@ -153,10 +161,10 @@ void CheckControls(void) {
 		for (int i = 0; i < 36; i++) {
 			CP_Vector v = AngleToVector(i * 10);
 			CreateRay(CP_Input_GetMouseWorldX(), CP_Input_GetMouseWorldY(), 50, v.x * 200, v.y * 200, color);
-
+			CP_Sound_PlayAdvanced(ping,0.01,1,FALSE,1);
 
 		}
-
+		
 	}
 	else if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) {
 		CP_Color color = CP_Color_Create(255, 50, 50, 255);
@@ -186,6 +194,10 @@ void CheckControls(void) {
 		CP_Engine_SetNextGameState(mainmenu_init, mainmenu_update, mainmenu_exit);
 	}
 
+	if (CP_Input_KeyTriggered(KEY_Z)) {
+		UndoWall();
+	}
+
 }
 
 
@@ -194,6 +206,9 @@ void subgame_init(void) {
 	CP_System_SetWindowSize(1920, 1080);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_BlendMode(CP_BLEND_ALPHA);
+
+	//initialise sound
+	ping = CP_Sound_Load("ping.wav");
 
 	//set up sound cast system
 	loadwalls();

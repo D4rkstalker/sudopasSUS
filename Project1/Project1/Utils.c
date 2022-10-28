@@ -1,5 +1,7 @@
 #include <cprocessing.h>
 #include <math.h>
+#include <stdio.h>
+#include <string.h>
 
 CP_Vector AngleToVector(float angle)
 {
