@@ -73,7 +73,7 @@ void enemy_update(void) {
 
 		}
 	}
-	RayUpdate();
+	RayUpdate(0,0);
 	//
 
 

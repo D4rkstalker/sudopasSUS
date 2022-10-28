@@ -29,6 +29,6 @@ typedef struct _Ray
 } Ray;
 void InitScene(Wall* _walls, int _maxWalls);
 
-void RayUpdate();
+void RayUpdate(float wx, float wy);
 void CreateRay(float x, float y, int length, int velx, int vely, CP_Color color);
 
