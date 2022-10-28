@@ -61,8 +61,8 @@ void enemy_update(void) {
 	// movement function
 	movement();
 
-
-
+	//insert tutorial message
+	tutorial_message();
 
 	//Creating Rays with KEY_J
 	if (CP_Input_KeyTriggered(KEY_J)) {

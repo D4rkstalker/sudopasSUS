@@ -5,6 +5,9 @@
 #include "menu.h"
 #include <stdio.h>
 #include <Share.h>
+#include "subcontroller.h"
+
+
 
 //sonar ping sound
 CP_Sound ping = NULL;
@@ -202,7 +205,7 @@ void CheckControls(void) {
 
 
 void subgame_init(void) {
-	CP_System_SetWindowSize(1920, 1080);
+	CP_System_SetWindowSize(1920,1080);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_BlendMode(CP_BLEND_ALPHA);
 
@@ -212,6 +215,10 @@ void subgame_init(void) {
 	//set up sound cast system
 	loadwalls();
 	InitScene(wall,CWall);
+	// Player initialisation
+	player1.x = 440;
+	player1.y = 2200;
+
 }
 
 void subgame_update(void) {
@@ -228,6 +235,20 @@ void subgame_update(void) {
 
 	//Check the controls pressed each frame
 	CheckControls();
+
+
+	//Creating Player
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	CP_Graphics_DrawCircle(player1.x, player1.y, 25);
+	// movement function
+	movement();
+
+	double title_alpha = -100;
+	double tutorial_alpha = 0;
+	int loop = 0;
+
+	tutorial_message();
+
 
 }
 
