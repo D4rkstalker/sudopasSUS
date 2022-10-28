@@ -1,5 +1,6 @@
 #include <cprocessing.h>
 #include "subcontroller.h"
+#include "game.h"
 
 
 int isPaused = 0;
@@ -59,8 +60,8 @@ void movement(void) {
 	
 
 	if (!isPaused) {
-		player1.x += player1.velocity_x;
-		player1.y += player1.velocity_y;
+		WorldX -= player1.velocity_x;
+		WorldY -= player1.velocity_y;
 		player1.velocity_y *= 0.9;
 		player1.velocity_x *= 0.9;
 		if (CP_Input_KeyDown(KEY_W) && CP_Input_KeyDown(KEY_S)) {
@@ -149,7 +150,7 @@ void controller_update(void) {
 	if (player1.x > (float)CP_System_GetDisplayWidth()) {
 		player1.x = (float)CP_System_GetDisplayWidth();
 	}
-	else if (player1.x < 0) {
+	else if (WorldX < 0) {
 		player1.x = 0;
 	}
 
