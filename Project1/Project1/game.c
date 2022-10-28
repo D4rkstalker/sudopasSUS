@@ -150,9 +150,12 @@ void CheckControls(void) {
 
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
 		CP_Color color = CP_Color_Create(90, 180, 77, 155);
+		//CP_Vector v = AngleToVector(90);
+		//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+
 		for (int i = 0; i < 36; i++) {
 			CP_Vector v = AngleToVector(i * 10);
-			CreateRay(CP_Input_GetMouseWorldX(), CP_Input_GetMouseWorldY(), 50, v.x * 200, v.y * 200, color);
+			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
 
 
 		}
@@ -160,9 +163,12 @@ void CheckControls(void) {
 	}
 	else if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) {
 		CP_Color color = CP_Color_Create(255, 50, 50, 255);
+		//CP_Vector v = AngleToVector(0);
+		//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+
 		for (int i = 0; i < 36; i++) {
 			CP_Vector v = AngleToVector(i * 10);
-			CreateRay(CP_Input_GetMouseWorldX(), CP_Input_GetMouseWorldY(), 50, v.x * 200, v.y * 200, color);
+			CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
 
 
 		}
@@ -171,9 +177,12 @@ void CheckControls(void) {
 	}
 	else if (CP_Input_MouseTriggered(MOUSE_BUTTON_3)) {
 		CP_Color color = CP_Color_Create(50, 50, 255, 255);
+		//CP_Vector v = AngleToVector(-90);
+		//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+
 		for (int i = 0; i < 36; i++) {
 			CP_Vector v = AngleToVector(i * 10);
-			CreateRay(CP_Input_GetMouseWorldX(), CP_Input_GetMouseWorldY(), 50, v.x * 200, v.y * 200, color);
+			CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
 
 
 		}
@@ -209,7 +218,7 @@ void subgame_update(void) {
 	DrawWalls(wall);
 
 	//3rd draw layer, the raycast
-	RayUpdate();
+	RayUpdate(WorldX,WorldY);
 	//4th draw layer, the UI for the game
 
 	//Check the controls pressed each frame
