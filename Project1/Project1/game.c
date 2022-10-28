@@ -240,9 +240,7 @@ void subgame_init(void) {
 	loadwalls();
 	InitScene(wall,CWall);
 	// Player initialisation
-	player1.x = 440;
-	player1.y = 2200;
-
+	
 }
 
 void subgame_update(void) {
@@ -264,7 +262,7 @@ void subgame_update(void) {
 
 	//Creating Player
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Graphics_DrawCircle(player1.x, player1.y, 25);
+	CP_Graphics_DrawCircle(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2, 25);
 	// movement function
 	movement();
 
