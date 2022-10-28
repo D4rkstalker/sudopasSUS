@@ -44,7 +44,7 @@ Contains the x and y coordinates of all 3 points of the triangle
 */
 
 int CWall = 0;
-Wall wall[9999];
+Wall wall[99999];
 
 /*
 Made by Nigel
@@ -90,7 +90,6 @@ void loadwalls(void) {
 	int i = 0;
 	FILE* in = _fsopen("walls.txt", "r", _SH_DENYNO);
 	while (1) {
-		c = fgetc(in);
 		if (feof(in)) {
 			break;
 		}
