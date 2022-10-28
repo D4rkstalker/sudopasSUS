@@ -8,3 +8,4 @@ build
 /Refrence/**
 */.tmp/**
 */bin/**
+!Project1/bin/Debug-x64/walls.txt
