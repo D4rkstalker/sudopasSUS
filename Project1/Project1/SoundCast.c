@@ -5,6 +5,7 @@
 #include "game.h"
 #include <math.h>
 #include "utils.h"
+#include "walls.h"
 const float EPSILON = 0.0000001f;
 
 Wall* walls;
