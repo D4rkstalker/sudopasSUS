@@ -121,27 +121,6 @@ void savewalls(void) {
 }
 
 void CheckControls(void) {
-	/*
-	Made by Nigel
-
-	Offset the WorldX and WorldY, in order to create and explore a world beyond the screen resolution
-	*/
-	if (CP_Input_KeyDown(KEY_UP))
-	{
-		WorldY += 5;
-	}
-	if (CP_Input_KeyDown(KEY_DOWN))
-	{
-		WorldY += -5;
-	}
-	if (CP_Input_KeyDown(KEY_LEFT))
-	{
-		WorldX += 5;
-	}
-	if (CP_Input_KeyDown(KEY_RIGHT))
-	{
-		WorldX += -5;
-	}
 
 	/*
 	Made by Nigel
@@ -177,8 +156,6 @@ void CheckControls(void) {
 		for (int i = 0; i < 36; i++) {
 			CP_Vector v = AngleToVector(i * 10);
 			CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
-
-			CP_Sound_PlayAdvanced(ping,0.01,1,FALSE,1);
 
 		}
 		
