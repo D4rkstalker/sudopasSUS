@@ -1,28 +1,34 @@
-#include <cprocessing.h>
+#include "cprocessing.h"
 #include "subcontroller.h"
 #include "game.h"
+#include "Utils.h"
 
+CP_Sound pong = NULL;
 
 int isPaused = 0;
 int isMap = 0;
-/* On Hold until there's sound
-* 
+//float volume = 1;
 void theVolume(void) {
-	int volume = 0;
-	if ((CP_Input_KeyDown(KEY_RIGHT_CONTROL) || CP_Input_KeyDown(KEY_LEFT_CONTROL)) && CP_Input_KeyDown(KEY_RIGHT)) { // Increase volume
-		CP_Sound_GetGroupVolume(CP_SOUND_GROUP_0); // default sound
-
-		CP_Sound_SetGroupVolume(CP_SOUND_GROUP_0, ++volume);
+	
+	if ((CP_Input_KeyDown(KEY_RIGHT_CONTROL) || CP_Input_KeyDown(KEY_LEFT_CONTROL)) && CP_Input_KeyTriggered(KEY_RIGHT)) { // Increase volume
+	//	CP_Sound_GetGroupVolume(CP_SOUND_GROUP_0); // default sound
+		Volume1.sound += 0.1;
+		CP_Sound_SetGroupVolume(CP_SOUND_GROUP_0, Volume1.sound);
 	}
 
-	if ((CP_Input_KeyDown(KEY_RIGHT_CONTROL) || CP_Input_KeyDown(KEY_LEFT_CONTROL)) && CP_Input_KeyDown(KEY_LEFT)) { // Decrease volume
-		CP_Sound_GetGroupVolume(CP_SOUND_GROUP_0); // default sound
+	if ((CP_Input_KeyDown(KEY_RIGHT_CONTROL) || CP_Input_KeyDown(KEY_LEFT_CONTROL)) && CP_Input_KeyTriggered(KEY_LEFT)) { // Decrease volume
+		//CP_Sound_GetGroupVolume(CP_SOUND_GROUP_0); // default sound
 
-		CP_Sound_SetGroupVolume(CP_SOUND_GROUP_0, --volume);
+		if (Volume1.sound >= 0) {
+			Volume1.sound -= 0.1;
+			CP_Sound_SetGroupVolume(CP_SOUND_GROUP_0, Volume1.sound);
+		}
 	}
+
+
 
 }
-*/ 
+
 
 
 void energyConsumption(void) {
@@ -36,7 +42,11 @@ void energyConsumption(void) {
 }
 
 void movement(void) {
-	
+	if (CP_Input_KeyTriggered(KEY_T)) {
+		CP_Sound_PlayAdvanced(pong, Volume1.sound, 1.0f, TRUE, CP_SOUND_GROUP_0);
+	}
+
+
 	if (CP_Input_KeyTriggered(KEY_SPACE)) {
 		if (!isPaused) {
 			isPaused = 1;
@@ -119,8 +129,10 @@ void movement(void) {
 			}
 		}
 		
-	}
 
+		
+	}
+	RayUpdate(0,0);
 }
 
 
@@ -134,15 +146,15 @@ void controller_init(void) {
 
 	player1.x = center_x;
 	player1.y = center_y;
-
-
+	pong = CP_Sound_Load("ping.wav");
+	Volume1.sound = 1;
 
 	
 }
 
 void controller_update(void) {
 	movement();
-
+	theVolume();
 	CP_Settings_BlendMode(CP_BLEND_ALPHA);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
