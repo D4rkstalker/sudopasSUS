@@ -16,7 +16,7 @@ CP_Sound ping = NULL;
 float particleSize = 3.0f;
 
 //energy used for pings -Nigel
-int energy = 0;
+int energy = 100;
 
 /*
 WorldX and WorldY functions as the offset for the camera system.
@@ -88,13 +88,24 @@ void DrawWalls(void) {
 }
 
 void DrawEnergy(void) {
-	float barx = 0;
-	float bary = 0;
-	float barw = 150;
-	float barh = 1000;
-	CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
+	
+	CP_Settings_RectMode(CP_POSITION_CORNER);
+	float alpha = 255;
+	float barx = CP_System_GetDisplayWidth() / 2 + 50;
+	float bary = CP_System_GetDisplayHeight() / 2 + 16;
+	float barw = 5;
+	float barh = -60;
+
+	if (energy >= 100 && alpha >= 0) {
+		alpha -= 15;
+	}
+	else if (alpha <= 240) {
+		alpha += 15;
+	}
+
+	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	CP_Graphics_DrawRect(barx, bary, barw, barh);
-	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
+	CP_Settings_Fill(CP_Color_Create(240, 240, 240, alpha));
 	CP_Graphics_DrawRect(barx, bary, barw, barh * ((float)energy/100));
 }
 
@@ -147,7 +158,7 @@ void CheckControls(void) {
 
 	//HQ stuff
 
-	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1) && energy > 10) {
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1) && energy > 30) {
 
 		CP_Color color = CP_Color_Create(90, 180, 77, 155);
 		//CP_Vector v = AngleToVector(90);
@@ -159,7 +170,7 @@ void CheckControls(void) {
 
 		}
 		
-		energy -= 10;
+		energy -= 30;
 		CP_Sound_PlayAdvanced(ping, 0.01, 1, FALSE, 1);
 		
 	}
@@ -232,6 +243,7 @@ void subgame_update(void) {
 	RayUpdate(WorldX,WorldY);
 	//4th draw layer, the UI for the game
 	DrawEnergy();
+	if (energy < 100) energy += 1;
 
 	//Check the controls pressed each frame
 	CheckControls();
@@ -249,7 +261,7 @@ void subgame_update(void) {
 
 	tutorial_message();
 
-	if (energy < 100) energy += 1;
+	
 
 }
 

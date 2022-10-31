@@ -23,9 +23,7 @@ accelerate along line, decelerate when reaching player start position
 */
 
 
-void enemy_move(float enemy_start) {
 
-}
 
 void enemy_init(void) {
 
