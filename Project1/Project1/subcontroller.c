@@ -2,22 +2,26 @@
 #include "subcontroller.h"
 #include "game.h"
 #include "Utils.h"
-
-CP_Sound pong = NULL;
+#include "music.h"
+#include "walls.h"
 
 int isPaused = 0;
 int isMap = 0;
-//float volume = 1;
+
+
+
 void theVolume(void) {
 	
 	if ((CP_Input_KeyDown(KEY_RIGHT_CONTROL) || CP_Input_KeyDown(KEY_LEFT_CONTROL)) && CP_Input_KeyTriggered(KEY_RIGHT)) { // Increase volume
-	//	CP_Sound_GetGroupVolume(CP_SOUND_GROUP_0); // default sound
-		Volume1.sound += 0.1;
-		CP_Sound_SetGroupVolume(CP_SOUND_GROUP_0, Volume1.sound);
+
+		if (Volume1.sound <= 1) {
+			Volume1.sound += 0.1;
+			CP_Sound_SetGroupVolume(CP_SOUND_GROUP_0, Volume1.sound);
+		}
 	}
 
 	if ((CP_Input_KeyDown(KEY_RIGHT_CONTROL) || CP_Input_KeyDown(KEY_LEFT_CONTROL)) && CP_Input_KeyTriggered(KEY_LEFT)) { // Decrease volume
-		//CP_Sound_GetGroupVolume(CP_SOUND_GROUP_0); // default sound
+
 
 		if (Volume1.sound >= 0) {
 			Volume1.sound -= 0.1;
@@ -29,21 +33,23 @@ void theVolume(void) {
 
 }
 
+void wallScale() {
+	int i;
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
 
 
-void energyConsumption(void) {
-	/*
-	if (key input){
-	energyconsumption -= 10;
+	for (i = 0; i < CWall + 1; i++) {
+		CP_Settings_RectMode(CP_POSITION_CENTER);
+		CP_Graphics_DrawLine((wall[i].pos1.x/4.5) + 550, (wall[i].pos1.y/4.5) + 300, (wall[i].pos2.x/4.5) + 550, (wall[i].pos2.y/4.5) + 300);
+	
 	}
 
-	energy += 0.10;
-	*/
 }
 
 void movement(void) {
 	if (CP_Input_KeyTriggered(KEY_T)) {
-		CP_Sound_PlayAdvanced(pong, Volume1.sound, 1.0f, TRUE, CP_SOUND_GROUP_0);
+		CP_Sound_PlayAdvanced(ping, Volume1.sound, 1.0f, TRUE, CP_SOUND_GROUP_0);
 	}
 
 
@@ -132,7 +138,8 @@ void movement(void) {
 
 		
 	}
-	RayUpdate(0,0);
+	
+//	RayUpdate(0,0);
 }
 
 
@@ -143,10 +150,10 @@ void controller_init(void) {
 	CP_Settings_EllipseMode(CP_POSITION_CENTER);
 	float center_x = CP_System_GetDisplayWidth() / 2;
 	float center_y = CP_System_GetDisplayHeight() / 2;
-
+	Sound_Init();
 	player1.x = center_x;
 	player1.y = center_y;
-	pong = CP_Sound_Load("ping.wav");
+	
 	Volume1.sound = 1;
 
 	
@@ -180,6 +187,7 @@ void controller_update(void) {
 		CP_Settings_Fill(CP_Color_Create(188, 158, 130, 255));
 		CP_Settings_RectMode(CP_POSITION_CORNER);
 		CP_Graphics_DrawRect(CP_System_GetDisplayWidth()/4, CP_System_GetDisplayHeight()/4, CP_System_GetDisplayWidth() / 2, CP_System_GetDisplayHeight() / 2);
+		wallScale();
 	}
 	
 		
