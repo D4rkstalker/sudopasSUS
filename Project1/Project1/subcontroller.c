@@ -138,7 +138,13 @@ void movement(void) {
 
 		
 	}
-	
+	if (isMap) {
+		CP_Settings_Fill(CP_Color_Create(188, 158, 130, 255));
+		CP_Settings_RectMode(CP_POSITION_CORNER);
+		CP_Graphics_DrawRect(CP_System_GetDisplayWidth() / 4, CP_System_GetDisplayHeight() / 4, CP_System_GetDisplayWidth() / 2, CP_System_GetDisplayHeight() / 2);
+		wallScale();
+	}
+
 //	RayUpdate(0,0);
 }
 
@@ -160,8 +166,7 @@ void controller_init(void) {
 }
 
 void controller_update(void) {
-	movement();
-	theVolume();
+	
 	CP_Settings_BlendMode(CP_BLEND_ALPHA);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
@@ -183,13 +188,9 @@ void controller_update(void) {
 
 	CP_Graphics_DrawCircle(player1.x,player1.y, 10); // Draws the player circle on default 
 
-	if (isMap) {
-		CP_Settings_Fill(CP_Color_Create(188, 158, 130, 255));
-		CP_Settings_RectMode(CP_POSITION_CORNER);
-		CP_Graphics_DrawRect(CP_System_GetDisplayWidth()/4, CP_System_GetDisplayHeight()/4, CP_System_GetDisplayWidth() / 2, CP_System_GetDisplayHeight() / 2);
-		wallScale();
-	}
 	
+	movement();
+	theVolume();
 		
 	
 	
