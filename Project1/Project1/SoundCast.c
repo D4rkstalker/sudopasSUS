@@ -5,6 +5,7 @@
 #include "game.h"
 #include <math.h>
 #include "utils.h"
+#define PI 3.141592654
 const float EPSILON = 0.0000001f;
 
 Wall* walls;
@@ -49,6 +50,7 @@ void AddMidpoint(Ray* ray, int posx, int posy) {
 }
 
 void RemoveMidpoint(Ray* ray) {
+
 	ray->midpoints[ray->trail].color.a = 0;
 	ray->trail++;
 	//if (ray->trail > MAXBOUNCES) {
@@ -84,17 +86,36 @@ bool CheckCollision(Ray* ray, Particle* part, CP_Vector* newPos, float* time) {
 	for (int i = 0; i < maxWalls; i++) {
 		if ((CP_Math_Distance(walls[i].pos1.x, walls[i].pos1.y, walls[i].pos2.x, walls[i].pos2.y)
 			- CP_Math_Distance(walls[i].pos1.x, walls[i].pos1.y, part->pos.x, part->pos.y)
-			- CP_Math_Distance(walls[i].pos2.x, walls[i].pos2.y, part->pos.x, part->pos.y)) > -0.1) {
-			CP_Vector wall = CP_Vector_Add(walls[i].pos1, walls[i].pos2);
-			int n = wall.x;
-			wall.x = wall.y;
-			wall.y = -n;
-			int angle = CP_Vector_Angle(wall, CP_Vector_Add(*newPos, part->pos));
-			if (part->vel.y > 0) {
-				angle += 180;
+			- CP_Math_Distance(walls[i].pos2.x, walls[i].pos2.y, part->pos.x, part->pos.y)) > -0.5) {
+
+
+
+			CP_Vector Vwall =CP_Vector_Normalize( CP_Vector_Subtract(walls[i].pos1, walls[i].pos2));
+
+			CP_Vector Vray = CP_Vector_Normalize(CP_Vector_Subtract(part->pos, *newPos));
+
+			CP_Vector Zero = CP_Vector_Set(0,-1);
+			float angleN = atan2(Vwall.x,Vwall.y) * 180.0 / PI;
+			float angleR = atan2(Vray.x,Vray.y) * 180.0 / PI ;
+			//int n = wall.x;
+			//wall.x = wall.y;
+			//wall.y = -n;
+			//int angle = CP_Vector_Angle(wall, CP_Vector_Add(*newPos, part->pos));
+			//if (part->vel.y > 0) {
+			//	angle += 180;
+			//}
+			if (angleN < 0) angleN += 360;
+			if (angleR < 0) angleR += 360;
+			float angleOut = 0;
+			if (angleN > angleR) {
+				angleOut = abs(angleR-angleN);
+
+			}
+			else {
+				angleOut = 360 - abs(angleN - angleR);
 			}
 
-			part->vel = AngleToVector(angle);
+			part->vel = AngleToVector(angleOut);
 			part->vel = CP_Vector_Scale(part->vel, 200);
 			*newPos = CP_Vector_Set(part->pos.x + part->vel.x * *time, part->pos.y + part->vel.y * *time);
 			return true;
