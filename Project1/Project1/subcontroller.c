@@ -76,10 +76,7 @@ void movement(void) {
 	
 
 	if (!isPaused) {
-		WorldX -= player1.velocity_x;
-		WorldY -= player1.velocity_y;
-		player1.velocity_y *= 0.9;
-		player1.velocity_x *= 0.9;
+		
 		if (CP_Input_KeyDown(KEY_W) && CP_Input_KeyDown(KEY_S)) {
 			player1.acceleration_y = 0;
 
@@ -134,9 +131,13 @@ void movement(void) {
 
 			}
 		}
-		
-
-		
+			if (wallcollision()) {
+				return;
+			}
+		WorldX -= player1.velocity_x;
+		WorldY -= player1.velocity_y;
+		player1.velocity_y *= 0.9;
+		player1.velocity_x *= 0.9;
 	}
 	if (isMap) {
 		CP_Settings_Fill(CP_Color_Create(188, 158, 130, 255));
