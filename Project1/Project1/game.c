@@ -1,22 +1,18 @@
 #include "cprocessing.h"
+#include "walls.h"
 #include "SoundCast.h"
 #include "Utils.h"
 #include "game.h"
 #include "menu.h"
+#include "music.h"
 #include <stdio.h>
-#include <Share.h>
 #include "subcontroller.h"
-
-
-
-//sonar ping sound
-CP_Sound ping = NULL;
 
 //Ray cast stuff -HQ
 float particleSize = 3.0f;
 
 //energy used for pings -Nigel
-int energy = 0;
+int energy = 100;
 
 /*
 WorldX and WorldY functions as the offset for the camera system.
@@ -25,123 +21,29 @@ All coordinates used by all game objects will need to be offset by the WorldX an
 float WorldX = 0;
 float WorldY = 0;
 
+void DrawEnergy(void) {
+	
+	CP_Settings_RectMode(CP_POSITION_CORNER);
+	float alpha = 255;
+	float barx = CP_System_GetDisplayWidth() / 2 + 50;
+	float bary = CP_System_GetDisplayHeight() / 2 + 16;
+	float barw = 5;
+	float barh = -60;
 
-/*
-Made by Nigel
-
-Variables to save the location of the circles that show up as you are drawing a triangle wall
-Variable drawpoint is the number of points currently drawn
-*/
-int drawpoint = 0;
-double drawx1;
-double drawy1;
-double drawx2;
-double drawy2;
-
-/*
-Made by Nigel
-
-Triangle structures meant to function as walls in game
-Contains the x and y coordinates of all 3 points of the triangle
-*/
-
-int CWall = 0;
-Wall wall[99999];
-
-/*
-Made by Nigel
-
-After creating 3 draw points, wall_init creates a triangle wall in the world.
-*/
-void Wall_Init(double x, double y) {
-
-	wall[CWall].pos1 = CP_Vector_Set(drawx1, drawy1);
-	wall[CWall].pos2 = CP_Vector_Set(x, y);
-}
-
-void UndoWall(void) {
-	CWall -= 1;
-	wall[CWall].pos1 = CP_Vector_Set(0, 0);
-	wall[CWall].pos2 = CP_Vector_Set(0, 0);
-}
-
-/*
-Made by Nigel
-
-Draw the line walls for each frame
-*/
-void DrawWalls(void) {
-	int i;
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
-
-	//draw walls
-	for (i = 0; i < CWall + 1; i++) {
-		CP_Graphics_DrawLine(WorldX + wall[i].pos1.x, WorldY + wall[i].pos1.y, WorldX + wall[i].pos2.x, WorldY + wall[i].pos2.y);
-		//CP_Graphics_DrawTriangle(WorldX + wall[i].pos1.x, WorldY + wall[i].pos1.y, WorldX + wall[i].pos2.x, WorldY + wall[i].pos2.y, WorldX + wall[i].pos3.x, WorldY + wall[i].pos3.y);
-		//CP_Graphics_DrawRect(WorldX + wall[i].x1, WorldY + wall[i].y1, wall[i].w, wall[i].h);
+	if (energy >= 100 && alpha >= 0) {
+		alpha -= 15;
+	}
+	else if (alpha <= 240) {
+		alpha += 15;
 	}
 
-	//draw wall markers
-	if (drawpoint > 0)
-		CP_Graphics_DrawCircle(WorldX + drawx1, WorldY + drawy1, 20);
-}
-
-void DrawEnergy(void) {
-	float barx = 0;
-	float bary = 0;
-	float barw = 150;
-	float barh = 1000;
-	CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
+	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	CP_Graphics_DrawRect(barx, bary, barw, barh);
-	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
+	CP_Settings_Fill(CP_Color_Create(240, 240, 240, alpha));
 	CP_Graphics_DrawRect(barx, bary, barw, barh * ((float)energy/100));
 }
 
-void loadwalls(void) {
-	int c;
-	int i = 0;
-	FILE* in = _fsopen("walls.txt", "r", _SH_DENYNO);
-	while (1) {
-		if (feof(in)) {
-			break;
-		}
-		fscanf_s(in,"%f %f %f %f\n", &wall[i].pos1.x, &wall[i].pos1.y, &wall[i].pos2.x, &wall[i].pos2.y);
-		++i;
-	}
-	CWall = i;
-	fclose(in);
-}
-
-void savewalls(void) {
-	FILE* out = _fsopen("walls.txt", "w", _SH_DENYNO);
-	for (int i = 0; i < CWall; i++) {
-		fprintf(out, "%f %f %f %f\n", wall[i].pos1.x, wall[i].pos1.y, wall[i].pos2.x, wall[i].pos2.y);
-	}
-}
-
 void CheckControls(void) {
-	/*
-	Made by Nigel
-
-	Offset the WorldX and WorldY, in order to create and explore a world beyond the screen resolution
-	*/
-	if (CP_Input_KeyDown(KEY_UP))
-	{
-		WorldY += 5;
-	}
-	if (CP_Input_KeyDown(KEY_DOWN))
-	{
-		WorldY += -5;
-	}
-	if (CP_Input_KeyDown(KEY_LEFT))
-	{
-		WorldX += 5;
-	}
-	if (CP_Input_KeyDown(KEY_RIGHT))
-	{
-		WorldX += -5;
-	}
 
 	/*
 	Made by Nigel
@@ -168,22 +70,21 @@ void CheckControls(void) {
 
 	//HQ stuff
 
-	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1) && energy > 10) {
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
+		if (energy > 30) {
+			CP_Color color = CP_Color_Create(90, 180, 77, 155);
+			//CP_Vector v = AngleToVector(90);
+			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
 
-		CP_Color color = CP_Color_Create(90, 180, 77, 155);
-		//CP_Vector v = AngleToVector(90);
-		//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+			for (int i = 0; i < 36; i++) {
+				CP_Vector v = AngleToVector(i * 10);
+				CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
 
-		for (int i = 0; i < 36; i++) {
-			CP_Vector v = AngleToVector(i * 10);
-			CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
-
-			CP_Sound_PlayAdvanced(ping,0.01,1,FALSE,1);
-
+			}
+			energy -= 30;
+			CP_Sound_PlayAdvanced(ping, 0.3, 1, FALSE, 1);
 		}
 		
-		energy -= 10;
-		CP_Sound_PlayAdvanced(ping, 0.01, 1, FALSE, 1);
 		
 	}
 	else if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) {
@@ -233,16 +134,14 @@ void subgame_init(void) {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_BlendMode(CP_BLEND_ALPHA);
 
-	//initialise sound
-	ping = CP_Sound_Load("ping.wav");
+	Sound_Init();
+	CP_Sound_PlayAdvanced(introsound, 0.3, 1.0, FALSE, 7);
 
 	//set up sound cast system
 	loadwalls();
 	InitScene(wall,CWall);
 	// Player initialisation
-	player1.x = 440;
-	player1.y = 2200;
-
+	
 }
 
 void subgame_update(void) {
@@ -251,12 +150,13 @@ void subgame_update(void) {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
 	//2nd draw layer, the walls of the game
-	DrawWalls(wall);
+	DrawWalls();
 
 	//3rd draw layer, the raycast
 	RayUpdate(WorldX,WorldY);
 	//4th draw layer, the UI for the game
 	DrawEnergy();
+	if (energy < 100) energy += 1;
 
 	//Check the controls pressed each frame
 	CheckControls();
@@ -264,7 +164,7 @@ void subgame_update(void) {
 
 	//Creating Player
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Graphics_DrawCircle(player1.x, player1.y, 25);
+	CP_Graphics_DrawCircle(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2, 25);
 	// movement function
 	movement();
 
@@ -274,11 +174,10 @@ void subgame_update(void) {
 
 	tutorial_message();
 
-	if (energy < 100) energy += 1;
+	
 
 }
 
 void subgame_exit(void) {
-	//free sounds from memory
-	CP_Sound_Free(&ping);
+	Sound_Deload();
 }

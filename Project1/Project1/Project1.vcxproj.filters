@@ -30,10 +30,16 @@
     <ClInclude Include="subcontroller.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="walls.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
     <ClInclude Include="Utils.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="enemy.h">
+    <ClInclude Include="music.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -57,6 +63,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="game.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="walls.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="music.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

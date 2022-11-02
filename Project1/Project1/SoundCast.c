@@ -6,6 +6,7 @@
 #include <math.h>
 #include "utils.h"
 #define PI 3.141592654
+#include "walls.h"
 const float EPSILON = 0.0000001f;
 
 Wall* walls;

@@ -1,10 +1,14 @@
 
 #include <cprocessing.h>
 #pragma once
+
 typedef struct Wall {
 	CP_Vector pos1;
 	CP_Vector pos2;
 } Wall;
+
+float WorldX;
+float WorldY;
 
 void subgame_init(void);
 void subgame_update(void);
