@@ -4,6 +4,7 @@
 #include "walls.h"
 #include "utils.h"
 #include "game.h"
+#include "subcontroller.h"
 
 int drawpoint = 0;
 
@@ -76,4 +77,41 @@ void savewalls(void) {
 	for (int i = 0; i < CWall; i++) {
 		fprintf(out, "%f %f %f %f\n", wall[i].pos1.x, wall[i].pos1.y, wall[i].pos2.x, wall[i].pos2.y);
 	}
+}
+
+float walldistance(int i, float inputx, float inputy, float vx, float vy) {
+	return (CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, wall[i].pos2.x, wall[i].pos2.y)
+		- CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, inputx + vx, inputy + vy)
+		- CP_Math_Distance(wall[i].pos2.x, wall[i].pos2.y, inputx + vx, inputy + vy));
+}
+
+int collcheck(float inputx, float inputy) {
+	for (int i = 1; i < CWall; i++) {
+		float d = walldistance(i, inputx, inputy, 0, 0);
+		if (d > -1) {
+			return i;
+		}
+	}
+	return 0;
+}
+
+int wallcollision(void) {
+	float playerx = -WorldX + CP_System_GetWindowWidth() / 2;
+	float playery = -WorldY + CP_System_GetWindowHeight() / 2;
+	float playervx = playerx + player1.velocity_x;
+	float playervy = playery + player1.velocity_y;
+
+	
+	if (collcheck(playerx, playery)) {
+		int t = collcheck(playerx, playery);
+		if (walldistance(t, playerx, playery, 0, 0) >= walldistance(t, playerx, playery, player1.velocity_x, player1.velocity_y)) {
+			return 0;
+		}
+		player1.acceleration_x = 0;
+		player1.acceleration_y = 0;
+		player1.velocity_x = 0;
+		player1.velocity_y = 0;
+		return 1;
+	} 
+	return 0; 
 }

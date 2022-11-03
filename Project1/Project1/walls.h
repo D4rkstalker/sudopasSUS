@@ -24,3 +24,4 @@ void Wall_Init(double x, double y);
 void UndoWall(void);
 void loadwalls(void);
 void savewalls(void);
+int wallcollision(void);
