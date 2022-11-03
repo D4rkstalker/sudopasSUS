@@ -15,3 +15,11 @@ void controller_update(void);
 void controller_exit(void);
 
 
+typedef struct tutorial_map {
+	float x;
+	float y;
+	float w;
+	float h;
+}map;
+
+void tutorial_message(void);

@@ -4,6 +4,7 @@
 #include "SoundCast.h"
 #include "game.h"
 #include <math.h>
+#include "utils.h"
 const float EPSILON = 0.0000001f;
 
 Wall* walls;
@@ -15,7 +16,10 @@ int particleCount = 0;
 Ray rays[MAXRAYS];
 int rayCount = 0;
 
-Particle CreateParticle( float x, float y, float velx, float vely, CP_Color color, bool isStatic, bool head, bool tail) {
+float wx;
+float wy;
+
+Particle CreateParticle(float x, float y, float velx, float vely, CP_Color color, bool isStatic, bool head, bool tail) {
 	//if (particleCount > 10) {
 	//	particleCount = 0;
 	//}
@@ -72,17 +76,31 @@ void CreateRay(float x, float y, int length, int velx, int vely, CP_Color color)
 
 void ParticleDisplay(Particle* part, int size)
 {
-	CP_Graphics_DrawEllipse(part->pos.x, part->pos.y, size, size);
+	CP_Graphics_DrawEllipse(part->pos.x + wx, part->pos.y + wy, size, size);
 }
 
-float CalcArea(float pos1, float pos2, float pos3) {
-	//abs((x1 - px) * (y2 - py) - (x2 - px) * (y1 - py));
-}
 
-int CheckCollision(Ray* ray, CP_Vector newPos) {
+bool CheckCollision(Ray* ray, Particle* part, CP_Vector* newPos, float* time) {
 	for (int i = 0; i < maxWalls; i++) {
+		if ((CP_Math_Distance(walls[i].pos1.x, walls[i].pos1.y, walls[i].pos2.x, walls[i].pos2.y)
+			- CP_Math_Distance(walls[i].pos1.x, walls[i].pos1.y, part->pos.x, part->pos.y)
+			- CP_Math_Distance(walls[i].pos2.x, walls[i].pos2.y, part->pos.x, part->pos.y)) > -0.1) {
+			CP_Vector wall = CP_Vector_Add(walls[i].pos1, walls[i].pos2);
+			int n = wall.x;
+			wall.x = wall.y;
+			wall.y = -n;
+			int angle = CP_Vector_Angle(wall, CP_Vector_Add(*newPos, part->pos));
+			if (part->vel.y > 0) {
+				angle += 180;
+			}
 
+			part->vel = AngleToVector(angle);
+			part->vel = CP_Vector_Scale(part->vel, 200);
+			*newPos = CP_Vector_Set(part->pos.x + part->vel.x * *time, part->pos.y + part->vel.y * *time);
+			return true;
+		}
 	}
+	return false;
 }
 
 void ParticleUpdate(Particle* part, Ray* ray)
@@ -103,74 +121,75 @@ void ParticleUpdate(Particle* part, Ray* ray)
 
 		CP_Vector newPos = CP_Vector_Set(part->pos.x + part->vel.x * time, part->pos.y + part->vel.y * time);
 		float newTime = time;
-		//if (CheckCollision != -1) {
+		if (CheckCollision(ray, part, &newPos, &time)) {
+			if (part->isHead) {
+				AddMidpoint(ray, part->pos.x, part->pos.y);
 
-		//}
-		//else
-		//{
-			// no collision
-			part->pos.x = newPos.x;
-			part->pos.y = newPos.y;
-			time = 0;
-		//}
+			}
+			else {
+				RemoveMidpoint(ray);
+			}
+
+		};
+		part->pos.x = newPos.x;
+		part->pos.y = newPos.y;
+		time = 0;
+
 	}
 
-//// resolve collisions
-//if ((collisionX == true) || (collisionY == true))
-//{
+	//// resolve collisions
+	//if ((collisionX == true) || (collisionY == true))
+	//{
 
-//	// take the nearest time
-//	if (timeX < timeY)
-//	{
-//		newTime = timeX;
-//	}
-//	else
-//	{
-//		newTime = timeY;
-//	}
+	//	// take the nearest time
+	//	if (timeX < timeY)
+	//	{
+	//		newTime = timeX;
+	//	}
+	//	else
+	//	{
+	//		newTime = timeY;
+	//	}
 
-//	// move the particle
-//	part->pos.x += part->vel.x * newTime;
-//	part->pos.y += part->vel.y * newTime;
+	//	// move the particle
+	//	part->pos.x += part->vel.x * newTime;
+	//	part->pos.y += part->vel.y * newTime;
 
-//	// flip velocity vectors to reflect off walls
-//	if ((collisionX == true) && (collisionY == false))
-//	{
-//		part->vel.x *= -1;
-//	}
-//	else if ((collisionX == false) && (collisionY == true))
-//	{
-//		part->vel.y *= -1;
-//	}
-//	else
-//	{	// they must both be colliding for this condition to occur
-//		if (timeX < timeY)
-//		{
-//			part->vel.x *= -1;
-//		}
-//		else if (timeX > timeY)
-//		{
-//			part->vel.y *= -1;
-//		}
-//		else
-//		{	// they must be colliding at the same time (ie. a corner)
-//			part->vel.x *= -1;
-//			part->vel.y *= -1;
-//		}
-//	}
+	//	// flip velocity vectors to reflect off walls
+	//	if ((collisionX == true) && (collisionY == false))
+	//	{
+	//		part->vel.x *= -1;
+	//	}
+	//	else if ((collisionX == false) && (collisionY == true))
+	//	{
+	//		part->vel.y *= -1;
+	//	}
+	//	else
+	//	{	// they must both be colliding for this condition to occur
+	//		if (timeX < timeY)
+	//		{
+	//			part->vel.x *= -1;
+	//		}
+	//		else if (timeX > timeY)
+	//		{
+	//			part->vel.y *= -1;
+	//		}
+	//		else
+	//		{	// they must be colliding at the same time (ie. a corner)
+	//			part->vel.x *= -1;
+	//			part->vel.y *= -1;
+	//		}
+	//	}
 
-//	// decrease time and iterate
-//	time -= newTime;
-//	if (part->isHead) {
-//		AddMidpoint(ray, part->pos.x, part->pos.y);
+	//	// decrease time and iterate
+	//	time -= newTime;
 
-//	}
-//	else {
-//		RemoveMidpoint(ray);
-//	}
+	//}
 
-//}
+}
 
+void DrawRay(CP_Vector v1, CP_Vector v2) {
+	CP_Graphics_DrawLine(v1.x + wx, v1.y + wy, v2.x + wx, v2.y + wy);
 }
 void _RayUpdate(Ray* ray) {
 	if (ray->color.a < 1) return;
@@ -188,32 +207,34 @@ void _RayUpdate(Ray* ray) {
 	CP_Settings_StrokeWeight(3);
 	CP_Settings_Stroke(ray->color);
 	if (ray->mids - ray->trail == 1) {
-		CP_Graphics_DrawLine(ray->head.pos.x, ray->head.pos.y, ray->midpoints[ray->trail].pos.x, ray->midpoints[ray->trail].pos.y);
-		CP_Graphics_DrawLine(ray->midpoints[ray->trail].pos.x, ray->midpoints[ray->trail].pos.y, ray->tail.pos.x, ray->tail.pos.y);
+		DrawRay(ray->head.pos,ray->midpoints[ray->trail].pos);
+		DrawRay(ray->midpoints[ray->trail].pos, ray->tail.pos);
 
 	}
 
 	else if (ray->mids - ray->trail > 1) {
-		CP_Graphics_DrawLine(ray->head.pos.x, ray->head.pos.y, ray->midpoints[ray->mids - 1].pos.x, ray->midpoints[ray->mids - 1].pos.y);
+		DrawRay(ray->head.pos, ray->midpoints[ray->mids - 1].pos);
 
 		for (int i = 1; i < ray->mids - ray->trail; i++) {
-			CP_Graphics_DrawLine(ray->midpoints[ray->trail].pos.x, ray->midpoints[ray->trail].pos.y, ray->midpoints[ray->trail + i].pos.x, ray->midpoints[ray->trail + i].pos.y);
+			DrawRay(ray->midpoints[ray->trail].pos, ray->midpoints[ray->trail + i].pos);
 		}
-		CP_Graphics_DrawLine(ray->midpoints[ray->trail].pos.x, ray->midpoints[ray->trail].pos.y, ray->tail.pos.x, ray->tail.pos.y);
+		DrawRay(ray->midpoints[ray->trail].pos, ray->tail.pos);
 
 	}
 	else {
-		CP_Graphics_DrawLine(ray->head.pos.x, ray->head.pos.y, ray->tail.pos.x, ray->tail.pos.y);
+		DrawRay(ray->head.pos, ray->tail.pos);
 
 	}
-	ray->color.a--;
+	//ray->color.a--;
 }
-void RayUpdate() {
+void RayUpdate(float _wx, float _wy) {
+	wx = _wx;
+	wy = _wy;
 	for (int i = 0; i < rayCount; ++i)
 	{
 		_RayUpdate(&rays[i]);
 	}
-	
+
 }
 
 void InitScene(Wall* _walls, int _maxWalls) {

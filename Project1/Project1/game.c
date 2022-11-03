@@ -5,13 +5,18 @@
 #include "menu.h"
 #include <stdio.h>
 #include <Share.h>
+#include "subcontroller.h"
+
+
+
+//sonar ping sound
+CP_Sound ping = NULL;
 
 //Ray cast stuff -HQ
 float particleSize = 3.0f;
 
-//-------------------
-
-float WorldRot = 0;
+//energy used for pings -Nigel
+int energy = 0;
 
 /*
 WorldX and WorldY functions as the offset for the camera system.
@@ -41,7 +46,7 @@ Contains the x and y coordinates of all 3 points of the triangle
 */
 
 int CWall = 0;
-Wall wall[9999];
+Wall wall[99999];
 
 /*
 Made by Nigel
@@ -52,7 +57,12 @@ void Wall_Init(double x, double y) {
 
 	wall[CWall].pos1 = CP_Vector_Set(drawx1, drawy1);
 	wall[CWall].pos2 = CP_Vector_Set(x, y);
+}
 
+void UndoWall(void) {
+	CWall -= 1;
+	wall[CWall].pos1 = CP_Vector_Set(0, 0);
+	wall[CWall].pos2 = CP_Vector_Set(0, 0);
 }
 
 /*
@@ -77,12 +87,22 @@ void DrawWalls(void) {
 		CP_Graphics_DrawCircle(WorldX + drawx1, WorldY + drawy1, 20);
 }
 
+void DrawEnergy(void) {
+	float barx = 0;
+	float bary = 0;
+	float barw = 150;
+	float barh = 1000;
+	CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
+	CP_Graphics_DrawRect(barx, bary, barw, barh);
+	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
+	CP_Graphics_DrawRect(barx, bary, barw, barh * ((float)energy/100));
+}
+
 void loadwalls(void) {
 	int c;
 	int i = 0;
 	FILE* in = _fsopen("walls.txt", "r", _SH_DENYNO);
 	while (1) {
-		c = fgetc(in);
 		if (feof(in)) {
 			break;
 		}
@@ -148,21 +168,32 @@ void CheckControls(void) {
 
 	//HQ stuff
 
-	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1) && energy > 10) {
+
 		CP_Color color = CP_Color_Create(90, 180, 77, 155);
+		//CP_Vector v = AngleToVector(90);
+		//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+
 		for (int i = 0; i < 36; i++) {
 			CP_Vector v = AngleToVector(i * 10);
-			CreateRay(CP_Input_GetMouseWorldX(), CP_Input_GetMouseWorldY(), 50, v.x * 200, v.y * 200, color);
+			CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
 
+			CP_Sound_PlayAdvanced(ping,0.01,1,FALSE,1);
 
 		}
-
+		
+		energy -= 10;
+		CP_Sound_PlayAdvanced(ping, 0.01, 1, FALSE, 1);
+		
 	}
 	else if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) {
 		CP_Color color = CP_Color_Create(255, 50, 50, 255);
+		//CP_Vector v = AngleToVector(0);
+		//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+
 		for (int i = 0; i < 36; i++) {
 			CP_Vector v = AngleToVector(i * 10);
-			CreateRay(CP_Input_GetMouseWorldX(), CP_Input_GetMouseWorldY(), 50, v.x * 200, v.y * 200, color);
+			CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
 
 
 		}
@@ -171,9 +202,12 @@ void CheckControls(void) {
 	}
 	else if (CP_Input_MouseTriggered(MOUSE_BUTTON_3)) {
 		CP_Color color = CP_Color_Create(50, 50, 255, 255);
+		//CP_Vector v = AngleToVector(-90);
+		//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+
 		for (int i = 0; i < 36; i++) {
 			CP_Vector v = AngleToVector(i * 10);
-			CreateRay(CP_Input_GetMouseWorldX(), CP_Input_GetMouseWorldY(), 50, v.x * 200, v.y * 200, color);
+			CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
 
 
 		}
@@ -186,18 +220,27 @@ void CheckControls(void) {
 		CP_Engine_SetNextGameState(mainmenu_init, mainmenu_update, mainmenu_exit);
 	}
 
+	if (CP_Input_KeyTriggered(KEY_Z)) {
+		UndoWall();
+	}
+
 }
 
 
 
 void subgame_init(void) {
-	CP_System_SetWindowSize(1920, 1080);
+	CP_System_SetWindowSize(1920,1080);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_BlendMode(CP_BLEND_ALPHA);
+
+	//initialise sound
+	ping = CP_Sound_Load("ping.wav");
 
 	//set up sound cast system
 	loadwalls();
 	InitScene(wall,CWall);
+	// Player initialisation
+	
 }
 
 void subgame_update(void) {
@@ -209,14 +252,31 @@ void subgame_update(void) {
 	DrawWalls(wall);
 
 	//3rd draw layer, the raycast
-	RayUpdate();
+	RayUpdate(WorldX,WorldY);
 	//4th draw layer, the UI for the game
+	DrawEnergy();
 
 	//Check the controls pressed each frame
 	CheckControls();
 
+
+	//Creating Player
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	CP_Graphics_DrawCircle(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2, 25);
+	// movement function
+	movement();
+
+	double title_alpha = -100;
+	double tutorial_alpha = 0;
+	int loop = 0;
+
+	tutorial_message();
+
+	if (energy < 100) energy += 1;
+
 }
 
 void subgame_exit(void) {
-
+	//free sounds from memory
+	CP_Sound_Free(&ping);
 }

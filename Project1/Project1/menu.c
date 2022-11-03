@@ -1,18 +1,12 @@
 #include "cprocessing.h"
 #include "menu.h"
 #define TutorialWalls (10)
-
+#include "subcontroller.h"
 
 double title_alpha = -100;
 double tutorial_alpha = 0;
 int loop = 0;
 
-typedef struct tutorial_map {
-	float x;
-	float y;
-	float w;
-	float h;
-}map;
 
 
 void mainmenu_init(void) {
@@ -21,14 +15,14 @@ void mainmenu_init(void) {
 
 }
 
-void mainmenu_update(void) {
-	CP_Graphics_ClearBackground(CP_Color_Create(25, 25, 25, 255));
+void tutorial_message(void)
+{
 
 	int tutorial_alpha_speed = 3;
 
 
 	if (tutorial_alpha < 255 && loop == 0) {
-		tutorial_alpha += 1*tutorial_alpha_speed;
+		tutorial_alpha += 1 * tutorial_alpha_speed;
 	}
 	if (tutorial_alpha >= 255) {
 		loop = 1;
@@ -63,7 +57,7 @@ void mainmenu_update(void) {
 	CP_Font_DrawText("D", 870, 780);
 
 	//Wait for First Input
-	if ((CP_Input_KeyTriggered(KEY_W) || CP_Input_KeyTriggered(KEY_A) || CP_Input_KeyTriggered(KEY_S) || CP_Input_KeyTriggered(KEY_D)) && loop == 1 )
+	if ((CP_Input_KeyTriggered(KEY_W) || CP_Input_KeyTriggered(KEY_A) || CP_Input_KeyTriggered(KEY_S) || CP_Input_KeyTriggered(KEY_D)) && loop == 1)
 	{
 		loop = 2;
 
@@ -101,45 +95,50 @@ void mainmenu_update(void) {
 
 	}
 
+	/*
+	//DRAW MAP
+	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 0));
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 10));
+	CP_Settings_RectMode(CP_POSITION_CORNER);
 
-		//DRAW MAP
-		CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 0));
-		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 10));
-		CP_Settings_RectMode(CP_POSITION_CORNER);
+	map tut[TutorialWalls];
 
-		map tut[TutorialWalls];
+	tut[0].x = 0;
+	tut[0].y = 0;
+	tut[0].w = 900;
+	tut[0].h = 1080;
+	CP_Graphics_DrawRect(tut[0].x, tut[0].y, tut[0].w, tut[0].h);
+
+	tut[1].x = 1000;
+	tut[1].y = 0;
+	tut[1].w = 960;
+	tut[1].h = 250;
+	CP_Graphics_DrawRect(tut[1].x, tut[1].y, tut[1].w, tut[1].h);
+
+	tut[2].x = 1000;
+	tut[2].y = 350;
+	tut[2].w = 600;
+	tut[2].h = 400;
+	CP_Graphics_DrawRect(tut[2].x, tut[2].y, tut[2].w, tut[2].h);
+
+	tut[3].x = 1700;
+	tut[3].y = 250;
+	tut[3].w = 300;
+	tut[3].h = 600;
+	CP_Graphics_DrawRect(tut[3].x, tut[3].y, tut[3].w, tut[3].h);
+
+	tut[4].x = 1000;
+	tut[4].y = 850;
+	tut[4].w = 960;
+	tut[4].h = 250;
+	CP_Graphics_DrawRect(tut[4].x, tut[4].y, tut[4].w, tut[4].h);
+	*/
+}
+
+void mainmenu_update(void) {
+	CP_Graphics_ClearBackground(CP_Color_Create(25, 25, 25, 255));
+
 	
-		tut[0].x = 0;
-		tut[0].y = 0;
-		tut[0].w = 900;
-		tut[0].h = 1080;
-		CP_Graphics_DrawRect(tut[0].x, tut[0].y, tut[0].w, tut[0].h);
-
-		tut[1].x = 1000;
-		tut[1].y = 0;
-		tut[1].w = 960;
-		tut[1].h = 250;
-		CP_Graphics_DrawRect(tut[1].x, tut[1].y, tut[1].w, tut[1].h);
-
-		tut[2].x = 1000;
-		tut[2].y = 350;
-		tut[2].w = 600;
-		tut[2].h = 400;
-		CP_Graphics_DrawRect(tut[2].x, tut[2].y, tut[2].w, tut[2].h);
-
-		tut[3].x = 1700;
-		tut[3].y = 250;
-		tut[3].w = 300;
-		tut[3].h = 600;
-		CP_Graphics_DrawRect(tut[3].x, tut[3].y, tut[3].w, tut[3].h);
-
-		tut[4].x = 1000;
-		tut[4].y = 850;
-		tut[4].w = 960;
-		tut[4].h = 250;
-		CP_Graphics_DrawRect(tut[4].x, tut[4].y, tut[4].w, tut[4].h);
-
-
 
 
 
