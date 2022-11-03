@@ -43,10 +43,10 @@ void enemy_move(float x1, float y1, float x2, float y2, float timer) {
 
 	// timer is to calculate the distance through fade
 
-	
+
 
 	if (timer > 0) {
-		
+
 		enemy[1].x += enemy[1].velocity_x;
 		enemy[1].y += enemy[1].velocity_y;
 
@@ -54,8 +54,8 @@ void enemy_move(float x1, float y1, float x2, float y2, float timer) {
 		enemy[1].velocity_y -= enemy[1].acceleration_y * 0.001 * vector_y;
 		enemy[1].acceleration_x += 1;
 		enemy[1].velocity_x -= enemy[1].acceleration_x * 0.001 * vector_x;
-		
-		
+
+
 
 		//Fade out and in
 		if (timer > 60) {
@@ -66,7 +66,7 @@ void enemy_move(float x1, float y1, float x2, float y2, float timer) {
 		}
 		timer -= 1;
 	}
-
+}
 	
 
 
@@ -130,7 +130,7 @@ void enemy_update(void) {
 
 		}
 	}
-	RayUpdate();
+	RayUpdate(0 ,0);
 	//
 
 
