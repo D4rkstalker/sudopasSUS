@@ -1,42 +1,58 @@
-#include <cprocessing.h>
+#include "cprocessing.h"
 #include "subcontroller.h"
 #include "game.h"
-
+#include "Utils.h"
+#include "music.h"
+#include "walls.h"
 
 int isPaused = 0;
 int isMap = 0;
-/* On Hold until there's sound
-* 
+
+
+
 void theVolume(void) {
-	int volume = 0;
-	if ((CP_Input_KeyDown(KEY_RIGHT_CONTROL) || CP_Input_KeyDown(KEY_LEFT_CONTROL)) && CP_Input_KeyDown(KEY_RIGHT)) { // Increase volume
-		CP_Sound_GetGroupVolume(CP_SOUND_GROUP_0); // default sound
+	
+	if ((CP_Input_KeyDown(KEY_RIGHT_CONTROL) || CP_Input_KeyDown(KEY_LEFT_CONTROL)) && CP_Input_KeyTriggered(KEY_RIGHT)) { // Increase volume
 
-		CP_Sound_SetGroupVolume(CP_SOUND_GROUP_0, ++volume);
+		if (Volume1.sound <= 1) {
+			Volume1.sound += 0.1;
+			CP_Sound_SetGroupVolume(CP_SOUND_GROUP_0, Volume1.sound);
+		}
 	}
 
-	if ((CP_Input_KeyDown(KEY_RIGHT_CONTROL) || CP_Input_KeyDown(KEY_LEFT_CONTROL)) && CP_Input_KeyDown(KEY_LEFT)) { // Decrease volume
-		CP_Sound_GetGroupVolume(CP_SOUND_GROUP_0); // default sound
+	if ((CP_Input_KeyDown(KEY_RIGHT_CONTROL) || CP_Input_KeyDown(KEY_LEFT_CONTROL)) && CP_Input_KeyTriggered(KEY_LEFT)) { // Decrease volume
 
-		CP_Sound_SetGroupVolume(CP_SOUND_GROUP_0, --volume);
+
+		if (Volume1.sound >= 0) {
+			Volume1.sound -= 0.1;
+			CP_Sound_SetGroupVolume(CP_SOUND_GROUP_0, Volume1.sound);
+		}
 	}
+
+
 
 }
-*/ 
+
+void wallScale() {
+	int i;
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
 
 
-void energyConsumption(void) {
-	/*
-	if (key input){
-	energyconsumption -= 10;
+	for (i = 0; i < CWall + 1; i++) {
+		CP_Settings_RectMode(CP_POSITION_CENTER);
+		CP_Graphics_DrawLine((wall[i].pos1.x/4.5) + 550, (wall[i].pos1.y/4.5) + 300, (wall[i].pos2.x/4.5) + 550, (wall[i].pos2.y/4.5) + 300);
+	
 	}
 
-	energy += 0.10;
-	*/
 }
 
 void movement(void) {
-	
+	if (CP_Input_KeyTriggered(KEY_T)) {
+		CP_Sound_PlayAdvanced(ping, Volume1.sound, 1.0f, TRUE, CP_SOUND_GROUP_0);
+	}
+
+
 	if (CP_Input_KeyTriggered(KEY_SPACE)) {
 		if (!isPaused) {
 			isPaused = 1;
@@ -60,10 +76,7 @@ void movement(void) {
 	
 
 	if (!isPaused) {
-		WorldX -= player1.velocity_x;
-		WorldY -= player1.velocity_y;
-		player1.velocity_y *= 0.9;
-		player1.velocity_x *= 0.9;
+		
 		if (CP_Input_KeyDown(KEY_W) && CP_Input_KeyDown(KEY_S)) {
 			player1.acceleration_y = 0;
 
@@ -118,9 +131,22 @@ void movement(void) {
 
 			}
 		}
-		
+			if (wallcollision()) {
+				return;
+			}
+		WorldX -= player1.velocity_x;
+		WorldY -= player1.velocity_y;
+		player1.velocity_y *= 0.9;
+		player1.velocity_x *= 0.9;
+	}
+	if (isMap) {
+		CP_Settings_Fill(CP_Color_Create(188, 158, 130, 255));
+		CP_Settings_RectMode(CP_POSITION_CORNER);
+		CP_Graphics_DrawRect(CP_System_GetDisplayWidth() / 4, CP_System_GetDisplayHeight() / 4, CP_System_GetDisplayWidth() / 2, CP_System_GetDisplayHeight() / 2);
+		wallScale();
 	}
 
+//	RayUpdate(0,0);
 }
 
 
@@ -131,18 +157,17 @@ void controller_init(void) {
 	CP_Settings_EllipseMode(CP_POSITION_CENTER);
 	float center_x = CP_System_GetDisplayWidth() / 2;
 	float center_y = CP_System_GetDisplayHeight() / 2;
-
+	Sound_Init();
 	player1.x = center_x;
 	player1.y = center_y;
-
-
+	
+	Volume1.sound = 1;
 
 	
 }
 
 void controller_update(void) {
-	movement();
-
+	
 	CP_Settings_BlendMode(CP_BLEND_ALPHA);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
@@ -164,12 +189,9 @@ void controller_update(void) {
 
 	CP_Graphics_DrawCircle(player1.x,player1.y, 10); // Draws the player circle on default 
 
-	if (isMap) {
-		CP_Settings_Fill(CP_Color_Create(188, 158, 130, 255));
-		CP_Settings_RectMode(CP_POSITION_CORNER);
-		CP_Graphics_DrawRect(CP_System_GetDisplayWidth()/4, CP_System_GetDisplayHeight()/4, CP_System_GetDisplayWidth() / 2, CP_System_GetDisplayHeight() / 2);
-	}
 	
+	movement();
+	theVolume();
 		
 	
 	

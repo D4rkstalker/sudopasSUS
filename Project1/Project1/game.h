@@ -1,6 +1,7 @@
 
 #include <cprocessing.h>
 #pragma once
+
 typedef struct Wall {
 	CP_Vector pos1;
 	CP_Vector pos2;

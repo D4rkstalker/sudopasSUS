@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include "game.h"
+#include "walls.h"
 #pragma once
 
 #define MAXRAYS 10000

@@ -1,6 +1,8 @@
 #include <cprocessing.h>
 #pragma once
 
+
+
 struct Player {
 	float x;
 	float y;
@@ -11,6 +13,14 @@ struct Player {
 
 
 } player1;
+
+struct Volume {
+
+	float sound;
+
+
+
+} Volume1;
 
 void theVolume(void);
 void energyConsumption(void);
