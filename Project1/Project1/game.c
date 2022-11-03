@@ -13,6 +13,8 @@ float particleSize = 3.0f;
 
 //energy used for pings -Nigel
 int energy = 100;
+bool clicked = false;
+CP_Vector click1;
 
 /*
 WorldX and WorldY functions as the offset for the camera system.
@@ -71,18 +73,24 @@ void CheckControls(void) {
 	//HQ stuff
 
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
-		if (energy > 30) {
-			CP_Color color = CP_Color_Create(90, 180, 77, 155);
-			//CP_Vector v = AngleToVector(90);
-			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+		if (clicked) {
+			clicked = false;
+			if (energy > 30) {
+				CP_Color color = CP_Color_Create(90, 180, 77, 155);
+				//CP_Vector v = AngleToVector(90);
+				//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+				CP_Vector outv = CP_Vector_Normalize( CP_Vector_Subtract(CP_Vector_Set(CP_Input_GetMouseWorldX()-WorldX, CP_Input_GetMouseWorldY()-WorldY),click1));
+				CreateRay(click1.x, click1.y, 50, outv.x * 400, outv.y * 400, color);
 
-			for (int i = 0; i < 36; i++) {
-				CP_Vector v = AngleToVector(i * 10);
-				CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
-
+				
+				energy -= 30;
+				CP_Sound_PlayAdvanced(ping, 0.3, 1, FALSE, 1);
 			}
-			energy -= 30;
-			CP_Sound_PlayAdvanced(ping, 0.3, 1, FALSE, 1);
+
+		}
+		else {
+			clicked = true;
+			click1 = CP_Vector_Set(CP_Input_GetMouseWorldX()-WorldX, CP_Input_GetMouseWorldY()-WorldY);
 		}
 		
 		
@@ -139,7 +147,6 @@ void subgame_init(void) {
 
 	//set up sound cast system
 	loadwalls();
-	InitScene(wall,CWall);
 	// Player initialisation
 	
 }

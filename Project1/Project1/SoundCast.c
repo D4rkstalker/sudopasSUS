@@ -9,8 +9,6 @@
 #include "walls.h"
 const float EPSILON = 0.0000001f;
 
-Wall* walls;
-int maxWalls;
 
 
 Particle particles[MAXPARTICLES];
@@ -38,6 +36,7 @@ Particle CreateParticle(float x, float y, float velx, float vely, CP_Color color
 	part.isStatic = isStatic;
 	part.isHead = head;
 	part.isTail = tail;
+	part.collide = true;
 	return part;
 }
 
@@ -84,39 +83,21 @@ void ParticleDisplay(Particle* part, int size)
 
 
 bool CheckCollision(Ray* ray, Particle* part, CP_Vector* newPos, float* time) {
-	for (int i = 0; i < maxWalls; i++) {
-		if ((CP_Math_Distance(walls[i].pos1.x, walls[i].pos1.y, walls[i].pos2.x, walls[i].pos2.y)
-			- CP_Math_Distance(walls[i].pos1.x, walls[i].pos1.y, part->pos.x, part->pos.y)
-			- CP_Math_Distance(walls[i].pos2.x, walls[i].pos2.y, part->pos.x, part->pos.y)) > -0.5) {
+	for (int i = 0; i < CWall; i++) {
+		if ((CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, wall[i].pos2.x, wall[i].pos2.y)
+			- CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, part->pos.x, part->pos.y)
+			- CP_Math_Distance(wall[i].pos2.x, wall[i].pos2.y, part->pos.x, part->pos.y)) > -0.5) {
 
 
 
-			CP_Vector Vwall =CP_Vector_Normalize( CP_Vector_Subtract(walls[i].pos1, walls[i].pos2));
+			CP_Vector Vwall = CP_Vector_Normalize(CP_Vector_Subtract(wall[i].pos2, wall[i].pos1));
+			CP_Vector Vray = CP_Vector_Normalize(CP_Vector_Subtract(*newPos, part->pos));
+			float temp = Vwall.x;
+			Vwall.x = -Vwall.y;
+			Vwall.y = temp;
+			CP_Vector vOut = CP_Vector_Add(CP_Vector_Scale(Vwall, -2 * CP_Vector_DotProduct(Vray, Vwall)), Vray);
 
-			CP_Vector Vray = CP_Vector_Normalize(CP_Vector_Subtract(part->pos, *newPos));
-
-			CP_Vector Zero = CP_Vector_Set(0,-1);
-			float angleN = atan2(Vwall.x,Vwall.y) * 180.0 / PI;
-			float angleR = atan2(Vray.x,Vray.y) * 180.0 / PI ;
-			//int n = wall.x;
-			//wall.x = wall.y;
-			//wall.y = -n;
-			//int angle = CP_Vector_Angle(wall, CP_Vector_Add(*newPos, part->pos));
-			//if (part->vel.y > 0) {
-			//	angle += 180;
-			//}
-			if (angleN < 0) angleN += 360;
-			if (angleR < 0) angleR += 360;
-			float angleOut = 0;
-			if (angleN > angleR) {
-				angleOut = abs(angleR-angleN);
-
-			}
-			else {
-				angleOut = 360 - abs(angleN - angleR);
-			}
-
-			part->vel = AngleToVector(angleOut);
+			part->vel = vOut;
 			part->vel = CP_Vector_Scale(part->vel, 200);
 			*newPos = CP_Vector_Set(part->pos.x + part->vel.x * *time, part->pos.y + part->vel.y * *time);
 			return true;
@@ -229,7 +210,7 @@ void _RayUpdate(Ray* ray) {
 	CP_Settings_StrokeWeight(3);
 	CP_Settings_Stroke(ray->color);
 	if (ray->mids - ray->trail == 1) {
-		DrawRay(ray->head.pos,ray->midpoints[ray->trail].pos);
+		DrawRay(ray->head.pos, ray->midpoints[ray->trail].pos);
 		DrawRay(ray->midpoints[ray->trail].pos, ray->tail.pos);
 
 	}
@@ -247,7 +228,7 @@ void _RayUpdate(Ray* ray) {
 		DrawRay(ray->head.pos, ray->tail.pos);
 
 	}
-	//ray->color.a--;
+	ray->color.a--;
 }
 void RayUpdate(float _wx, float _wy) {
 	wx = _wx;
@@ -259,9 +240,5 @@ void RayUpdate(float _wx, float _wy) {
 
 }
 
-void InitScene(Wall* _walls, int _maxWalls) {
-	walls = _walls;
-	maxWalls = _maxWalls;
-}
 
 

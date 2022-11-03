@@ -15,6 +15,8 @@ typedef struct _Particle
 	bool isStatic;
 	bool isHead;
 	bool isTail;
+	bool collide;
+
 } Particle;
 
 typedef struct _Ray
