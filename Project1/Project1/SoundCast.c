@@ -83,6 +83,9 @@ void ParticleDisplay(Particle* part, int size)
 
 
 bool CheckCollision(Ray* ray, Particle* part, CP_Vector* newPos, float* time) {
+	if (!part->collide) {
+		return false;
+	}
 	for (int i = 0; i < CWall; i++) {
 		if ((CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, wall[i].pos2.x, wall[i].pos2.y)
 			- CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, part->pos.x, part->pos.y)
@@ -100,6 +103,7 @@ bool CheckCollision(Ray* ray, Particle* part, CP_Vector* newPos, float* time) {
 			part->vel = vOut;
 			part->vel = CP_Vector_Scale(part->vel, 200);
 			*newPos = CP_Vector_Set(part->pos.x + part->vel.x * *time, part->pos.y + part->vel.y * *time);
+			part->collide = false;
 			return true;
 		}
 	}
