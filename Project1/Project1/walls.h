@@ -18,6 +18,11 @@ double drawx1;
 double drawy1;
 double drawx2;
 double drawy2;
+double drawx3;
+double drawy3;
+
+double drawx[9999];
+double drawy[9999];
 
 void DrawWalls(void);
 void Wall_Init(double x, double y);

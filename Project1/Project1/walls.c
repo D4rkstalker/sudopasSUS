@@ -5,6 +5,7 @@
 #include "utils.h"
 #include "game.h"
 #include "subcontroller.h"
+#include "music.h"
 
 int drawpoint = 0;
 
@@ -36,8 +37,10 @@ void DrawWalls(void) {
 	}
 
 	//draw wall markers
-	if (drawpoint > 0)
-		CP_Graphics_DrawCircle(WorldX + drawx1, WorldY + drawy1, 20);
+
+	for (int i = 0; i < drawpoint; i++) {
+		CP_Graphics_DrawCircle(WorldX + drawx[i], WorldY + drawy[i], 20);
+	}
 }
 
 /*
@@ -47,8 +50,35 @@ After creating 3 draw points, wall_init creates a triangle wall in the world.
 */
 void Wall_Init(double x, double y) {
 
-	wall[CWall].pos1 = CP_Vector_Set(drawx1, drawy1);
-	wall[CWall].pos2 = CP_Vector_Set(x, y);
+	
+
+	switch (drawpoint) {
+	case 0:
+		break;
+	case 1:
+		wall[CWall].pos1 = CP_Vector_Set(drawx[0], drawy[0]);
+		wall[CWall].pos2 = CP_Vector_Set(x, y);
+		CWall += 1;
+		break;
+	case -1:
+		wall[CWall].pos1 = CP_Vector_Set(drawx[0], drawy[0]);
+		wall[CWall].pos2 = CP_Vector_Set(drawx[1], drawy[1]);
+		CWall += 1;
+		wall[CWall].pos1 = CP_Vector_Set(drawx[1], drawy[1]);
+		wall[CWall].pos2 = CP_Vector_Set(x, y);
+		CWall += 1;
+		break;
+	default:
+		for (int i = 0; i < drawpoint - 1; i++) {
+			wall[CWall].pos1 = CP_Vector_Set(drawx[i], drawy[i]);
+			wall[CWall].pos2 = CP_Vector_Set(drawx[i + 1], drawy[i + 1]);
+			CWall += 1;
+		}
+		wall[CWall].pos1 = CP_Vector_Set(drawx[drawpoint - 1], drawy[drawpoint - 1]);
+		wall[CWall].pos2 = CP_Vector_Set(drawx[0], drawy[0]);
+		CWall += 1;
+	}
+	drawpoint = 0;
 }
 
 void UndoWall(void) {
@@ -80,38 +110,47 @@ void savewalls(void) {
 }
 
 float walldistance(int i, float inputx, float inputy, float vx, float vy) {
-	return (CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, wall[i].pos2.x, wall[i].pos2.y)
+	float d = (CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, wall[i].pos2.x, wall[i].pos2.y)
 		- CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, inputx + vx, inputy + vy)
 		- CP_Math_Distance(wall[i].pos2.x, wall[i].pos2.y, inputx + vx, inputy + vy));
-}
-
-int collcheck(float inputx, float inputy) {
-	for (int i = 1; i < CWall; i++) {
-		float d = walldistance(i, inputx, inputy, 0, 0);
-		if (d > -1) {
-			return i;
-		}
-	}
-	return 0;
+	return d;
 }
 
 int wallcollision(void) {
-	float playerx = -WorldX + CP_System_GetWindowWidth() / 2;
-	float playery = -WorldY + CP_System_GetWindowHeight() / 2;
-	float playervx = playerx + player1.velocity_x;
-	float playervy = playery + player1.velocity_y;
+	float x1 = -WorldX + CP_System_GetWindowWidth() / 2;
+	float y1 = -WorldY + CP_System_GetWindowHeight() / 2;
+	float x2 = x1 + player1.velocity_x;
+	float y2 = y1 + player1.velocity_y;
 
-	
-	if (collcheck(playerx, playery)) {
-		int t = collcheck(playerx, playery);
-		if (walldistance(t, playerx, playery, 0, 0) >= walldistance(t, playerx, playery, player1.velocity_x, player1.velocity_y)) {
-			return 0;
+	for (int i = 1; i < CWall; i++) {
+
+		float x3 = wall[i].pos1.x;
+		float y3 = wall[i].pos1.y;
+		float x4 = wall[i].pos2.x;
+		float y4 = wall[i].pos2.y;
+
+		float uA = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1));
+		float uB = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1));
+
+		if (uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1) {
+			int loop = 0;
+			while (-walldistance(i, x1, y1, 0, 0) > 0.05) {
+				if (loop++ > 1000) break;
+				WorldX -= player1.velocity_x / 1000;
+				WorldY -= player1.velocity_y / 1000;
+				x1 = -WorldX + CP_System_GetWindowWidth() / 2;
+				y1 = -WorldY + CP_System_GetWindowHeight() / 2;
+			}
+			if (CP_Math_Distance(0,0,player1.velocity_x,player1.velocity_y) > 15) {
+				CP_Sound_PlayAdvanced(bonk, 0.3, 1, FALSE, 1);
+			}
+			player1.acceleration_x = 0;
+			player1.acceleration_y = 0;
+			player1.velocity_x = 0;
+			player1.velocity_y = 0;
+			return 1;
 		}
-		player1.acceleration_x = 0;
-		player1.acceleration_y = 0;
-		player1.velocity_x = 0;
-		player1.velocity_y = 0;
-		return 1;
-	} 
+
+	}
 	return 0; 
 }
