@@ -146,7 +146,7 @@ void movement(void) {
 	if (isMap) {
 		CP_Settings_Fill(CP_Color_Create(188, 158, 130, 255));
 		CP_Settings_RectMode(CP_POSITION_CORNER);
-		CP_Graphics_DrawRect(CP_System_GetDisplayWidth() / 4, CP_System_GetDisplayHeight() / 4, CP_System_GetDisplayWidth() / 2, CP_System_GetDisplayHeight() / 2);
+		CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 4, CP_System_GetWindowHeight() / 4, CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2);
 		wallScale();
 	}
 
