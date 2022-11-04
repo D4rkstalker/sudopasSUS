@@ -166,9 +166,9 @@ void movement(void) {
 			WorldY -= player1.velocity_y;
 			player1.velocity_y *= 0.9;
 			player1.velocity_x *= 0.9;
-			//if (wallcollision()) {
-			//	return;
-			//}
+			if (wallcollision()) {
+				return;
+			}
 		WorldX -= player1.velocity_x;
 		WorldY -= player1.velocity_y;
 		player1.velocity_y *= 0.9;
@@ -257,10 +257,20 @@ void controller_update(void) {
 	
 	movement();
 
-		
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	CP_Settings_TextSize(20.0f);
+	CP_Font_DrawText("[L] RETURN TO GAME", 20, 20);
+	if (CP_Input_KeyTriggered(KEY_L))
+	{
+		CP_Engine_SetNextGameState(subgame_init, subgame_update, subgame_exit);
+
+	}
 	
 	
 	return 0;
+
+
+
 }
 
 void controller_exit(void) {
