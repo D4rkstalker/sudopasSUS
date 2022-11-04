@@ -9,6 +9,9 @@
 #include "subcontroller.h"
 #include <math.h>
 
+//debug wall flag
+int debug = 1;
+
 //Ray cast stuff -HQ
 float particleSize = 3.0f;
 
@@ -47,6 +50,15 @@ void DrawEnergy(void) {
 }
 
 void CheckControls(void) {
+
+	if (CP_Input_KeyTriggered(KEY_L)) {
+		if (debug == 0) {
+			debug = 1;
+		}
+		else {
+			debug = 0;
+		}
+	}
 
 	/*
 	Made by Nigel
@@ -111,14 +123,14 @@ void CheckControls(void) {
 			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
 			CP_Vector outv = CP_Vector_Normalize(CP_Vector_Subtract(CP_Vector_Set(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY), CP_Vector_Set(player1.x,player1.y)));
 			float a = CP_Vector_Angle(outv, CP_Vector_Set(WorldX,WorldY));
-			for (int i = 0; i < 36; i++) {
+			for (int i = 0; i < 1; i++) {
 				CP_Vector v = AngleToVector(i * 1);
-				CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+				CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200,0, color);
 
 
 			}
 
-			CreateRay(click1.x, click1.y, 50, outv.x * 400, outv.y * 400, color);
+			//CreateRay(click1.x, click1.y, 50, outv.x * 400, outv.y * 400, color);
 
 
 			energy -= 30;
@@ -136,7 +148,7 @@ void CheckControls(void) {
 
 		for (int i = 0; i < 36; i++) {
 			CP_Vector v = AngleToVector(i * 10);
-			CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+			CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200,1, color);
 
 
 		}
@@ -150,7 +162,7 @@ void CheckControls(void) {
 
 		for (int i = 0; i < 36; i++) {
 			CP_Vector v = AngleToVector(i * 10);
-			CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+			CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200,1, color);
 
 
 		}
@@ -191,7 +203,9 @@ void subgame_update(void) {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
 	//2nd draw layer, the walls of the game
-	DrawWalls();
+	if (debug == 1) {
+		DrawWalls();
+	}
 
 	//3rd draw layer, the raycast
 	RayUpdate(WorldX, WorldY);

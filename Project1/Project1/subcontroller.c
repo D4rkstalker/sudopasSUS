@@ -174,12 +174,10 @@ void movement(void) {
 
 			}
 		}
+		if (debug == 0) {
 			if (wallcollision()) {
 				return;
 			}
-
-			
-
 		WorldX -= player1.velocity_x;
 		WorldY -= player1.velocity_y;
 		player1.velocity_y *= 0.9;
