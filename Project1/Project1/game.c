@@ -56,15 +56,46 @@ void CheckControls(void) {
 	if (CP_Input_KeyTriggered(KEY_T))
 	{
 		if (drawpoint == 0) {
-			drawx1 = CP_Input_GetMouseX() - WorldX;
-			drawy1 = CP_Input_GetMouseY() - WorldY;
+			drawx[0] = CP_Input_GetMouseX() - WorldX;
+			drawy[0] = CP_Input_GetMouseY() - WorldY;
 			drawpoint += 1;
 		}
 		else {
 			Wall_Init(CP_Input_GetMouseX() - WorldX, CP_Input_GetMouseY() - WorldY);
-			drawpoint = 0;
-			CWall += 1;
 		}
+	}
+
+	if (CP_Input_KeyTriggered(KEY_Y))
+	{
+		switch (drawpoint) {
+
+		case 0:
+			drawx[0] = CP_Input_GetMouseX() - WorldX;
+			drawy[0] = CP_Input_GetMouseY() - WorldY;
+			drawpoint += 1;
+			break;
+		case 1:
+			drawx[1] = CP_Input_GetMouseX() - WorldX;
+			drawy[1] = CP_Input_GetMouseY() - WorldY;
+			drawpoint += 1;
+			break;
+		default:
+			drawpoint = -1;
+			Wall_Init(CP_Input_GetMouseX() - WorldX, CP_Input_GetMouseY() - WorldY);
+			}
+	}
+
+	if (CP_Input_KeyTriggered(KEY_U))
+	{
+		drawx[drawpoint] = CP_Input_GetMouseX() - WorldX;
+		drawy[drawpoint] = CP_Input_GetMouseY() - WorldY;
+		drawpoint += 1;
+			
+	}
+
+	if (CP_Input_KeyTriggered(KEY_I))
+	{
+		Wall_Init(CP_Input_GetMouseX() - WorldX, CP_Input_GetMouseY() - WorldY);
 	}
 
 	if (CP_Input_KeyTriggered(KEY_S)) {
