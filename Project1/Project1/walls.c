@@ -132,9 +132,10 @@ int wallcollision(void) {
 		float uA = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1));
 		float uB = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1));
 
-		if (uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1) {
+		if ((uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1) || 
+			(-walldistance(i, x1, y1, 0, 0) < 3 && -walldistance(i, x1, y1, 0, 0) > -walldistance(i, x1, y1, player1.velocity_x, player1.velocity_y))) {
 			int loop = 0;
-			while (-walldistance(i, x1, y1, 0, 0) > 0.05) {
+			while (-walldistance(i, x1, y1, 0, 0) > 3) {
 				if (loop++ > 1000) break;
 				WorldX -= player1.velocity_x / 1000;
 				WorldY -= player1.velocity_y / 1000;

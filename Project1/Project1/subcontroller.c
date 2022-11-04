@@ -161,11 +161,11 @@ void movement(void) {
 			if (wallcollision()) {
 				return;
 			}
+		}
 			WorldX -= player1.velocity_x;
 			WorldY -= player1.velocity_y;
 			player1.velocity_y *= 0.9;
 			player1.velocity_x *= 0.9;
-		}
 	}
 
 		if (isMap) {
