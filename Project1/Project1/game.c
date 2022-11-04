@@ -12,6 +12,7 @@
 
 //debug wall flag
 int debug = 1;
+#include "checkpoint.h"
 
 //Ray cast stuff -HQ
 float particleSize = 3.0f;
@@ -20,6 +21,7 @@ float particleSize = 3.0f;
 int energy = 100;
 bool clicked = false;
 CP_Vector click1;
+CheckPoint_1_Triggered = 0;
 
 /*
 WorldX and WorldY functions as the offset for the camera system.
@@ -236,6 +238,17 @@ void subgame_update(void) {
 	//4th draw layer, the UI for the game
 	DrawEnergy();
 	if (energy < 100) energy += 1;
+
+
+	//draw checkpoints
+	draw_checkpoint_1();
+	//check checkppoint triggers
+	cp1_triggered();
+	if (CheckPoint_1_Triggered == 1)
+	{
+		CP_Settings_Fill(CP_Color_Create(255, 0, 255, 255));
+		CP_Graphics_DrawRect(0, 0, 1000, 1000);
+	}
 
 	//Check the controls pressed each frame
 	CheckControls();

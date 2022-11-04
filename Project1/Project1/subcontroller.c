@@ -166,6 +166,19 @@ void movement(void) {
 			WorldY -= player1.velocity_y;
 			player1.velocity_y *= 0.9;
 			player1.velocity_x *= 0.9;
+			//if (wallcollision()) {
+			//	return;
+			//}
+		WorldX -= player1.velocity_x;
+		WorldY -= player1.velocity_y;
+		player1.velocity_y *= 0.9;
+		player1.velocity_x *= 0.9;
+	}
+	if (isMap) {
+		CP_Settings_Fill(CP_Color_Create(188, 158, 130, 255));
+		CP_Settings_RectMode(CP_POSITION_CORNER);
+		CP_Graphics_DrawRect(CP_System_GetDisplayWidth() / 4, CP_System_GetDisplayHeight() / 4, CP_System_GetDisplayWidth() / 2, CP_System_GetDisplayHeight() / 2);
+		wallScale();
 	}
 
 		if (isMap) {
