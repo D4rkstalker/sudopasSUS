@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include "subcontroller.h"
 #include <math.h>
+#include "enemy.h"
 
 //Ray cast stuff -HQ
 float particleSize = 3.0f;
@@ -183,6 +184,8 @@ void subgame_init(void) {
 	loadwalls();
 	// Player initialisation
 
+	// Enemy test Jon
+	enemy_place();
 }
 
 void subgame_update(void) {
@@ -192,6 +195,10 @@ void subgame_update(void) {
 
 	//2nd draw layer, the walls of the game
 	DrawWalls();
+
+	//2.5 draw Enemy
+	enemy_draw();
+	enemy_kill();
 
 	//3rd draw layer, the raycast
 	RayUpdate(WorldX, WorldY);
