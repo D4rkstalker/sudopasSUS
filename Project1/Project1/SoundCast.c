@@ -60,7 +60,7 @@ void RemoveMidpoint(Ray* ray) {
 
 }
 
-void CreateRay(float x, float y, int length, int velx, int vely, CP_Color color) {
+void CreateRay(float x, float y, int length, int velx, int vely,int fade, CP_Color color) {
 	Ray* ray = &rays[rayCount];
 
 	ray->color = color;
@@ -72,6 +72,7 @@ void CreateRay(float x, float y, int length, int velx, int vely, CP_Color color)
 
 	ray->head = head;
 	ray->tail = tail;
+	ray->fadeStrength = fade;
 	ray->maxLength = length;
 	rayCount++;
 }
@@ -143,54 +144,6 @@ void ParticleUpdate(Particle* part, Ray* ray)
 
 	}
 
-	//// resolve collisions
-	//if ((collisionX == true) || (collisionY == true))
-	//{
-
-	//	// take the nearest time
-	//	if (timeX < timeY)
-	//	{
-	//		newTime = timeX;
-	//	}
-	//	else
-	//	{
-	//		newTime = timeY;
-	//	}
-
-	//	// move the particle
-	//	part->pos.x += part->vel.x * newTime;
-	//	part->pos.y += part->vel.y * newTime;
-
-	//	// flip velocity vectors to reflect off walls
-	//	if ((collisionX == true) && (collisionY == false))
-	//	{
-	//		part->vel.x *= -1;
-	//	}
-	//	else if ((collisionX == false) && (collisionY == true))
-	//	{
-	//		part->vel.y *= -1;
-	//	}
-	//	else
-	//	{	// they must both be colliding for this condition to occur
-	//		if (timeX < timeY)
-	//		{
-	//			part->vel.x *= -1;
-	//		}
-	//		else if (timeX > timeY)
-	//		{
-	//			part->vel.y *= -1;
-	//		}
-	//		else
-	//		{	// they must be colliding at the same time (ie. a corner)
-	//			part->vel.x *= -1;
-	//			part->vel.y *= -1;
-	//		}
-	//	}
-
-	//	// decrease time and iterate
-	//	time -= newTime;
-
-	//}
 
 }
 
@@ -198,7 +151,7 @@ void DrawRay(CP_Vector v1, CP_Vector v2) {
 	CP_Graphics_DrawLine(v1.x + wx, v1.y + wy, v2.x + wx, v2.y + wy);
 }
 void _RayUpdate(Ray* ray) {
-	if (ray->color.a < 1) return;
+	if (ray->color.a <= ray->fadeStrength) return;
 	if (ray->length < ray->maxLength) {
 		ray->length++;
 	}
@@ -219,10 +172,10 @@ void _RayUpdate(Ray* ray) {
 	}
 
 	else if (ray->mids - ray->trail > 1) {
-		DrawRay(ray->head.pos, ray->midpoints[ray->mids - 1].pos);
+		DrawRay(ray->head.pos, ray->midpoints[ray->mids-1].pos);
 
-		for (int i = 1; i < ray->mids - ray->trail; i++) {
-			DrawRay(ray->midpoints[ray->trail].pos, ray->midpoints[ray->trail + i].pos);
+		for (int i = ray->trail; i < ray->mids-1; i++) {
+			DrawRay(ray->midpoints[i].pos, ray->midpoints[i+1].pos);
 		}
 		DrawRay(ray->midpoints[ray->trail].pos, ray->tail.pos);
 
@@ -231,7 +184,7 @@ void _RayUpdate(Ray* ray) {
 		DrawRay(ray->head.pos, ray->tail.pos);
 
 	}
-	ray->color.a--;
+	ray->color.a-= ray->fadeStrength;
 }
 void RayUpdate(float _wx, float _wy) {
 	wx = _wx;
