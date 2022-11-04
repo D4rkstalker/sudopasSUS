@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include "walls.h"
 #include "game.h"
+#include <stdlib.h>
 
 
 #define ENEMY_COUNT (10)
@@ -28,33 +29,42 @@ void enemy_place() {
 	for (int i = 0; i < ENEMY_COUNT; ++i) {
 		enemy[i].alpha = 255;
 	}
+	// Settings of enemy world cords
 	enemy[0].x = 700;
 	enemy[0].y = 700;
+	enemy[1].x = 2000;
+	enemy[1].y = 1500;
 }
 
 void enemy_draw() {
 	for (int i = 0; i < ENEMY_COUNT; ++i) {
+		CP_Settings_NoStroke();
 		CP_Settings_Fill(CP_Color_Create(255, 70, 84, enemy[i].alpha));
 		CP_Graphics_DrawCircle(enemy[i].x + WorldX, enemy[i].y + WorldY, 25);
-		//Trigger box
-		CP_Graphics_DrawRect(enemy[i].x + WorldX, enemy[i].y + WorldY, 25, 25);
+		
+		// Draw cords for debugging
+		CP_Settings_TextSize(20.0f);
+		char buffer3[100] = { 0 };
+		sprintf_s(buffer3, _countof(buffer3), "X:%.0f\nY:%.0f", enemy[i].x, enemy[i].y);
+		CP_Settings_Fill(CP_Color_Create(255, 70, 84, 255));
+		CP_Font_DrawText(buffer3, enemy[i].x + WorldX, enemy[i].y + WorldY);
 	}
-	
-	
 }
 
 
 // COPY
-void enemy_kill() {
+int enemy_touch(float WorldX , float WorldY) {
 	// radius of circle
+	float x = CP_System_GetWindowWidth() / 2;
+	float y = CP_System_GetWindowHeight() / 2;
 	float radius = 25 / 2;
 	for (int i = 0; i < ENEMY_COUNT; ++i) { 
-		if (player1.x - (enemy[i].x + WorldX) <= 25 && player1.y - (enemy[i].y + WorldY) <= 25) {
-			enemy[i].alpha = 0;
+		if ( x - WorldX - enemy[i].x >= -25 && x - WorldX - enemy[i].x <= 25 && y - WorldY - enemy[i].y >= 25 && y - WorldY - enemy[i].y <= -25) {
+			enemy[i].x += 50;
+			return 1;
 		}
 	}
-
-
+	return 0;
 }
 
 float timer;
@@ -148,32 +158,6 @@ void enemy_update(void) {
 	CP_Graphics_DrawCircle(950, 500, 25);
 
 	enemy_move(950, 500, 600, 600, timer);
-	timer -= 1;
-
-	// movement function
-	movement();
-
-	enemy_place;
-
-
-
-	//Creating Rays with KEY_J
-	if (CP_Input_KeyTriggered(KEY_J)) {
-		CP_Color color = CP_Color_Create(122, 89, 156, 155);
-		for (int i = 0; i < 36; i++) {
-			CP_Vector v = AngleToVector(i * 10.0);
-			CreateRay(player1.x, player1.y, 50, v.x * 200, v.y * 200,1, color);
-
-		}
-	}
-	RayUpdate(0 ,0);
-	//
-	
-
-	// Press Q to Exit
-	if (CP_Input_KeyDown(KEY_Q)) {
-		CP_Engine_Terminate();
-	}
 
 }
 

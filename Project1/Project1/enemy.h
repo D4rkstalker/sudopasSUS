@@ -4,6 +4,9 @@
 void enemy_init(void);
 void enemy_update(void);
 void enemy_exit(void);
+void enemy_place(void);
+void enemy_draw(void);
+int enemy_touch(float WorldX, float WorldY);
 
 typedef struct ENEMY {
 	float x;

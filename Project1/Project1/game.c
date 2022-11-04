@@ -46,7 +46,7 @@ void DrawEnergy(void) {
 	else if (alpha <= 240) {
 		alpha += 15;
 	}
-
+	CP_Settings_NoStroke();
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	CP_Graphics_DrawRect(barx, bary, barw, barh);
 	CP_Settings_Fill(CP_Color_Create(240, 240, 240, alpha));
@@ -128,7 +128,7 @@ void CheckControls(void) {
 			CP_Vector outv = CP_Vector_Normalize(CP_Vector_Subtract(CP_Vector_Set(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY), CP_Vector_Set(player1.x,player1.y)));
 			float a = CP_Vector_Angle(outv, CP_Vector_Set(WorldX,WorldY));
 			for (int i = 0; i < 1; i++) {
-				CP_Vector v = AngleToVector(i * 1);
+				CP_Vector v = AngleToVector(i * 1);	
 				CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200,5, color);
 
 
@@ -152,7 +152,7 @@ void CheckControls(void) {
 
 		for (int i = 0; i < 36; i++) {
 			CP_Vector v = AngleToVector(i * 10);
-			CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200,5, color);
+			CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 400, v.y * 400,5, color);
 
 
 		}
@@ -232,7 +232,10 @@ void subgame_update(void) {
 
 	//2.5 draw Enemy
 	enemy_draw();
-	enemy_kill();
+	if (enemy_touch(WorldX, WorldY) == 1) {
+		enemy[0].alpha = 0;
+	}
+	
 
 	//3rd draw layer, the raycast
 	RayUpdate(WorldX, WorldY);
@@ -271,10 +274,9 @@ void subgame_update(void) {
 	// World coords on mouse
 	CP_Settings_TextSize(20.0f);
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	char buffer[50] = { 0 };
 	char buffer2[100] = { 0 };
-	sprintf_s(buffer2, _countof(buffer2), "X:%.0f\nY:%.0f", CP_Input_GetMouseX() + WorldX, CP_Input_GetMouseY() + WorldY );
-	CP_Font_DrawText(buffer2, CP_Input_GetMouseX() - 15, CP_Input_GetMouseY() - 15);
+	sprintf_s(buffer2, _countof(buffer2), "X:%.0f\nY:%.0f", CP_Input_GetMouseX() - WorldX, CP_Input_GetMouseY() - WorldY );
+	CP_Font_DrawText(buffer2, CP_Input_GetMouseX(), CP_Input_GetMouseY() - 20);
 	
 
 }
