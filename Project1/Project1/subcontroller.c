@@ -14,18 +14,16 @@ void theVolume(void) {
 	
 	if ((CP_Input_KeyDown(KEY_RIGHT_CONTROL) || CP_Input_KeyDown(KEY_LEFT_CONTROL)) && CP_Input_KeyTriggered(KEY_RIGHT)) { // Increase volume
 
-		if (Volume1.sound <= 1) {
-			Volume1.sound += 0.1;
-			CP_Sound_SetGroupVolume(CP_SOUND_GROUP_0, Volume1.sound);
+		if (volume < 1) {
+			volume += 0.1;
 		}
 	}
 
 	if ((CP_Input_KeyDown(KEY_RIGHT_CONTROL) || CP_Input_KeyDown(KEY_LEFT_CONTROL)) && CP_Input_KeyTriggered(KEY_LEFT)) { // Decrease volume
 
 
-		if (Volume1.sound >= 0) {
-			Volume1.sound -= 0.1;
-			CP_Sound_SetGroupVolume(CP_SOUND_GROUP_0, Volume1.sound);
+		if (volume > 0.01) {
+			volume -= 0.1;
 		}
 	}
 
@@ -48,8 +46,11 @@ void wallScale() {
 }
 
 void movement(void) {
+
+	theVolume();
+
 	if (CP_Input_KeyTriggered(KEY_T)) {
-		CP_Sound_PlayAdvanced(ping, Volume1.sound, 1.0f, TRUE, CP_SOUND_GROUP_0);
+		CP_Sound_PlayAdvanced(ping, volume , 1.0f, TRUE, CP_SOUND_GROUP_0);
 	}
 
 
@@ -161,7 +162,7 @@ void controller_init(void) {
 	player1.x = center_x;
 	player1.y = center_y;
 	
-	Volume1.sound = 1;
+	volume = 0.1;
 
 	
 }

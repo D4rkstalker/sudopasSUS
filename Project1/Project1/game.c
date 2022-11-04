@@ -122,7 +122,8 @@ void CheckControls(void) {
 
 
 			energy -= 30;
-			CP_Sound_PlayAdvanced(ping, 0.3, 1, FALSE, 1);
+			CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 1);
+			printf("%f\n", volume);
 
 
 		}
@@ -177,7 +178,7 @@ void subgame_init(void) {
 	CP_Settings_BlendMode(CP_BLEND_ALPHA);
 
 	Sound_Init();
-	CP_Sound_PlayAdvanced(introsound, 0.3, 1.0, FALSE, 7);
+	CP_Sound_PlayAdvanced(introsound, volume, 1.0, FALSE, 7);
 
 	//set up sound cast system
 	loadwalls();
