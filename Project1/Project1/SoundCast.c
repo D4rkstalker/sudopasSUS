@@ -26,7 +26,7 @@ Particle CreateParticle(float x, float y, float velx, float vely, CP_Color color
 	Particle part = particles[particleCount];
 	particleCount++;
 	if (particleCount > MAXPARTICLES) {
-		particleCount = 0;
+		particleCount -= MAXPARTICLES;
 	}
 	part.pos.x = x;
 	part.pos.y = y;
@@ -42,39 +42,43 @@ Particle CreateParticle(float x, float y, float velx, float vely, CP_Color color
 }
 
 void AddMidpoint(Ray* ray, int posx, int posy) {
-	Particle part = CreateParticle(posx, posy, 0, 0, ray->color, true, false, false);
+	Particle part = CreateParticle(posx, posy, ray->head.vel.x, ray->head.vel.y, ray->color, true, false, false);
 	ray->midpoints[ray->mids] = part;
 	ray->mids++;
-	//if (ray->mids > MAXBOUNCES) {
-	//	ray->mids = 0;
-	//}
+	if (ray->mids > MAXBOUNCES) {
+		ray->mids -= MAXBOUNCES;
+	}
 }
 
 void RemoveMidpoint(Ray* ray) {
 
 	ray->midpoints[ray->trail].color.a = 0;
+	ray->tail.vel = ray->midpoints[ray->trail].vel;
 	ray->trail++;
-	//if (ray->trail > MAXBOUNCES) {
-	//	ray->trail = 0;
-	//}
+	if (ray->trail > MAXBOUNCES) {
+		ray->trail -= MAXBOUNCES;
+	}
 
 }
 
-void CreateRay(float x, float y, int length, int velx, int vely,int fade, CP_Color color) {
-	Ray* ray = &rays[rayCount];
+void CreateRay(float x, float y, int length, int velx, int vely, int fade, CP_Color color) {
+	Ray ray = {0};
+	ray.color = color;
 
-	ray->color = color;
+	Particle head = CreateParticle(x, y, velx, vely, ray.color, false, true, false);
+	Particle tail = CreateParticle(x, y, velx, vely, ray.color, true, false, true);
+	ray.mids = 0;
+	ray.trail = 0;
 
-	Particle head = CreateParticle(x, y, velx, vely, ray->color, false, true, false);
-	Particle tail = CreateParticle(x, y, velx, vely, ray->color, true, false, true);
-	ray->mids = 0;
-	ray->trail = 0;
-
-	ray->head = head;
-	ray->tail = tail;
-	ray->fadeStrength = fade;
-	ray->maxLength = length;
+	ray.head = head;
+	ray.tail = tail;
+	ray.fadeStrength = fade;
+	ray.maxLength = length;
+	rays[rayCount] = ray;
 	rayCount++;
+	if (rayCount > MAXRAYS) {
+		rayCount -= MAXRAYS;
+	}
 }
 
 
@@ -89,7 +93,7 @@ bool CheckCollision(Ray* ray, Particle* part, CP_Vector* newPos, float* time) {
 
 		if ((CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, wall[i].pos2.x, wall[i].pos2.y)
 			- CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, part->pos.x, part->pos.y)
-			- CP_Math_Distance(wall[i].pos2.x, wall[i].pos2.y, part->pos.x, part->pos.y)) > -0.5 && part->prevID != i) {
+			- CP_Math_Distance(wall[i].pos2.x, wall[i].pos2.y, part->pos.x, part->pos.y)) > -FUZZYNESS && part->prevID != i || CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, part->pos.x, part->pos.y) <2* FUZZYNESS || CP_Math_Distance(wall[i].pos2.x, wall[i].pos2.y, part->pos.x, part->pos.y) < 2*FUZZYNESS){
 			part->prevID = i;
 
 
@@ -171,11 +175,21 @@ void _RayUpdate(Ray* ray) {
 
 	}
 
-	else if (ray->mids - ray->trail > 1) {
-		DrawRay(ray->head.pos, ray->midpoints[ray->mids-1].pos);
+	else if (abs(ray->mids - ray->trail) > 1) {
+		DrawRay(ray->head.pos, ray->midpoints[ray->mids - 1].pos);
+		if (ray->mids < ray->trail) {
+			for (int i = ray->trail; i < MAXBOUNCES -1; i++) {
+				DrawRay(ray->midpoints[i].pos, ray->midpoints[i + 1].pos);
+			}
+			for (int i = 0; i < ray->mids -1; i++) {
+				DrawRay(ray->midpoints[i].pos, ray->midpoints[i + 1].pos);
+			}
 
-		for (int i = ray->trail; i < ray->mids-1; i++) {
-			DrawRay(ray->midpoints[i].pos, ray->midpoints[i+1].pos);
+		}
+		else {
+			for (int i = ray->trail; i < ray->mids - 1; i++) {
+				DrawRay(ray->midpoints[i].pos, ray->midpoints[i + 1].pos);
+			}
 		}
 		DrawRay(ray->midpoints[ray->trail].pos, ray->tail.pos);
 
@@ -184,7 +198,7 @@ void _RayUpdate(Ray* ray) {
 		DrawRay(ray->head.pos, ray->tail.pos);
 
 	}
-	ray->color.a-= ray->fadeStrength;
+	ray->color.a -= ray->fadeStrength;
 }
 void RayUpdate(float _wx, float _wy) {
 	wx = _wx;
