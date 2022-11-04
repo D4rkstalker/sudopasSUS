@@ -6,6 +6,8 @@ Sound and music made by Nigel
 
 //sound variables
 
+float volume = 0.3;
+
 CP_Sound ping = NULL;
 CP_Sound introsound = NULL;
 CP_Sound bgm_submarine = NULL;

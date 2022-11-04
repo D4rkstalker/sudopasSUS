@@ -164,7 +164,7 @@ void enemy_update(void) {
 		CP_Color color = CP_Color_Create(122, 89, 156, 155);
 		for (int i = 0; i < 36; i++) {
 			CP_Vector v = AngleToVector(i * 10.0);
-			CreateRay(player1.x, player1.y, 50, v.x * 200, v.y * 200, color);
+			CreateRay(player1.x, player1.y, 50, v.x * 200, v.y * 200,1, color);
 
 		}
 	}

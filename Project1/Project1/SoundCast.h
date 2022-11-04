@@ -3,9 +3,10 @@
 #include "walls.h"
 #pragma once
 
-#define MAXRAYS 10000
-#define MAXBOUNCES 20
-#define MAXPARTICLES 3000
+#define MAXRAYS 1000
+#define MAXBOUNCES 200
+#define MAXPARTICLES 100
+#define FUZZYNESS 1.5
 
 typedef struct _Particle
 {
@@ -29,9 +30,10 @@ typedef struct _Ray
 	int maxLength;
 	int mids;
 	int trail;
+	int fadeStrength;
 } Ray;
 void InitScene(Wall* _walls, int _maxWalls);
 
 void RayUpdate(float wx, float wy);
-void CreateRay(float x, float y, int length, int velx, int vely, CP_Color color);
+void CreateRay(float x, float y, int length, int velx, int vely,int fade, CP_Color color);
 
