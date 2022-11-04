@@ -7,6 +7,7 @@
 #include "music.h"
 #include <stdio.h>
 #include "subcontroller.h"
+#include <math.h>
 
 //Ray cast stuff -HQ
 float particleSize = 3.0f;
@@ -24,7 +25,7 @@ float WorldX = 0;
 float WorldY = 0;
 
 void DrawEnergy(void) {
-	
+
 	CP_Settings_RectMode(CP_POSITION_CORNER);
 	float alpha = 255;
 	float barx = CP_System_GetDisplayWidth() / 2 + 50;
@@ -42,7 +43,7 @@ void DrawEnergy(void) {
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	CP_Graphics_DrawRect(barx, bary, barw, barh);
 	CP_Settings_Fill(CP_Color_Create(240, 240, 240, alpha));
-	CP_Graphics_DrawRect(barx, bary, barw, barh * ((float)energy/100));
+	CP_Graphics_DrawRect(barx, bary, barw, barh * ((float)energy / 100));
 }
 
 void CheckControls(void) {
@@ -73,27 +74,29 @@ void CheckControls(void) {
 	//HQ stuff
 
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
-		if (clicked) {
-			clicked = false;
-			if (energy > 30) {
-				CP_Color color = CP_Color_Create(90, 180, 77, 155);
-				//CP_Vector v = AngleToVector(90);
-				//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
-				CP_Vector outv = CP_Vector_Normalize( CP_Vector_Subtract(CP_Vector_Set(CP_Input_GetMouseWorldX()-WorldX, CP_Input_GetMouseWorldY()-WorldY),click1));
-				CreateRay(click1.x, click1.y, 50, outv.x * 400, outv.y * 400, color);
+		if (energy > 30) {
+			CP_Color color = CP_Color_Create(90, 180, 77, 155);
+			//CP_Vector v = AngleToVector(90);a
+			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+			CP_Vector outv = CP_Vector_Normalize(CP_Vector_Subtract(CP_Vector_Set(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY), CP_Vector_Set(player1.x,player1.y)));
+			float a = CP_Vector_Angle(outv, CP_Vector_Set(WorldX,WorldY));
+			for (int i = 0; i < 36; i++) {
+				CP_Vector v = AngleToVector(i * 1);
+				CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
 
-				
-				energy -= 30;
-				CP_Sound_PlayAdvanced(ping, 0.3, 1, FALSE, 1);
+
 			}
 
+			CreateRay(click1.x, click1.y, 50, outv.x * 400, outv.y * 400, color);
+
+
+			energy -= 30;
+			CP_Sound_PlayAdvanced(ping, 0.3, 1, FALSE, 1);
+
+
 		}
-		else {
-			clicked = true;
-			click1 = CP_Vector_Set(CP_Input_GetMouseWorldX()-WorldX, CP_Input_GetMouseWorldY()-WorldY);
-		}
-		
-		
+
+
 	}
 	else if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) {
 		CP_Color color = CP_Color_Create(255, 50, 50, 255);
@@ -138,7 +141,7 @@ void CheckControls(void) {
 
 
 void subgame_init(void) {
-	CP_System_SetWindowSize(1920,1080);
+	CP_System_SetWindowSize(1920, 1080);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_BlendMode(CP_BLEND_ALPHA);
 
@@ -148,7 +151,7 @@ void subgame_init(void) {
 	//set up sound cast system
 	loadwalls();
 	// Player initialisation
-	
+
 }
 
 void subgame_update(void) {
@@ -160,7 +163,7 @@ void subgame_update(void) {
 	DrawWalls();
 
 	//3rd draw layer, the raycast
-	RayUpdate(WorldX,WorldY);
+	RayUpdate(WorldX, WorldY);
 	//4th draw layer, the UI for the game
 	DrawEnergy();
 	if (energy < 100) energy += 1;
@@ -181,7 +184,7 @@ void subgame_update(void) {
 
 	tutorial_message();
 
-	
+
 
 }
 

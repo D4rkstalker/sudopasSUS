@@ -37,6 +37,7 @@ Particle CreateParticle(float x, float y, float velx, float vely, CP_Color color
 	part.isHead = head;
 	part.isTail = tail;
 	part.collide = true;
+	part.prevID = -1;
 	return part;
 }
 
@@ -83,14 +84,12 @@ void ParticleDisplay(Particle* part, int size)
 
 
 bool CheckCollision(Ray* ray, Particle* part, CP_Vector* newPos, float* time) {
-	if (!part->collide) {
-		return false;
-	}
 	for (int i = 0; i < CWall; i++) {
+
 		if ((CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, wall[i].pos2.x, wall[i].pos2.y)
 			- CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, part->pos.x, part->pos.y)
-			- CP_Math_Distance(wall[i].pos2.x, wall[i].pos2.y, part->pos.x, part->pos.y)) > -0.5) {
-
+			- CP_Math_Distance(wall[i].pos2.x, wall[i].pos2.y, part->pos.x, part->pos.y)) > -0.5 && part->prevID != i) {
+			part->prevID = i;
 
 
 			CP_Vector Vwall = CP_Vector_Normalize(CP_Vector_Subtract(wall[i].pos2, wall[i].pos1));
