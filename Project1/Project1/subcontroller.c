@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "cprocessing.h"
 #include "subcontroller.h"
 #include "game.h"
@@ -8,24 +9,24 @@
 int isPaused = 0;
 int isMap = 0;
 
+#define MAXSPEED 10
+
 
 
 void theVolume(void) {
 	
 	if ((CP_Input_KeyDown(KEY_RIGHT_CONTROL) || CP_Input_KeyDown(KEY_LEFT_CONTROL)) && CP_Input_KeyTriggered(KEY_RIGHT)) { // Increase volume
 
-		if (Volume1.sound <= 1) {
-			Volume1.sound += 0.1;
-			CP_Sound_SetGroupVolume(CP_SOUND_GROUP_0, Volume1.sound);
+		if (volume < 1) {
+			volume += 0.1;
 		}
 	}
 
 	if ((CP_Input_KeyDown(KEY_RIGHT_CONTROL) || CP_Input_KeyDown(KEY_LEFT_CONTROL)) && CP_Input_KeyTriggered(KEY_LEFT)) { // Decrease volume
 
 
-		if (Volume1.sound >= 0) {
-			Volume1.sound -= 0.1;
-			CP_Sound_SetGroupVolume(CP_SOUND_GROUP_0, Volume1.sound);
+		if (volume > 0.01) {
+			volume -= 0.1;
 		}
 	}
 
@@ -48,8 +49,11 @@ void wallScale() {
 }
 
 void movement(void) {
+
+	theVolume();
+
 	if (CP_Input_KeyTriggered(KEY_T)) {
-		CP_Sound_PlayAdvanced(ping, Volume1.sound, 1.0f, TRUE, CP_SOUND_GROUP_0);
+		CP_Sound_PlayAdvanced(ping, volume , 1.0f, TRUE, CP_SOUND_GROUP_0);
 	}
 
 
@@ -83,7 +87,7 @@ void movement(void) {
 		}
 		else {
 			if (CP_Input_KeyDown(KEY_W)) {
-				player1.acceleration_y += 1;
+				player1.acceleration_y += (MAXSPEED - player1.acceleration_y) / MAXSPEED;
 				player1.velocity_y -= player1.acceleration_y * 0.1;
 
 			}
@@ -95,7 +99,7 @@ void movement(void) {
 
 			if (CP_Input_KeyDown(KEY_S)) {
 
-				player1.acceleration_y += 1;
+				player1.acceleration_y += (MAXSPEED - player1.acceleration_y) / MAXSPEED;
 				player1.velocity_y += player1.acceleration_y * 0.1;
 
 			}
@@ -111,7 +115,7 @@ void movement(void) {
 		}
 		else {
 			if (CP_Input_KeyDown(KEY_D)) {
-				player1.acceleration_x += 1;
+				player1.acceleration_x += (MAXSPEED - player1.acceleration_x) / MAXSPEED;
 				player1.velocity_x += player1.acceleration_x * 0.1;
 			}
 			else if (CP_Input_KeyReleased(KEY_D)) {
@@ -121,8 +125,8 @@ void movement(void) {
 
 			}
 			if (CP_Input_KeyDown(KEY_A)) {
-				player1.acceleration_x -= 1;
-				player1.velocity_x += player1.acceleration_x * 0.1;
+				player1.acceleration_x += (MAXSPEED - player1.acceleration_x) / MAXSPEED;
+				player1.velocity_x -= player1.acceleration_x * 0.1;
 
 			}
 			else if (CP_Input_KeyReleased(KEY_A)) {
@@ -142,7 +146,7 @@ void movement(void) {
 	if (isMap) {
 		CP_Settings_Fill(CP_Color_Create(188, 158, 130, 255));
 		CP_Settings_RectMode(CP_POSITION_CORNER);
-		CP_Graphics_DrawRect(CP_System_GetDisplayWidth() / 4, CP_System_GetDisplayHeight() / 4, CP_System_GetDisplayWidth() / 2, CP_System_GetDisplayHeight() / 2);
+		CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 4, CP_System_GetWindowHeight() / 4, CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2);
 		wallScale();
 	}
 
@@ -161,7 +165,7 @@ void controller_init(void) {
 	player1.x = center_x;
 	player1.y = center_y;
 	
-	Volume1.sound = 1;
+	volume = 0.1;
 
 	
 }
