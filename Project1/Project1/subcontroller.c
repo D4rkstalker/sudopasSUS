@@ -8,9 +8,38 @@
 
 int isPaused = 0;
 int isMap = 0;
-
+int isVolume = 0;
 #define MAXSPEED 10
 
+CP_Vector mouseMovement;
+
+void checkMouse(CP_Vector volumeMin, CP_Vector volumeMax) {
+	CP_Vector distvect = CP_Vector_Subtract(volumeMax, volumeMin);
+	CP_Vector dirvect = CP_Vector_Normalize(distvect);
+
+
+	if ((CP_Input_MouseDown(MOUSE_BUTTON_LEFT))) {
+		float mouseX = CP_Input_GetMouseX();
+		float mouseY = CP_Input_GetMouseY();
+
+		if (mouseX >= volumeMin.x && mouseX <= volumeMax.x) {
+			if (mouseY >= volumeMin.y - 5 && mouseY <= volumeMin.y + 5) {
+				for (int i = 0; ((i * dirvect.x) + volumeMin.x) < volumeMax.x; i++) {
+					if (mouseX == (i * dirvect.x) + volumeMin.x) {
+						mouseMovement = CP_Vector_Set(mouseX, volumeMin.y);
+						volume = 0.1 * i;
+					}
+
+				}
+			}
+		}
+
+
+
+
+	}
+
+}
 
 
 void theVolume(void) {
@@ -78,7 +107,17 @@ void movement(void) {
 
 	}
 	
+	if (CP_Input_KeyTriggered(KEY_ESCAPE)) {
+		if (!isVolume) {
+			isVolume = 1;
+			isPaused = 1;
+		}
+		else {
+			isVolume = 0;
+			isPaused = 0;
 
+		}
+	}
 	if (!isPaused) {
 		
 		if (CP_Input_KeyDown(KEY_W) && CP_Input_KeyDown(KEY_S)) {
@@ -138,6 +177,9 @@ void movement(void) {
 			if (wallcollision()) {
 				return;
 			}
+
+			
+
 		WorldX -= player1.velocity_x;
 		WorldY -= player1.velocity_y;
 		player1.velocity_y *= 0.9;
@@ -150,6 +192,25 @@ void movement(void) {
 		wallScale();
 	}
 
+	if (isVolume) {
+		CP_Settings_Fill(CP_Color_Create(155, 155, 155, 255));
+		CP_Settings_RectMode(CP_POSITION_CORNER);
+		float screenborderX = CP_System_GetWindowWidth() / 4;
+		float screenborderY = CP_System_GetWindowHeight() / 4;
+		float screensizeX = CP_System_GetWindowWidth() / 2;
+		float screensizeY = CP_System_GetWindowHeight() / 2;
+
+		CP_Vector volumeMin = CP_Vector_Set(screenborderX + screensizeX / 4, screenborderY + screensizeY / 2);
+		CP_Vector volumeMax = CP_Vector_Set(screenborderX + screensizeX - (screensizeX / 4), screenborderY + screensizeY - (screensizeY / 2));
+		CP_Graphics_DrawRect(screenborderX, screenborderY, screensizeX, screensizeY);
+
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+		CP_Graphics_DrawLine(volumeMin.x, volumeMin.y, volumeMax.x, volumeMax.y);
+		checkMouse(volumeMin, volumeMax);
+		CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+		CP_Graphics_DrawCircle(mouseMovement.x, mouseMovement.y, 25);
+	}
+
 //	RayUpdate(0,0);
 }
 
@@ -159,13 +220,13 @@ void controller_init(void) {
 	
 	CP_System_SetWindowSize(1920, 1080);
 	CP_Settings_EllipseMode(CP_POSITION_CENTER);
-	float center_x = CP_System_GetDisplayWidth() / 2;
-	float center_y = CP_System_GetDisplayHeight() / 2;
+	float center_x = CP_System_GetWindowWidth() / 2;
+	float center_y = CP_System_GetWindowHeight() / 2;
 	Sound_Init();
 	player1.x = center_x;
 	player1.y = center_y;
 	
-	volume = 0.1;
+	volume = 1;
 
 	
 }
@@ -176,15 +237,15 @@ void controller_update(void) {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	if (player1.x > (float)CP_System_GetDisplayWidth()) {
-		player1.x = (float)CP_System_GetDisplayWidth();
+	if (player1.x > (float)CP_System_GetWindowWidth()) {
+		player1.x = (float)CP_System_GetWindowWidth();
 	}
 	else if (WorldX < 0) {
 		player1.x = 0;
 	}
 
-	if (player1.y > (float)CP_System_GetDisplayHeight()) {
-		player1.y = (float)CP_System_GetDisplayHeight();
+	if (player1.y > (float)CP_System_GetWindowHeight()) {
+		player1.y = (float)CP_System_GetWindowHeight();
 	}
 	else if (player1.y < 0) {
 		player1.y = 0;
