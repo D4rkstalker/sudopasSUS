@@ -159,6 +159,15 @@ void enemy_update(void) {
 
 	enemy_move(950, 500, 600, 600, timer);
 
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	CP_Settings_TextSize(20.0f);
+	CP_Font_DrawText("[K] RETURN TO GAME", 20, 20);
+	if (CP_Input_KeyTriggered(KEY_K))
+	{
+		CP_Engine_SetNextGameState(subgame_init, subgame_update, subgame_exit);
+
+	}
+
 }
 
 void enemy_exit(void) {

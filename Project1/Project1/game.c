@@ -55,7 +55,35 @@ void DrawEnergy(void) {
 
 void CheckControls(void) {
 
-	if (CP_Input_KeyTriggered(KEY_L)) {
+	/*
+	
+	LIST OF OUR HOTKEYS
+
+	[0] DEBUG MODE
+	[T] DRAW LINE
+	[Y] DRAW TRIANGLE
+	[U] PLACE POINT(S)
+	[I] DRAW POINTS
+	[P] SAVE MAP
+	[Z] UNDO LAST PLACED WALL
+
+	[M1] FOCUSED BEAM
+	[M2] AOE BEAM
+	[M3] AOE BEAM
+
+	[N] AOE BEAM FROM PLAYER
+
+	[L] MR TEST
+	[K] ENEMY TEST
+
+	[M] MINI MAP
+	[Space] Pause
+	[Esc] Settings
+	[Q] Quit Game
+	
+	*/
+
+	if (CP_Input_KeyTriggered(KEY_0)) {
 		if (debug == 0) {
 			debug = 1;
 		}
@@ -114,7 +142,7 @@ void CheckControls(void) {
 		Wall_Init(CP_Input_GetMouseX() - WorldX, CP_Input_GetMouseY() - WorldY);
 	}
 
-	if (CP_Input_KeyTriggered(KEY_S)) {
+	if (CP_Input_KeyTriggered(KEY_P)) {
 		savewalls();
 	}
 
@@ -191,14 +219,30 @@ void CheckControls(void) {
 		}
 	}
 
-	if (CP_Input_KeyTriggered(KEY_Q))
-	{
-		CP_Engine_SetNextGameState(mainmenu_init, mainmenu_update, mainmenu_exit);
-	}
+
 
 	if (CP_Input_KeyTriggered(KEY_Z)) {
 		UndoWall();
 	}
+
+	// MR's controller testing 
+	if (CP_Input_KeyTriggered(KEY_L))
+	{
+		CP_Engine_SetNextGameState(controller_init, controller_update, controller_exit);
+
+	}
+
+	if (CP_Input_KeyTriggered(KEY_K))
+	{
+		CP_Engine_SetNextGameState(enemy_init, enemy_update, enemy_exit);
+
+	}
+
+	if (CP_Input_KeyTriggered(KEY_Q))
+	{
+		CP_Engine_Terminate();
+	}
+
 
 }
 
@@ -224,6 +268,28 @@ void subgame_update(void) {
 
 	//1st draw layer, clear the background
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
+
+
+	//CONTROL SCHEME FOR TESTING
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	CP_Settings_TextSize(20.0f);
+	CP_Font_DrawText("[0] DEBUG MODE", 20, 20);
+	CP_Font_DrawText("[T] DRAW LINE", 20, 40);
+	CP_Font_DrawText("[Y] DRAW TRIANGLE", 20, 60);
+	CP_Font_DrawText("[U] PLACE POINT(S)", 20, 80);
+	CP_Font_DrawText("[I] DRAW POINTS", 20, 100);
+	CP_Font_DrawText("[P] SAVE MAP", 20, 120);
+	CP_Font_DrawText("[Z] UNDO LAST PLACED WALL", 20, 140);
+	CP_Font_DrawText("[M1] FOCUSED BEAM", 20, 200);
+	CP_Font_DrawText("[M2] AOE BEAM", 20, 220);
+	CP_Font_DrawText("[M3] AOE BEAM", 20, 240);
+	CP_Font_DrawText("[N] AOE BEAM FROM PLAYER", 20, 260);
+	CP_Font_DrawText("[L] MR TEST", 20, 300);
+	CP_Font_DrawText("[K] ENEMY TEST", 20, 320);
+	CP_Font_DrawText("[M] MINI MAP", 20, 360);
+	CP_Font_DrawText("[Space] Pause", 20, 380);
+	CP_Font_DrawText("[Esc] Settings", 20, 400);
+	CP_Font_DrawText("[Q] Quit Game", 20, 420);
 
 	//2nd draw layer, the walls of the game
 	if (debug == 1) {
