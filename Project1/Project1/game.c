@@ -9,6 +9,9 @@
 #include "subcontroller.h"
 #include <math.h>
 
+//debug wall flag
+int debug = 1;
+
 //Ray cast stuff -HQ
 float particleSize = 3.0f;
 
@@ -47,6 +50,15 @@ void DrawEnergy(void) {
 }
 
 void CheckControls(void) {
+
+	if (CP_Input_KeyTriggered(KEY_L)) {
+		if (debug == 0) {
+			debug = 1;
+		}
+		else {
+			debug = 0;
+		}
+	}
 
 	/*
 	Made by Nigel
@@ -155,7 +167,24 @@ void CheckControls(void) {
 
 		}
 
+	}
 
+	if (CP_Input_KeyTriggered(KEY_N)) {
+		if (energy > 30) {
+			CP_Color color = CP_Color_Create(0, 255, 0, 255);
+			//CP_Vector v = AngleToVector(0);
+			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+
+			for (int i = 0; i < 36; i++) {
+				CP_Vector v = AngleToVector(i * 10);
+				CreateRay(-WorldX + CP_System_GetWindowWidth() / 2, -WorldY + CP_System_GetWindowHeight() / 2, 50, v.x * 200, v.y * 200, 1, color);
+
+
+			}
+
+			energy -= 30;
+			CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 1);
+		}
 	}
 
 	if (CP_Input_KeyTriggered(KEY_Q))
@@ -191,7 +220,9 @@ void subgame_update(void) {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
 	//2nd draw layer, the walls of the game
-	DrawWalls();
+	if (debug == 1) {
+		DrawWalls();
+	}
 
 	//3rd draw layer, the raycast
 	RayUpdate(WorldX, WorldY);
