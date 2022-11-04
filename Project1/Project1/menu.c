@@ -1,7 +1,11 @@
 #include "cprocessing.h"
+#pragma once
 #include "menu.h"
-#define TutorialWalls (10)
 #include "subcontroller.h"
+
+
+#define TutorialWalls (10)
+
 
 double title_alpha = -100;
 double tutorial_alpha = 0;
