@@ -7,6 +7,8 @@ typedef struct Wall {
 	CP_Vector pos2;
 } Wall;
 
+int debug;
+
 float WorldX;
 float WorldY;
 

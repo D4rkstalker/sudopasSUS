@@ -9,6 +9,9 @@
 #include "subcontroller.h"
 #include <math.h>
 
+//debug wall flag
+int debug = 1;
+
 //Ray cast stuff -HQ
 float particleSize = 3.0f;
 
@@ -47,6 +50,15 @@ void DrawEnergy(void) {
 }
 
 void CheckControls(void) {
+
+	if (CP_Input_KeyTriggered(KEY_L)) {
+		if (debug == 0) {
+			debug = 1;
+		}
+		else {
+			debug = 0;
+		}
+	}
 
 	/*
 	Made by Nigel
@@ -191,7 +203,9 @@ void subgame_update(void) {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
 	//2nd draw layer, the walls of the game
-	DrawWalls();
+	if (debug == 1) {
+		DrawWalls();
+	}
 
 	//3rd draw layer, the raycast
 	RayUpdate(WorldX, WorldY);
