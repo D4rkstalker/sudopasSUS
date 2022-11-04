@@ -123,7 +123,6 @@ void CheckControls(void) {
 
 			energy -= 30;
 			CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 1);
-			printf("%f\n", volume);
 
 
 		}
