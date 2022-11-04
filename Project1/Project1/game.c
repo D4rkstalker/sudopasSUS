@@ -9,6 +9,7 @@
 #include "subcontroller.h"
 #include <math.h>
 #include "enemy.h"
+#include <stdlib.h>
 
 //debug wall flag
 int debug = 1;
@@ -126,7 +127,7 @@ void CheckControls(void) {
 			float a = CP_Vector_Angle(outv, CP_Vector_Set(WorldX,WorldY));
 			for (int i = 0; i < 1; i++) {
 				CP_Vector v = AngleToVector(i * 1);
-				CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200,0, color);
+				CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200,5, color);
 
 
 			}
@@ -149,7 +150,7 @@ void CheckControls(void) {
 
 		for (int i = 0; i < 36; i++) {
 			CP_Vector v = AngleToVector(i * 10);
-			CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200,1, color);
+			CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200,5, color);
 
 
 		}
@@ -163,7 +164,7 @@ void CheckControls(void) {
 
 		for (int i = 0; i < 36; i++) {
 			CP_Vector v = AngleToVector(i * 10);
-			CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200,1, color);
+			CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200,5, color);
 
 
 		}
@@ -254,6 +255,14 @@ void subgame_update(void) {
 	tutorial_message();
 
 
+	// World coords on mouse
+	CP_Settings_TextSize(20.0f);
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	char buffer[50] = { 0 };
+	char buffer2[100] = { 0 };
+	sprintf_s(buffer2, _countof(buffer2), "X:%.0f\nY:%.0f", CP_Input_GetMouseX() + WorldX, CP_Input_GetMouseY() + WorldY );
+	CP_Font_DrawText(buffer2, CP_Input_GetMouseX() - 15, CP_Input_GetMouseY() - 15);
+	
 
 }
 

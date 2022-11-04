@@ -57,8 +57,6 @@ void enemy_kill() {
 
 }
 
-
-
 float timer;
 
 void enemy_move(float x1, float y1, float x2, float y2, float timer) {
