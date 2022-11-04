@@ -6,9 +6,10 @@
 #include <math.h>
 #include "enemy.h"
 #include <stdbool.h>
+#include "walls.h"
+#include "game.h"
 
 
-bool player_detection;
 #define ENEMY_COUNT (10)
 
 
@@ -21,7 +22,42 @@ create a line from detection to wall, then player start position
 accelerate along line, decelerate when reaching player start position
 */
 
-ENEMY enemy[ENEMY_COUNT];
+
+// Placing enemy
+void enemy_place() {
+	for (int i = 0; i < ENEMY_COUNT; ++i) {
+		enemy[i].alpha = 255;
+	}
+	enemy[0].x = 700;
+	enemy[0].y = 700;
+}
+
+void enemy_draw() {
+	for (int i = 0; i < ENEMY_COUNT; ++i) {
+		CP_Settings_Fill(CP_Color_Create(255, 70, 84, enemy[i].alpha));
+		CP_Graphics_DrawCircle(enemy[i].x + WorldX, enemy[i].y + WorldY, 25);
+		//Trigger box
+		CP_Graphics_DrawRect(enemy[i].x + WorldX, enemy[i].y + WorldY, 25, 25);
+	}
+	
+	
+}
+
+
+// COPY
+void enemy_kill() {
+	// radius of circle
+	float radius = 25 / 2;
+	for (int i = 0; i < ENEMY_COUNT; ++i) { 
+		if (player1.x - (enemy[i].x + WorldX) <= 25 && player1.y - (enemy[i].y + WorldY) <= 25) {
+			enemy[i].alpha = 0;
+		}
+	}
+
+
+}
+
+
 
 float timer;
 
@@ -81,8 +117,10 @@ void enemy_init(void) {
 	// Player initialisation
 	float center_x = CP_System_GetDisplayWidth() / 2;
 	float center_y = CP_System_GetDisplayHeight() / 2;
-	player1.x = center_x;
-	player1.y = center_y;
+
+	for (int i = 0; i < ENEMY_COUNT; ++i) {
+		enemy[i].alpha = 255;
+	}
 
 	enemy[1].x = 600;
 	enemy[1].y = 600;
@@ -117,7 +155,7 @@ void enemy_update(void) {
 	// movement function
 	movement();
 
-	
+	enemy_place;
 
 
 
@@ -132,7 +170,7 @@ void enemy_update(void) {
 	}
 	RayUpdate(0 ,0);
 	//
-
+	
 
 	// Press Q to Exit
 	if (CP_Input_KeyDown(KEY_Q)) {

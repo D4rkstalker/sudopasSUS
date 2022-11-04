@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include "subcontroller.h"
 #include <math.h>
+#include "enemy.h"
 
 //debug wall flag
 int debug = 1;
@@ -212,6 +213,8 @@ void subgame_init(void) {
 	loadwalls();
 	// Player initialisation
 
+	// Enemy test Jon
+	enemy_place();
 }
 
 void subgame_update(void) {
@@ -223,6 +226,10 @@ void subgame_update(void) {
 	if (debug == 1) {
 		DrawWalls();
 	}
+
+	//2.5 draw Enemy
+	enemy_draw();
+	enemy_kill();
 
 	//3rd draw layer, the raycast
 	RayUpdate(WorldX, WorldY);
