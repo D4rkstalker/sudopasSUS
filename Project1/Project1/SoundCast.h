@@ -6,7 +6,7 @@
 #define MAXRAYS 1000
 #define MAXBOUNCES 200
 #define MAXPARTICLES 100
-#define FUZZYNESS 1.5
+#define FUZZYNESS 0.5
 
 typedef struct _Particle
 {
