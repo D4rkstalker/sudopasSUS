@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "cprocessing.h"
 #include "subcontroller.h"
 #include "game.h"
@@ -7,6 +8,8 @@
 
 int isPaused = 0;
 int isMap = 0;
+
+#define MAXSPEED 10
 
 
 
@@ -84,7 +87,7 @@ void movement(void) {
 		}
 		else {
 			if (CP_Input_KeyDown(KEY_W)) {
-				player1.acceleration_y += 1;
+				player1.acceleration_y += (MAXSPEED - player1.acceleration_y) / MAXSPEED;
 				player1.velocity_y -= player1.acceleration_y * 0.1;
 
 			}
@@ -96,7 +99,7 @@ void movement(void) {
 
 			if (CP_Input_KeyDown(KEY_S)) {
 
-				player1.acceleration_y += 1;
+				player1.acceleration_y += (MAXSPEED - player1.acceleration_y) / MAXSPEED;
 				player1.velocity_y += player1.acceleration_y * 0.1;
 
 			}
@@ -112,7 +115,7 @@ void movement(void) {
 		}
 		else {
 			if (CP_Input_KeyDown(KEY_D)) {
-				player1.acceleration_x += 1;
+				player1.acceleration_x += (MAXSPEED - player1.acceleration_x) / MAXSPEED;
 				player1.velocity_x += player1.acceleration_x * 0.1;
 			}
 			else if (CP_Input_KeyReleased(KEY_D)) {
@@ -122,8 +125,8 @@ void movement(void) {
 
 			}
 			if (CP_Input_KeyDown(KEY_A)) {
-				player1.acceleration_x -= 1;
-				player1.velocity_x += player1.acceleration_x * 0.1;
+				player1.acceleration_x += (MAXSPEED - player1.acceleration_x) / MAXSPEED;
+				player1.velocity_x -= player1.acceleration_x * 0.1;
 
 			}
 			else if (CP_Input_KeyReleased(KEY_A)) {
