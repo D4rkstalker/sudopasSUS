@@ -7,6 +7,7 @@
 #include "utils.h"
 #define PI 3.141592654
 #include "walls.h"
+
 const float EPSILON = 0.0000001f;
 
 
@@ -64,7 +65,6 @@ void RemoveMidpoint(Ray* ray) {
 void CreateRay(float x, float y, int length, int velx, int vely, int fade, CP_Color color) {
 	Ray ray = {0};
 	ray.color = color;
-
 	Particle head = CreateParticle(x, y, velx, vely, ray.color, false, true, false);
 	Particle tail = CreateParticle(x, y, velx, vely, ray.color, true, false, true);
 	ray.mids = 0;

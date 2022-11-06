@@ -21,7 +21,8 @@ struct Volume {
 
 
 } Volume1;
-
+float center_x;
+float center_y;
 void theVolume(void);
 void energyConsumption(void);
 void movement(void);

@@ -8,7 +8,7 @@ typedef struct Wall {
 } Wall;
 
 int debug;
-
+int energy;
 float WorldX;
 float WorldY;
 
