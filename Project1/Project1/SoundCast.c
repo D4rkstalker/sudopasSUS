@@ -7,6 +7,7 @@
 #include "utils.h"
 #define PI 3.141592654
 #include "walls.h"
+#include "subcontroller.h"
 
 const float EPSILON = 0.0000001f;
 
@@ -129,7 +130,7 @@ bool CheckCollision(Ray* ray, Particle* part, CP_Vector* newPos, float* time) {
 void ParticleUpdate(Particle* part, Ray* ray)
 {
 	// move particle based on velocity and correct for wall collisions
-	if (part->isStatic) {
+	if (part->isStatic || isPaused) {
 		return;
 	}
 	float time = CP_System_GetDt();
@@ -168,7 +169,7 @@ void DrawRay(CP_Vector v1, CP_Vector v2) {
 	CP_Graphics_DrawLine(v1.x + wx, v1.y + wy, v2.x + wx, v2.y + wy);
 }
 void _RayUpdate(Ray* ray) {
-	if (ray->color.a <= ray->fadeStrength) return;
+	if (ray->color.a <= ray->fadeStrength + ray->bounces) return;
 	if (ray->length < ray->maxLength) {
 		ray->length++;
 	}
@@ -211,7 +212,7 @@ void _RayUpdate(Ray* ray) {
 		DrawRay(ray->head.pos, ray->tail.pos);
 
 	}
-	ray->color.a -= ray->fadeStrength;
+	ray->color.a -= ray->fadeStrength + ray->bounces;
 }
 void RayUpdate(float _wx, float _wy) {
 	wx = _wx;
