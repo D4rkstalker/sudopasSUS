@@ -62,7 +62,7 @@ void RemoveMidpoint(Ray* ray) {
 
 }
 
-void CreateRay(float x, float y, int length, int velx, int vely, int fade, CP_Color color) {
+void CreateRay(float x, float y, int length, int velx, int vely, int fade, CP_Color color, bool trackToSource) {
 	Ray ray = {0};
 	ray.color = color;
 	Particle head = CreateParticle(x, y, velx, vely, ray.color, false, true, false);
@@ -74,6 +74,8 @@ void CreateRay(float x, float y, int length, int velx, int vely, int fade, CP_Co
 	ray.tail = tail;
 	ray.fadeStrength = fade;
 	ray.maxLength = length;
+	ray.trackToSource = trackToSource;
+	ray.bounces = 0;
 	rays[rayCount] = ray;
 	rayCount++;
 	if (rayCount > MAXRAYS) {
@@ -133,6 +135,7 @@ void ParticleUpdate(Particle* part, Ray* ray)
 		CP_Vector newPos = CP_Vector_Set(part->pos.x + part->vel.x * time, part->pos.y + part->vel.y * time);
 		float newTime = time;
 		if (CheckCollision(ray, part, &newPos, &time)) {
+			ray->bounces++;
 			if (part->isHead) {
 				AddMidpoint(ray, part->pos.x, part->pos.y);
 

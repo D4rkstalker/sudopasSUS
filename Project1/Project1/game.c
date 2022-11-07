@@ -157,7 +157,7 @@ void CheckControls(void) {
 			float a = CP_Vector_Angle(outv, CP_Vector_Set(WorldX,WorldY));
 			for (int i = 0; i < 1; i++) {
 				CP_Vector v = AngleToVector(i * 1);	
-				CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x * 200, v.y * 200,5, color);
+				CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x * 200, v.y * 200,5, color,true);
 
 
 			}
@@ -180,7 +180,7 @@ void CheckControls(void) {
 
 		for (int i = 0; i < 36; i++) {
 			CP_Vector v = AngleToVector(i * 10);
-			CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x * 400, v.y * 400,5, color);
+			CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x * 400, v.y * 400,5, color,false);
 
 
 		}
@@ -194,7 +194,7 @@ void CheckControls(void) {
 
 		for (int i = 0; i < 36; i++) {
 			CP_Vector v = AngleToVector(i * 10);
-			CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x * 200, v.y * 200,5, color);
+			CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x * 200, v.y * 200,5, color, false);
 
 
 		}
@@ -209,7 +209,7 @@ void CheckControls(void) {
 
 			for (int i = 0; i < 36; i++) {
 				CP_Vector v = AngleToVector(i * 10);
-				CreateRay(-WorldX + CP_System_GetWindowWidth() / 2, -WorldY + CP_System_GetWindowHeight() / 2, 50, v.x * 200, v.y * 200, 1, color);
+				CreateRay(-WorldX + CP_System_GetWindowWidth() / 2, -WorldY + CP_System_GetWindowHeight() / 2, 50, v.x * 200, v.y * 200, 1, color, false);
 
 
 			}
