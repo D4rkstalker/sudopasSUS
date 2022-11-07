@@ -166,13 +166,6 @@ void movement(void) {
 			WorldY -= player1.velocity_y;
 			player1.velocity_y *= 0.9;
 			player1.velocity_x *= 0.9;
-			if (wallcollision()) {
-				return;
-			}
-		WorldX -= player1.velocity_x;
-		WorldY -= player1.velocity_y;
-		player1.velocity_y *= 0.9;
-		player1.velocity_x *= 0.9;
 	}
 	if (isMap) {
 		CP_Settings_Fill(CP_Color_Create(188, 158, 130, 255));
@@ -254,7 +247,6 @@ void controller_update(void) {
 
 	CP_Graphics_DrawCircle(player1.x,player1.y, 10); // Draws the player circle on default 
 
-	
 	movement();
 
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
