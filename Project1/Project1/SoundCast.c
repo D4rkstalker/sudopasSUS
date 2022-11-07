@@ -94,11 +94,15 @@ bool CheckCollision(Ray* ray, Particle* part, CP_Vector* newPos, float* time) {
 	for (int i = 0; i < CWall; i++) {
 
 		if ((CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, wall[i].pos2.x, wall[i].pos2.y)
-			- CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, part->pos.x, part->pos.y)
-			- CP_Math_Distance(wall[i].pos2.x, wall[i].pos2.y, part->pos.x, part->pos.y)) > -FUZZYNESS && part->prevID != i || CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, part->pos.x, part->pos.y) <2* FUZZYNESS || CP_Math_Distance(wall[i].pos2.x, wall[i].pos2.y, part->pos.x, part->pos.y) < 2*FUZZYNESS){
+			- CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, newPos->x, newPos->y)
+			- CP_Math_Distance(wall[i].pos2.x, wall[i].pos2.y, newPos->x, newPos->y)) > -FUZZYNESS  ){ //&& part->prevID != i
 			part->prevID = i;
 
-
+			//if (part->isTail == true) {
+			//	part->vel = ray->midpoints[ray->trail].vel;
+			//	*newPos = CP_Vector_Set(part->pos.x + part->vel.x * *time, part->pos.y + part->vel.y * *time);
+			//	return true;
+			//}
 			CP_Vector Vwall = CP_Vector_Normalize(CP_Vector_Subtract(wall[i].pos2, wall[i].pos1));
 			CP_Vector Vray = CP_Vector_Normalize(CP_Vector_Subtract(*newPos, part->pos));
 			float temp = Vwall.x;
@@ -109,9 +113,15 @@ bool CheckCollision(Ray* ray, Particle* part, CP_Vector* newPos, float* time) {
 			part->vel = vOut;
 			part->vel = CP_Vector_Scale(part->vel, 200);
 			*newPos = CP_Vector_Set(part->pos.x + part->vel.x * *time, part->pos.y + part->vel.y * *time);
-			part->collide = false;
 			return true;
 		}
+		//else if (CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, part->pos.x, part->pos.y) < 10* FUZZYNESS || CP_Math_Distance(wall[i].pos2.x, wall[i].pos2.y, part->pos.x, part->pos.y) < 10 * FUZZYNESS) {
+		//	part->vel.x *= -1;
+		//	part->vel.x *= -1;
+		//	*newPos = CP_Vector_Set(part->pos.x + part->vel.x * *time, part->pos.y + part->vel.y * *time);
+		//	return true;
+
+		//}
 	}
 	return false;
 }
