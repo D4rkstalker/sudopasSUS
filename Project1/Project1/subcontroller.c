@@ -6,9 +6,7 @@
 #include "music.h"
 #include "walls.h"
 
-int isPaused = 0;
-int isMap = 0;
-int isVolume = 0;
+
 #define MAXSPEED 10
 
 CP_Vector mouseMovement;
@@ -19,7 +17,7 @@ void checkMouse(CP_Vector volumeMin, CP_Vector volumeMax) {
 
 		mouseMovement.x = (volumeMin.x + volume * distvect.x);
 		mouseMovement.y = volumeMin.y;
-	CP_Graphics_DrawCircle(mouseMovement.x, mouseMovement.y, 25);
+	
 
 	if ((CP_Input_MouseDown(MOUSE_BUTTON_LEFT))) {
 		float mouseX = CP_Input_GetMouseX();
@@ -28,12 +26,9 @@ void checkMouse(CP_Vector volumeMin, CP_Vector volumeMax) {
 		if (mouseX >= volumeMin.x && mouseX <= volumeMax.x) {
 			if (mouseY >= volumeMin.y - 5 && mouseY <= volumeMin.y + 5) {
 
-				
 						mouseMovement = CP_Vector_Set(mouseX, volumeMin.y);
 						volume = (mouseMovement.x - volumeMin.x) / distvect.x;
-						// (mouseMovement.x - volumeMin.x)/distvect.x = volume * distvect.x
-						
-									
+						// (mouseMovement.x - volumeMin.x)/distvect.x = volume * distvect.x				
 			
 			}
 		}
@@ -42,12 +37,29 @@ void checkMouse(CP_Vector volumeMin, CP_Vector volumeMax) {
 
 
 	}
-
+	CP_Graphics_DrawCircle(mouseMovement.x, mouseMovement.y, 25);
 }
 
+void volumeControl(void) {
+	CP_Settings_Fill(CP_Color_Create(155, 155, 155, 255));
+	CP_Settings_RectMode(CP_POSITION_CORNER);
+	float screenborderX = CP_System_GetWindowWidth() / 4;
+	float screenborderY = CP_System_GetWindowHeight() / 4;
+	float screensizeX = CP_System_GetWindowWidth() / 2;
+	float screensizeY = CP_System_GetWindowHeight() / 2;
 
+	CP_Vector volumeMin = CP_Vector_Set(screenborderX + screensizeX / 4, screenborderY + screensizeY / 2);
 
-void wallScale() {
+	CP_Vector volumeMax = CP_Vector_Set(screenborderX + screensizeX - (screensizeX / 4), screenborderY + screensizeY - (screensizeY / 2));
+
+	CP_Graphics_DrawRect(screenborderX, screenborderY, screensizeX, screensizeY); // Drawing border
+	
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	CP_Graphics_DrawLine(volumeMin.x, volumeMin.y, volumeMax.x, volumeMax.y);
+	checkMouse(volumeMin, volumeMax);
+}
+
+void mapScale() { // Mini Map Scaling
 	int i;
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
@@ -59,17 +71,10 @@ void wallScale() {
 	
 	}
 
-}
+} 
 
-void movement(void) {
-
-
-	if (CP_Input_KeyTriggered(KEY_T)) {
-		CP_Sound_PlayAdvanced(ping, volume, 1.0f, FALSE, CP_SOUND_GROUP_0);
-	}
-
-
-	if (CP_Input_KeyTriggered(KEY_SPACE)) {
+void controlskeys(void) {
+	if (CP_Input_KeyTriggered(KEY_SPACE)) { // Sample of a Pause phase
 		if (!isPaused) {
 			isPaused = 1;
 		}
@@ -77,10 +82,25 @@ void movement(void) {
 			isPaused = 0;
 		}
 	}
+	
+
+	if (CP_Input_KeyTriggered(KEY_ESCAPE)) {
+		if (!isVolume) {
+			isVolume = 1;
+			isPaused = 1;
+			isMap = 0;
+		}
+		else {
+			isVolume = 0;
+			isPaused = 0;
+
+		}
+	}
 	if (CP_Input_KeyTriggered(KEY_M)) {
 		if (!isMap) {
 			isMap = 1;
 			isPaused = 1;
+
 		}
 		else {
 			isPaused = 0;
@@ -90,17 +110,15 @@ void movement(void) {
 
 	}
 
-	if (CP_Input_KeyTriggered(KEY_ESCAPE)) {
-		if (!isVolume) {
-			isVolume = 1;
-			isPaused = 1;
-		}
-		else {
-			isVolume = 0;
-			isPaused = 0;
-
-		}
+	if (CP_Input_KeyTriggered(KEY_T)) {
+		CP_Sound_PlayAdvanced(ping, volume, 1.0f, FALSE, CP_SOUND_GROUP_0);
 	}
+}
+
+void movement(void) {
+	controlskeys();
+
+
 	if (!isPaused) {
 		/* On Hold for Integration, doesn't work on subcontroller but works on game.c
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) {
@@ -183,41 +201,18 @@ void movement(void) {
 			player1.velocity_y *= 0.9;
 			player1.velocity_x *= 0.9;
 	}
+	if (isVolume) {
+		volumeControl();
+	}
 	if (isMap) {
 		CP_Settings_Fill(CP_Color_Create(188, 158, 130, 255));
-		CP_Settings_RectMode(CP_POSITION_CORNER);
+		CP_Settings_RectMode(CP_POSITION_CORNER); // Line below draws a border
 		CP_Graphics_DrawRect(CP_System_GetDisplayWidth() / 4, CP_System_GetDisplayHeight() / 4, CP_System_GetDisplayWidth() / 2, CP_System_GetDisplayHeight() / 2);
-		wallScale();
+		mapScale();
 	}
 
-		if (isMap) {
-			CP_Settings_Fill(CP_Color_Create(188, 158, 130, 255));
-			CP_Settings_RectMode(CP_POSITION_CORNER);
-			CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 4, CP_System_GetWindowHeight() / 4, CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2);
-			wallScale();
-		}
 
-		if (isVolume) {
-			CP_Settings_Fill(CP_Color_Create(155, 155, 155, 255));
-			CP_Settings_RectMode(CP_POSITION_CORNER);
-			float screenborderX = CP_System_GetWindowWidth() / 4;
-			float screenborderY = CP_System_GetWindowHeight() / 4;
-			float screensizeX = CP_System_GetWindowWidth() / 2;
-			float screensizeY = CP_System_GetWindowHeight() / 2;
-
-			CP_Vector volumeMin = CP_Vector_Set(screenborderX + screensizeX / 4, screenborderY + screensizeY / 2);
-			
-			CP_Vector volumeMax = CP_Vector_Set(screenborderX + screensizeX - (screensizeX / 4), screenborderY + screensizeY - (screensizeY / 2));
-			
-			CP_Graphics_DrawRect(screenborderX, screenborderY, screensizeX, screensizeY);
-
-			CP_Settings_Fill(CP_Color_Create(255, 200, 200, 255));
-			CP_Graphics_DrawLine(volumeMin.x, volumeMin.y, volumeMax.x, volumeMax.y);
-			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-			checkMouse(volumeMin, volumeMax);
-			
-			
-		}
+		
 
 		//	RayUpdate(0,0);
 	

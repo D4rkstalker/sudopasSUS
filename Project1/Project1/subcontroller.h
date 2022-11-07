@@ -14,13 +14,9 @@ struct Player {
 
 } player1;
 
-struct Volume {
-
-	float sound;
-
-
-
-} Volume1;
+int isPaused;
+int isMap;
+int isVolume;
 float center_x;
 float center_y;
 void theVolume(void);
