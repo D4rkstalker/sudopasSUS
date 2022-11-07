@@ -147,7 +147,7 @@ void CheckControls(void) {
 	}
 
 	//HQ stuff
-
+	/* Trigger integration unable to integrate at the moment to subcontroller - MR */
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
 		if (energy > 30) {
 			CP_Color color = CP_Color_Create(90, 180, 77, 155);
@@ -157,7 +157,7 @@ void CheckControls(void) {
 			float a = CP_Vector_Angle(outv, CP_Vector_Set(WorldX,WorldY));
 			for (int i = 0; i < 1; i++) {
 				CP_Vector v = AngleToVector(i * 1);	
-				CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200,5, color);
+				CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x * 200, v.y * 200,5, color);
 
 
 			}
@@ -180,7 +180,7 @@ void CheckControls(void) {
 
 		for (int i = 0; i < 36; i++) {
 			CP_Vector v = AngleToVector(i * 10);
-			CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 400, v.y * 400,5, color);
+			CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x * 400, v.y * 400,5, color);
 
 
 		}
@@ -194,7 +194,7 @@ void CheckControls(void) {
 
 		for (int i = 0; i < 36; i++) {
 			CP_Vector v = AngleToVector(i * 10);
-			CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200,5, color);
+			CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x * 200, v.y * 200,5, color);
 
 
 		}
@@ -219,7 +219,7 @@ void CheckControls(void) {
 		}
 	}
 
-
+	
 
 	if (CP_Input_KeyTriggered(KEY_Z)) {
 		UndoWall();
@@ -252,10 +252,13 @@ void subgame_init(void) {
 	CP_System_SetWindowSize(1920, 1080);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_BlendMode(CP_BLEND_ALPHA);
-
+	
 	Sound_Init();
 	CP_Sound_PlayAdvanced(introsound, volume, 1.0, FALSE, 7);
-
+	center_x = CP_System_GetWindowWidth() / 2;
+	 center_y = CP_System_GetWindowHeight() / 2;
+	player1.x = center_x;
+	player1.y = center_y;
 	//set up sound cast system
 	loadwalls();
 	// Player initialisation
@@ -265,7 +268,6 @@ void subgame_init(void) {
 }
 
 void subgame_update(void) {
-
 	//1st draw layer, clear the background
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
