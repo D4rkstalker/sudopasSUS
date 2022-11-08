@@ -31,6 +31,9 @@ All coordinates used by all game objects will need to be offset by the WorldX an
 float WorldX = 0;
 float WorldY = 0;
 
+//enemy - Jon
+int dead = 0;
+
 void DrawEnergy(void) {
 
 	CP_Settings_RectMode(CP_POSITION_CORNER);
@@ -232,11 +235,6 @@ void CheckControls(void) {
 
 	}
 
-	if (CP_Input_KeyTriggered(KEY_K))
-	{
-		CP_Engine_SetNextGameState(enemy_init, enemy_update, enemy_exit);
-
-	}
 
 	if (CP_Input_KeyTriggered(KEY_Q))
 	{
@@ -265,6 +263,7 @@ void subgame_init(void) {
 
 	// Enemy test Jon
 	enemy_place();
+	dead = 0;
 }
 
 void subgame_update(void) {
@@ -287,11 +286,11 @@ void subgame_update(void) {
 	CP_Font_DrawText("[M3] AOE BEAM", 20, 240);
 	CP_Font_DrawText("[N] AOE BEAM FROM PLAYER", 20, 260);
 	CP_Font_DrawText("[L] MR TEST", 20, 300);
-	CP_Font_DrawText("[K] ENEMY TEST", 20, 320);
-	CP_Font_DrawText("[M] MINI MAP", 20, 360);
-	CP_Font_DrawText("[Space] Pause", 20, 380);
-	CP_Font_DrawText("[Esc] Settings", 20, 400);
-	CP_Font_DrawText("[Q] Quit Game", 20, 420);
+	//CP_Font_DrawText("[K] ENEMY TEST", 20, 320);
+	CP_Font_DrawText("[M] MINI MAP", 20, 340);
+	CP_Font_DrawText("[Space] Pause", 20, 360);
+	CP_Font_DrawText("[Esc] Settings", 20, 380);
+	CP_Font_DrawText("[Q] Quit Game", 20, 400);
 
 	//2nd draw layer, the walls of the game
 	if (debug == 1) {
@@ -300,8 +299,17 @@ void subgame_update(void) {
 
 	//2.5 draw Enemy
 	enemy_draw();
+	
 	if (enemy_touch(WorldX, WorldY) == 1) {
-		enemy[0].alpha = 0;
+		//CP_Settings_TextSize(50.0f);
+		//CP_Font_DrawText("You are Dead", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 - 200);
+		dead = 1;
+	}
+	if (dead == 1) {
+		dead_menu(dead);
+		if (dead_menu(dead) == 3) {
+			dead = 0;
+		}
 	}
 	
 
@@ -344,7 +352,7 @@ void subgame_update(void) {
 	CP_Settings_TextSize(20.0f);
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	char buffer2[100] = { 0 };
-	sprintf_s(buffer2, _countof(buffer2), "X:%.0f\nY:%.0f", CP_Input_GetMouseX() - WorldX, CP_Input_GetMouseY() - WorldY );
+	sprintf_s(buffer2, _countof(buffer2), "X:%.0f\nY:%.0f", CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY);
 	CP_Font_DrawText(buffer2, CP_Input_GetMouseX(), CP_Input_GetMouseY() - 20);
 	
 

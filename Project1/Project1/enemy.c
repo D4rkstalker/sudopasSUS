@@ -1,4 +1,3 @@
-#include "cprocessing.h"
 #include <cprocessing.h>
 #include "subcontroller.h"
 #include "SoundCast.h"
@@ -9,19 +8,51 @@
 #include "walls.h"
 #include "game.h"
 #include <stdlib.h>
+#include "enemy.h"
 
 
-#define ENEMY_COUNT (10)
+int dead_menu(int dead) {
+	
+	int state = 0;
+	int menu_alpha = 80;
+	int retry_alpha = 0;
+	if (menu_alpha <= 255) {
+		menu_alpha += 1;
+	}
+	menu_alpha += 40;
+	CP_Settings_Fill(CP_Color_Create(155, 100, 100, menu_alpha));
+	CP_Settings_TextSize(200.0f);
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, 0);
+	CP_Font_DrawText("You are Dead", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 - 100);
+	
+	state = 1;
+	
+	if (state == 1) {
+		CP_Settings_TextSize(40.0f);
 
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+		CP_Font_DrawText("Retry from Last Check Point", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 100);
 
-ENEMY enemy[ENEMY_COUNT];
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, retry_alpha));
+		CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
+		CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 90, 500, 50);
+	}
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, 0);
 
-/*
-ray head is detection
-if detected
-create a line from detection to wall, then player start position
-accelerate along line, decelerate when reaching player start position
-*/
+	if (CP_Input_GetMouseWorldX() >= CP_System_GetWindowWidth() / 2 - 250, CP_Input_GetMouseWorldX() <= CP_System_GetWindowWidth() / 2 + 250,
+		CP_Input_GetMouseWorldY() >= CP_System_GetWindowHeight() / 2 - 50, CP_Input_GetMouseWorldY() <= CP_System_GetWindowHeight() / 2 + 50) {
+		retry_alpha = 50;
+		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
+			return 3;
+		}
+	}
+	else {
+		retry_alpha = 0;
+	}
+
+	//CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, 0);
+	return 0;
+}
 
 
 // Placing enemy
@@ -34,37 +65,45 @@ void enemy_place() {
 	enemy[0].y = 700;
 	enemy[1].x = 2000;
 	enemy[1].y = 1500;
+	enemy[2].x = 1340;
+	enemy[2].y = 220;
 }
 
 void enemy_draw() {
 	for (int i = 0; i < ENEMY_COUNT; ++i) {
 		CP_Settings_NoStroke();
-		CP_Settings_Fill(CP_Color_Create(255, 70, 84, enemy[i].alpha));
+		CP_Color enemy_colour = (CP_Color_Create(255, 70, 84, enemy[i].alpha));
+		CP_Settings_Fill(enemy_colour);
 		CP_Graphics_DrawCircle(enemy[i].x + WorldX, enemy[i].y + WorldY, 25);
 		
 		// Draw cords for debugging
 		CP_Settings_TextSize(20.0f);
 		char buffer3[100] = { 0 };
+		
 		sprintf_s(buffer3, _countof(buffer3), "X:%.0f\nY:%.0f", enemy[i].x, enemy[i].y);
 		CP_Settings_Fill(CP_Color_Create(255, 70, 84, 255));
-		CP_Font_DrawText(buffer3, enemy[i].x + WorldX, enemy[i].y + WorldY);
+		CP_Font_DrawText(buffer3, enemy[i].x + WorldX - 45, enemy[i].y + WorldY - 25);
+		sprintf_s(buffer3, _countof(buffer3), "Enemy [%d]", i);
+		CP_Font_DrawText(buffer3, enemy[i].x + WorldX - 35, enemy[i].y + WorldY + 35);
 	}
 }
 
-
-// COPY
 int enemy_touch(float WorldX , float WorldY) {
-	// radius of circle
 	float x = CP_System_GetWindowWidth() / 2;
 	float y = CP_System_GetWindowHeight() / 2;
 	float radius = 25 / 2;
 	for (int i = 0; i < ENEMY_COUNT; ++i) { 
-		if ( x - WorldX - enemy[i].x >= -25 && x - WorldX - enemy[i].x <= 25 && y - WorldY - enemy[i].y >= 25 && y - WorldY - enemy[i].y <= -25) {
-			enemy[i].x += 50;
+		if ( x - WorldX - enemy[i].x >= -25 && x - WorldX - enemy[i].x <= 25 && y - WorldY - enemy[i].y >= -25 && y - WorldY - enemy[i].y <= 25) {
 			return 1;
 		}
 	}
 	return 0;
+}
+
+int enemy_ray_trigger(float part_x, float part_y) {
+	for (int i = 0; i < ENEMY_COUNT; ++i) {
+	
+	}
 }
 
 float timer;
@@ -114,7 +153,6 @@ void enemy_move(float x1, float y1, float x2, float y2, float timer) {
 	
 
 
-
 void enemy_init(void) {
 
 	CP_System_SetWindowSize(1920, 1080);
@@ -126,19 +164,6 @@ void enemy_init(void) {
 	float center_x = CP_System_GetDisplayWidth() / 2;
 	float center_y = CP_System_GetDisplayHeight() / 2;
 
-	for (int i = 0; i < ENEMY_COUNT; ++i) {
-		enemy[i].alpha = 255;
-	}
-
-	enemy[1].x = 600;
-	enemy[1].y = 600;
-	enemy[1].velocity_x = 0;
-	enemy[1].velocity_y = 0;
-	enemy[1].acceleration_x = 0;
-	enemy[1].acceleration_y = 0;
-	enemy[1].alpha = 255;
-
-	timer = 100;
 }
 
 void enemy_update(void) {

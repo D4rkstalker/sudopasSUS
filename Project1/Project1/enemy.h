@@ -7,6 +7,7 @@ void enemy_exit(void);
 void enemy_place(void);
 void enemy_draw(void);
 int enemy_touch(float WorldX, float WorldY);
+int dead_menu(int dead);
 
 typedef struct ENEMY {
 	float x;
@@ -20,5 +21,6 @@ typedef struct ENEMY {
 	float alpha;
 } ENEMY ;
 
+#define DEAD()
 #define ENEMY_COUNT (10)
 ENEMY enemy[ENEMY_COUNT];
