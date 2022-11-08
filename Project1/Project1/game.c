@@ -22,7 +22,6 @@ float particleSize = 3.0f;
 int energy = 100;
 bool clicked = false;
 CP_Vector click1;
-CheckPoint_1_Triggered = 0;
 
 /*
 WorldX and WorldY functions as the offset for the camera system.
@@ -324,14 +323,8 @@ void subgame_update(void) {
 
 
 	//draw checkpoints
-	draw_checkpoint_1();
-	//check checkppoint triggers
-	cp1_triggered();
-	if (CheckPoint_1_Triggered == 1)
-	{
-		CP_Settings_Fill(CP_Color_Create(255, 0, 255, 255));
-		CP_Graphics_DrawRect(0, 0, 1000, 1000);
-	}
+	draw_checkpoint();
+
 
 	//Check the controls pressed each frame
 	CheckControls();
