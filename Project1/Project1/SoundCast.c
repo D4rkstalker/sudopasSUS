@@ -130,7 +130,7 @@ bool CheckCollision(Ray* ray, Particle* part, CP_Vector* newPos, float* time) {
 void ParticleUpdate(Particle* part, Ray* ray)
 {
 	// move particle based on velocity and correct for wall collisions
-	if (part->isStatic || isPaused) {
+	if (part->isStatic || game_states == paused) {
 		return;
 	}
 	float time = CP_System_GetDt();

@@ -75,36 +75,40 @@ void mapScale() { // Mini Map Scaling
 
 void controlskeys(void) {
 	if (CP_Input_KeyTriggered(KEY_SPACE)) { // Sample of a Pause phase
-		if (!isPaused) {
-			isPaused = 1;
+		if (game_states != paused) {
+			game_states = paused;
 		}
 		else {
-			isPaused = 0;
+			game_states = resume;
 		}
 	}
 	
 
 	if (CP_Input_KeyTriggered(KEY_ESCAPE)) {
-		if (!isVolume) {
+		if (game_states != volumeC) {
+			/*
 			isVolume = 1;
 			isPaused = 1;
 			isMap = 0;
+			*/
+			game_states = volumeC;
 		}
 		else {
+			/*
 			isVolume = 0;
 			isPaused = 0;
+			*/
+			game_states = resume;
 
 		}
 	}
 	if (CP_Input_KeyTriggered(KEY_M)) {
-		if (!isMap) {
-			isMap = 1;
-			isPaused = 1;
+		if (game_states != theMap) {
+			game_states = theMap;
 
 		}
 		else {
-			isPaused = 0;
-			isMap = 0;
+			game_states = resume;
 		}
 
 
@@ -119,7 +123,7 @@ void movement(void) {
 	controlskeys();
 
 
-	if (!isPaused) {
+	if (game_states == resume) {
 		/* On Hold for Integration, doesn't work on subcontroller but works on game.c
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) {
 			CP_Color color = CP_Color_Create(255, 50, 50, 255);
@@ -201,10 +205,10 @@ void movement(void) {
 			player1.velocity_y *= 0.9;
 			player1.velocity_x *= 0.9;
 	}
-	if (isVolume) {
+	if (game_states == volumeC) {
 		volumeControl();
 	}
-	if (isMap) {
+	if (game_states == theMap) {
 		CP_Settings_Fill(CP_Color_Create(188, 158, 130, 255));
 		CP_Settings_RectMode(CP_POSITION_CORNER); // Line below draws a border
 		CP_Graphics_DrawRect(CP_System_GetDisplayWidth() / 4, CP_System_GetDisplayHeight() / 4, CP_System_GetDisplayWidth() / 2, CP_System_GetDisplayHeight() / 2);
