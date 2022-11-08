@@ -309,6 +309,8 @@ void subgame_update(void) {
 		dead_menu(dead);
 		if (dead_menu(dead) == 3) {
 			dead = 0;
+			WorldX = 0;
+			WorldY = 0;
 		}
 	}
 	

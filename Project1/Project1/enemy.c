@@ -39,8 +39,7 @@ int dead_menu(int dead) {
 	}
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, 0);
 
-	if (CP_Input_GetMouseWorldX() >= CP_System_GetWindowWidth() / 2 - 250, CP_Input_GetMouseWorldX() <= CP_System_GetWindowWidth() / 2 + 250,
-		CP_Input_GetMouseWorldY() >= CP_System_GetWindowHeight() / 2 - 50, CP_Input_GetMouseWorldY() <= CP_System_GetWindowHeight() / 2 + 50) {
+	if (CP_Input_GetMouseWorldX() >= CP_System_GetWindowWidth() / 2 - 250 && CP_Input_GetMouseWorldX() <= CP_System_GetWindowWidth() / 2 + 250 && CP_Input_GetMouseWorldY() >= CP_System_GetWindowHeight() / 2 + 65 && CP_Input_GetMouseWorldY() <= CP_System_GetWindowHeight() / 2 + 115) {
 		retry_alpha = 50;
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
 			return 3;
