@@ -148,7 +148,7 @@ void CheckControls(void) {
 
 	//HQ stuff
 	/* Trigger integration unable to integrate at the moment to subcontroller - MR */
-	if (!isPaused) {
+	if (game_states == resume) {
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
 			if (energy > 30) {
 				CP_Color color = CP_Color_Create(90, 180, 77, 155);
@@ -252,7 +252,7 @@ void subgame_init(void) {
 	CP_System_SetWindowSize(1920, 1080);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_BlendMode(CP_BLEND_ALPHA);
-	
+	game_states = resume;
 	Sound_Init();
 	CP_Sound_PlayAdvanced(introsound, volume, 1.0, FALSE, 7);
 	center_x = CP_System_GetWindowWidth() / 2;
@@ -328,8 +328,10 @@ void subgame_update(void) {
 
 
 	//Creating Player
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Graphics_DrawCircle(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2, 25);
+	if (game_states == resume) {
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+		CP_Graphics_DrawCircle(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2, 25);
+	}
 	// movement function
 	movement();
 

@@ -14,9 +14,10 @@ struct Player {
 
 } player1;
 
-int isPaused;
-int isMap;
-int isVolume;
+enum the_states{
+	resume, paused, theMap, volumeC
+} game_states;
+
 float center_x;
 float center_y;
 void theVolume(void);
