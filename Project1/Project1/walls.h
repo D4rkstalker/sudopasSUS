@@ -31,3 +31,4 @@ void loadwalls(void);
 void savewalls(void);
 int wallcollision(void);
 void createcpwalls(void);
+void cpfailsafe(void);

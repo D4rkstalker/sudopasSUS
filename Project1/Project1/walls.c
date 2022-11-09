@@ -104,6 +104,7 @@ void loadwalls(void) {
 }
 
 void savewalls(void) {
+	cpfailsafe();
 	FILE* out = _fsopen("walls.txt", "w", _SH_DENYNO);
 	for (int i = 0; i < CWall; i++) {
 		fprintf(out, "%f %f %f %f\n", wall[i].pos1.x, wall[i].pos1.y, wall[i].pos2.x, wall[i].pos2.y);
@@ -178,4 +179,26 @@ void createcpwalls(void) {
 	cpwallinit(cp3_gate);
 	cpwallinit(cp2_gate);
 	cpwallinit(cp1_gate);
+}
+
+//failsafe to ensure you dont save checkpoint walls
+void cpfailsafe(void) {
+	if (CheckPoint_3_Triggered == 1) {
+
+	}
+	else if (CheckPoint_2_Triggered == 1) {
+		UndoWall();
+	}
+	else if (CheckPoint_1_Triggered == 1) {
+		UndoWall();
+		UndoWall();
+	}
+	else {
+		UndoWall();
+		UndoWall();
+		UndoWall();
+	}
+	CheckPoint_3_Triggered = 1;
+	CheckPoint_2_Triggered = 1;
+	CheckPoint_1_Triggered = 1;
 }

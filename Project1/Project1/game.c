@@ -105,6 +105,7 @@ void CheckControls(void) {
 	*/
 	if (CP_Input_KeyTriggered(KEY_T))
 	{
+		cpfailsafe();
 		if (drawpoint == 0) {
 			drawx[0] = CP_Input_GetMouseX() - WorldX;
 			drawy[0] = CP_Input_GetMouseY() - WorldY;
@@ -117,6 +118,7 @@ void CheckControls(void) {
 
 	if (CP_Input_KeyTriggered(KEY_Y))
 	{
+		cpfailsafe();
 		switch (drawpoint) {
 
 		case 0:
@@ -145,6 +147,7 @@ void CheckControls(void) {
 
 	if (CP_Input_KeyTriggered(KEY_I))
 	{
+		cpfailsafe();
 		Wall_Init(CP_Input_GetMouseX() - WorldX, CP_Input_GetMouseY() - WorldY);
 	}
 
