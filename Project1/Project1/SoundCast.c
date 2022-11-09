@@ -8,6 +8,7 @@
 #define PI 3.141592654
 #include "walls.h"
 #include "subcontroller.h"
+#include "enemy.h"
 
 const float EPSILON = 0.0000001f;
 
@@ -90,6 +91,13 @@ void ParticleDisplay(Particle* part, int size)
 	CP_Graphics_DrawEllipse(part->pos.x + wx, part->pos.y + wy, size, size);
 }
 
+void CheckEnemies(Ray* ray, Particle* part) {
+	for (int i = 0; i < ENEMY_COUNT; i++) {
+		if (enemy[i].x - part->pos.x < 25 && enemy[i].y - part->pos.y < 25) {
+			enemy_ray_trigger(ray, i);
+		}
+	}
+}
 
 bool CheckCollision(Ray* ray, Particle* part, CP_Vector* newPos, float* time) {
 	for (int i = 0; i < CWall; i++) {

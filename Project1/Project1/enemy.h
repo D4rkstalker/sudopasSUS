@@ -8,6 +8,7 @@ void enemy_place(void);
 void enemy_draw(void);
 int enemy_touch(float WorldX, float WorldY);
 int dead_menu(int dead);
+int enemy_ray_trigger(Ray* ray, int i);
 
 typedef struct ENEMY {
 	float x;
