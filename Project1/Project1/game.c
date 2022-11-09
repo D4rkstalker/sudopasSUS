@@ -30,6 +30,10 @@ All coordinates used by all game objects will need to be offset by the WorldX an
 float WorldX = 0;
 float WorldY = 0;
 
+//Start point of the map
+//float WorldX = 800;
+//float WorldY = -1700;
+
 //enemy - Jon
 int dead = 0;
 
