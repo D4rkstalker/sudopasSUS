@@ -157,14 +157,17 @@ void CheckControls(void) {
 	if (game_states == resume) {
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
 			if (energy > 30) {
+				float x = CP_System_GetWindowWidth() / 2;
+				float y = CP_System_GetWindowHeight() / 2;
+
 				CP_Color color = CP_Color_Create(90, 180, 77, 155);
 				//CP_Vector v = AngleToVector(90);a
 				//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
-				CP_Vector outv = CP_Vector_Normalize(CP_Vector_Subtract(CP_Vector_Set(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY), CP_Vector_Set(player1.x, player1.y)));
-				float a = CP_Vector_Angle(outv, CP_Vector_Set(WorldX, WorldY));
-				for (int i = 0; i < 1; i++) {
-					CP_Vector v = AngleToVector(i * 1);
-						CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x * 200, v.y * 200, 5, color, true);
+				CP_Vector outv = CP_Vector_Normalize(CP_Vector_Subtract(CP_Vector_Set(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY), CP_Vector_Set(x - WorldX, y - WorldY)));
+				float a = CP_Math_Degrees( atan2(outv.y, outv.x));
+				for (int i = -18; i < 18; i++) {
+					CP_Vector v = AngleToVector(a + i * 1);
+						CreateRay(player1.x - WorldX, player1.y - WorldY, 25, v.x * 300, v.y * 300, 1, color, true);
 
 				}
 

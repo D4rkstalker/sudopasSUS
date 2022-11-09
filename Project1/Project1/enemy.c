@@ -99,10 +99,7 @@ int enemy_touch(float WorldX , float WorldY) {
 	return 0;
 }
 
-int enemy_ray_trigger(float part_x, float part_y) {
-	for (int i = 0; i < ENEMY_COUNT; ++i) {
-	
-	}
+int enemy_ray_trigger(Ray *ray, int i) {
 }
 
 float timer;
