@@ -5,6 +5,7 @@
 #include "checkpoint.h"
 #include "Utils.h"
 #include "walls.h"
+#include "music.h"
 	
 CheckPoint point_1;
 CheckPoint point_2;
@@ -42,7 +43,10 @@ void draw_checkpoint_ping(float delay, float x, float y)
 		for (int i = 0; i < 16; i++) {
 			CP_Vector v = AngleToVector(i * 20);
 			CreateRay(x, y, 50, v.x * 100, v.y * 100, 0.1, color, false);
+		}
 
+		if (x + WorldX >= 0 && x + WorldX <= CP_System_GetWindowWidth() && y + WorldY >= 0 && y + WorldY <= CP_System_GetWindowHeight()) {
+			CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
 		}
 
 		cp_pingtimer = 0;
@@ -157,6 +161,7 @@ void cp1_triggered(void)
 		{
 			CheckPoint_1_Triggered = 1;
 			UndoWall();
+			CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
 			CP_Color color = CP_Color_Create(255, 255, 0, 50);
 			//CP_Vector v = AngleToVector(-90);
 			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
@@ -193,6 +198,7 @@ void cp2_triggered(void)
 		{
 			CheckPoint_2_Triggered = 1;
 			UndoWall();
+			CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
 			CP_Color color = CP_Color_Create(255, 255, 0, 50);
 			//CP_Vector v = AngleToVector(-90);
 			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
@@ -229,6 +235,7 @@ void cp3_triggered(void)
 		{
 			CheckPoint_3_Triggered = 1;
 			UndoWall();
+			CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
 		}
 		if (CheckPoint_3_Triggered == 1)
 		{

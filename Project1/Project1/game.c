@@ -178,7 +178,9 @@ void CheckControls(void) {
 
 
 				energy -= 30;
-				CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 1);
+				CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
+				//CP_Sound_StopGroup(CP_SOUND_GROUP_MUSIC);
+				//CP_Sound_PlayMusic((bgm_submarine));
 
 
 			}
@@ -196,7 +198,9 @@ void CheckControls(void) {
 
 
 			}
-
+			CP_Sound_PlayAdvanced(creepyping, volume, 1, FALSE, 0);
+			//CP_Sound_StopGroup(CP_SOUND_GROUP_MUSIC);
+			//CP_Sound_PlayMusic((bgm_theenemy));
 
 		}
 		else if (CP_Input_MouseTriggered(MOUSE_BUTTON_3)) {
@@ -227,7 +231,7 @@ void CheckControls(void) {
 				}
 
 				energy -= 30;
-				CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 1);
+				CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
 			}
 		}
 
@@ -261,7 +265,7 @@ void subgame_init(void) {
 	CP_Settings_BlendMode(CP_BLEND_ALPHA);
 	game_states = resume;
 	Sound_Init();
-	CP_Sound_PlayAdvanced(introsound, volume, 1.0, FALSE, 7);
+	CP_Sound_PlayAdvanced(introsound, volume, 1.0, FALSE, 0);
 	center_x = CP_System_GetWindowWidth() / 2;
 	center_y = CP_System_GetWindowHeight() / 2;
 	player1.x = center_x;
@@ -310,10 +314,12 @@ void subgame_update(void) {
 	//2.5 draw Enemy
 	enemy_draw();
 	
-	if (enemy_touch(WorldX, WorldY) == 1) {
+	if (enemy_touch(WorldX, WorldY) == 1 && dead != 1) {
 		//CP_Settings_TextSize(50.0f);
 		//CP_Font_DrawText("You are Dead", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 - 200);
 		dead = 1;
+		CP_Sound_PlayAdvanced(rip, volume, 1, FALSE, 0);
+		CP_Sound_StopGroup(CP_SOUND_GROUP_MUSIC);
 	}
 	if (dead == 1) {
 		dead_menu(dead);
@@ -321,6 +327,7 @@ void subgame_update(void) {
 			dead = 0;
 			WorldX = 0;
 			WorldY = 0;
+			CP_Sound_PlayMusic((bgm_submarine));
 		}
 	}
 	

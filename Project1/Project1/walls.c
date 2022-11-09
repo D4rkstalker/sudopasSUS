@@ -152,7 +152,7 @@ int wallcollision(void) {
 				y1 = -WorldY + CP_System_GetWindowHeight() / 2;
 			}*/
 			if (CP_Math_Distance(0,0,player1.velocity_x,player1.velocity_y) > 5) {
-				CP_Sound_PlayAdvanced(bonk, volume, 1, FALSE, 1);
+				CP_Sound_PlayAdvanced(bonk, volume, 1, FALSE, 0);
 			}
 			player1.acceleration_x = 0;
 			player1.acceleration_y = 0;
