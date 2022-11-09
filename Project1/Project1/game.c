@@ -265,6 +265,7 @@ void subgame_init(void) {
 	player1.y = center_y;
 	//set up sound cast system
 	loadwalls();
+	createcpwalls();
 	// Player initialisation
 
 	// Enemy test Jon

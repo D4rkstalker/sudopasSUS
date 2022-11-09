@@ -6,6 +6,7 @@
 #include "game.h"
 #include "subcontroller.h"
 #include "music.h"
+#include "checkpoint.h"
 
 int drawpoint = 0;
 
@@ -161,4 +162,20 @@ int wallcollision(void) {
 
 	}
 	return 0; 
+}
+
+void cpwallinit(Gate cp) {
+	drawx[0] = cp.pos1.x;
+	drawy[0] = cp.pos1.y;
+	drawpoint = 1;
+	Wall_Init(cp.pos2.x, cp.pos2.y);
+}
+
+void createcpwalls(void) {
+	draw_checkpoint_1();
+	draw_checkpoint_2();
+	draw_checkpoint_3();
+	cpwallinit(cp3_gate);
+	cpwallinit(cp2_gate);
+	cpwallinit(cp1_gate);
 }

@@ -32,5 +32,9 @@ typedef struct Gate {
 	CP_Vector pos2;
 } Gate;
 
+Gate cp1_gate;
+Gate cp2_gate;
+Gate cp3_gate;
+
 void draw_checkpoint(void);
 
