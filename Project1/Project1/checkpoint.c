@@ -69,7 +69,7 @@ void draw_checkpoint_1(void)
 	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
 	cp1_gate.pos1 = CP_Vector_Set(1634,1903);
 	cp1_gate.pos2 = CP_Vector_Set(1634, 2017);
-	CP_Graphics_DrawLine(WorldX+cp1_gate.pos1.x, WorldY+cp1_gate.pos1.y, WorldX+cp1_gate.pos2.x, WorldY+cp1_gate.pos2.y);
+	//CP_Graphics_DrawLine(WorldX+cp1_gate.pos1.x, WorldY+cp1_gate.pos1.y, WorldX+cp1_gate.pos2.x, WorldY+cp1_gate.pos2.y);
 
 }
 
@@ -90,7 +90,7 @@ void draw_checkpoint_2(void)
 	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
 	cp2_gate.pos1 = CP_Vector_Set(2395, 1311);
 	cp2_gate.pos2 = CP_Vector_Set(2250, 1550);
-	CP_Graphics_DrawLine(WorldX + cp2_gate.pos1.x, WorldY + cp2_gate.pos1.y, WorldX + cp2_gate.pos2.x, WorldY + cp2_gate.pos2.y);
+	//CP_Graphics_DrawLine(WorldX + cp2_gate.pos1.x, WorldY + cp2_gate.pos1.y, WorldX + cp2_gate.pos2.x, WorldY + cp2_gate.pos2.y);
 
 }
 
@@ -111,7 +111,7 @@ void draw_checkpoint_3(void)
 	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
 	cp3_gate.pos1 = CP_Vector_Set(1810, 890);
 	cp3_gate.pos2 = CP_Vector_Set(1850, 1030);
-	CP_Graphics_DrawLine(WorldX + cp3_gate.pos1.x, WorldY + cp3_gate.pos1.y, WorldX + cp3_gate.pos2.x, WorldY + cp3_gate.pos2.y);
+	//CP_Graphics_DrawLine(WorldX + cp3_gate.pos1.x, WorldY + cp3_gate.pos1.y, WorldX + cp3_gate.pos2.x, WorldY + cp3_gate.pos2.y);
 
 }
 
@@ -156,6 +156,7 @@ void cp1_triggered(void)
 		if (cp1_progress == 100)
 		{
 			CheckPoint_1_Triggered = 1;
+			UndoWall();
 		}
 		if (CheckPoint_1_Triggered == 1)
 		{
@@ -182,6 +183,7 @@ void cp2_triggered(void)
 		if (cp2_progress == 100)
 		{
 			CheckPoint_2_Triggered = 1;
+			UndoWall();
 		}
 		if (CheckPoint_2_Triggered == 1)
 		{
@@ -208,6 +210,7 @@ void cp3_triggered(void)
 		if (cp3_progress == 100)
 		{
 			CheckPoint_3_Triggered = 1;
+			UndoWall();
 		}
 		if (CheckPoint_3_Triggered == 1)
 		{
