@@ -124,13 +124,13 @@ bool CheckCollision(Ray* ray, Particle* part, CP_Vector* newPos, float* time) {
 			*newPos = CP_Vector_Set(part->pos.x + part->vel.x * *time, part->pos.y + part->vel.y * *time);
 			return true;
 		}
-		//else if (CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, part->pos.x, part->pos.y) < 10* FUZZYNESS || CP_Math_Distance(wall[i].pos2.x, wall[i].pos2.y, part->pos.x, part->pos.y) < 10 * FUZZYNESS) {
-		//	part->vel.x *= -1;
-		//	part->vel.x *= -1;
-		//	*newPos = CP_Vector_Set(part->pos.x + part->vel.x * *time, part->pos.y + part->vel.y * *time);
-		//	return true;
+		else if (CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, newPos->x, newPos->y) < 2*FUZZYNESS || CP_Math_Distance(wall[i].pos2.x, wall[i].pos2.y, newPos->x, newPos->y) < 2* FUZZYNESS) {
+			part->vel.x *= -1;
+			part->vel.x *= -1;
+			*newPos = CP_Vector_Set(part->pos.x + part->vel.x * *time, part->pos.y + part->vel.y * *time);
+			return true;
 
-		//}
+		}
 	}
 	return false;
 }
