@@ -1,25 +1,11 @@
-void mainmenu_init(void);
-void mainmenu_update(void);
-void mainmenu_exit(void);
-void game_init(void);
-void game_update(void);
-void game_exit(void);
-void subgame_init(void);
-void subgame_update(void);
-void subgame_exit(void);
-void enemy_init(void);
-void enemy_update(void);
-void enemy_exit(void);
-void controller_init(void);
-void controller_update(void);
-void controller_exit(void);
+#include <cprocessing.h>
+#pragma once
 
 
-typedef struct tutorial_map {
-	float x;
-	float y;
-	float w;
-	float h;
-}map;
-
+void title_screen(void);
 void tutorial_message(void);
+void enemy_tutorial(void);
+
+
+float EaseInQuad(float start, float end, float value);
+float EaseOutQuad(float start, float end, float value);

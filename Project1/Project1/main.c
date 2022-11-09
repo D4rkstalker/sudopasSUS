@@ -74,11 +74,6 @@ void game_update(void)
 		CP_Engine_SetNextGameState(subgame_init, subgame_update, subgame_exit);
 		//CP_Engine_Terminate();
 	}
-	if (CP_Input_KeyDown(KEY_W))
-	{
-		CP_Engine_SetNextGameState(mainmenu_init, mainmenu_update, mainmenu_exit);
-		//CP_Engine_Terminate();
-	}
 
 
 	// MR's controller testing 

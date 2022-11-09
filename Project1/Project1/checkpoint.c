@@ -157,6 +157,15 @@ void cp1_triggered(void)
 		{
 			CheckPoint_1_Triggered = 1;
 			UndoWall();
+			CP_Color color = CP_Color_Create(255, 255, 0, 50);
+			//CP_Vector v = AngleToVector(-90);
+			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+
+			for (int i = 0; i < 36; i++) {
+				CP_Vector v = AngleToVector(i * 10);
+				CreateRay(1645, 1960, 50, v.x * 100, v.y * 100, 0.5, color, false);
+
+			}
 		}
 		if (CheckPoint_1_Triggered == 1)
 		{
@@ -184,6 +193,15 @@ void cp2_triggered(void)
 		{
 			CheckPoint_2_Triggered = 1;
 			UndoWall();
+			CP_Color color = CP_Color_Create(255, 255, 0, 50);
+			//CP_Vector v = AngleToVector(-90);
+			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+
+			for (int i = 0; i < 36; i++) {
+				CP_Vector v = AngleToVector(i * 10);
+				CreateRay(2395, 1420, 50, v.x * 100, v.y * 100, 0.5, color, false);
+
+			}
 		}
 		if (CheckPoint_2_Triggered == 1)
 		{
@@ -273,3 +291,6 @@ void draw_checkpoint(void)
 		exit_triggered();
 	}
 }
+
+
+//430 to 440 mouse X, to click
