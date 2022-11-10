@@ -93,7 +93,7 @@ void ParticleDisplay(Particle* part, int size)
 
 void CheckEnemies(Ray* ray, Particle* part) {
 	for (int i = 0; i < ENEMY_COUNT; i++) {
-		if (abs(enemy[i].pos.x - part->pos.x) < 25 && abs(enemy[i].pos.y - part->pos.y < 25)) {
+		if (enemy[i].x - part->pos.x < 25 && enemy[i].y - part->pos.y < 25) {
 			enemy_ray_trigger(ray, i);
 		}
 	}
@@ -153,7 +153,6 @@ void ParticleUpdate(Particle* part, Ray* ray)
 
 		CP_Vector newPos = CP_Vector_Set(part->pos.x + part->vel.x * time, part->pos.y + part->vel.y * time);
 		float newTime = time;
-		CheckEnemies(ray, part);
 		if (CheckCollision(ray, part, &newPos, &time)) {
 			ray->bounces++;
 			if (part->isHead) {
