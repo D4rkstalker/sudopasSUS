@@ -6,6 +6,8 @@
 #include "music.h"
 #include "walls.h"
 #include "checkpoint.h"
+#include "SoundCast.h"
+#include <math.h>
 
 
 #define MAXSPEED 10
@@ -72,9 +74,11 @@ void mapScale() { // Mini Map Scaling
 	
 	}
 	
+	/* For Way Point
 	CP_Graphics_DrawRect(point_1.x/1.78, point_1.y/2.78, point_1.w/4, point_1.h/4);
 	CP_Graphics_DrawRect(point_2.x / 2.44, point_2.y / 2.25, point_2.w / 4, point_2.h / 4);
 	CP_Graphics_DrawRect(point_3.x * 1.25, point_3.y / 2.1, point_3.w / 4, point_3.h / 4);
+	*/
 
 
 } 
@@ -120,25 +124,97 @@ void controlskeys(void) {
 void movement(void) {
 	controlskeys();
 
-
+	
 	if (game_states == resume) {
-		/* On Hold for Integration, doesn't work on subcontroller but works on game.c
-		if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) {
-			CP_Color color = CP_Color_Create(255, 50, 50, 255);
-			//CP_Vector v = AngleToVector(0);
-			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
-			printf("%f\n", player1.x);
-			printf("%f\n", WorldX);
-			for (int i = 0; i < 36; i++) {
-				CP_Vector v = AngleToVector(i * 10);
-				CreateRay(player1.x - WorldX, CP_System_GetWindowHeight() / 2 - WorldY, 50, v.x * 400, v.y * 400, 5, color);
+		// On Hold for Integration, doesn't work on subcontroller but works on game.c
+		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
+			if (energy > 40) {
+				float x = CP_System_GetWindowWidth() / 2;
+				float y = CP_System_GetWindowHeight() / 2;
+
+				CP_Color color = CP_Color_Create(255, 255, 255, 155);
+				//CP_Vector v = AngleToVector(90);a
+				//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+				CP_Vector outv = CP_Vector_Normalize(CP_Vector_Subtract(CP_Vector_Set(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY), CP_Vector_Set(x - WorldX, y - WorldY)));
+				float a = CP_Math_Degrees(atan2(outv.y, outv.x));
+				for (int i = -18; i < 18; i++) {
+					CP_Vector v = AngleToVector(a + i * 1);
+					CreateRay(player1.x - WorldX, player1.y - WorldY, 25, v.x * 400, v.y * 400, 1, color, true);
+
+				}
+
+				//CreateRay(click1.x, click1.y, 50, outv.x * 400, outv.y * 400, color);
+
+
+				energy -= 40;
+				CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
+				//CP_Sound_StopGroup(CP_SOUND_GROUP_MUSIC);
+				//CP_Sound_PlayMusic((bgm_submarine));
 
 
 			}
 
 
 		}
-		*/
+		else if (CP_Input_MouseTriggered(MOUSE_BUTTON_2) && energy > 60) {
+			/*
+			CP_Color color = CP_Color_Create(255, 50, 50, 255);
+			//CP_Vector v = AngleToVector(0);
+			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+			
+			for (int i = 0; i < 36; i++) {
+				CP_Vector v = AngleToVector(i * 10);
+				CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x * 400, v.y * 400, 5, color,true);
+
+
+			}
+			*/
+			CP_Color color = CP_Color_Create(255, 255, 255, 255);
+			//CP_Vector v = AngleToVector(0);
+			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+
+			for (int i = 0; i < 36; i++) {
+				CP_Vector v = AngleToVector(i * 10);
+				CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x * 300, v.y * 300, 5, color, false);
+
+
+			}
+			CP_Sound_PlayAdvanced(creepyping, volume, 1, FALSE, 0);
+			energy -= 60;
+
+		}
+		else if (CP_Input_MouseTriggered(MOUSE_BUTTON_3)) {
+			CP_Color color = CP_Color_Create(50, 50, 255, 255);
+			//CP_Vector v = AngleToVector(-90);
+			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+
+			for (int i = 0; i < 36; i++) {
+				CP_Vector v = AngleToVector(i * 10);
+				CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x * 200, v.y * 200, 5, color, false);
+
+
+			}
+
+		}
+
+		if (CP_Input_KeyTriggered(KEY_N)) {
+			if (energy > 30) {
+				CP_Color color = CP_Color_Create(0, 255, 0, 255);
+				//CP_Vector v = AngleToVector(0);
+				//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+
+				for (int i = 0; i < 36; i++) {
+					CP_Vector v = AngleToVector(i * 10);
+					CreateRay(-WorldX + CP_System_GetWindowWidth() / 2, -WorldY + CP_System_GetWindowHeight() / 2, 50, v.x * 200, v.y * 200, 1, color, false);
+
+
+				}
+
+				energy -= 30;
+				CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
+			}
+		}
+		
 		if (CP_Input_KeyDown(KEY_W) && CP_Input_KeyDown(KEY_S)) {
 			player1.acceleration_y = 0;
 
