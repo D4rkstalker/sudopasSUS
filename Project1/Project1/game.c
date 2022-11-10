@@ -3,7 +3,7 @@
 #include "SoundCast.h"
 #include "Utils.h"
 #include "game.h"
-#include "menu.h"
+#include "tutorial.h"
 #include "music.h"
 #include <stdio.h>
 #include "subcontroller.h"
