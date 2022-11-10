@@ -25,6 +25,8 @@ CP_Vector click1;
 
 int time = 0;
 
+tutorial_state = 0;
+
 /*
 WorldX and WorldY functions as the offset for the camera system.
 All coordinates used by all game objects will need to be offset by the WorldX and WorldY coordinates.
@@ -32,9 +34,11 @@ All coordinates used by all game objects will need to be offset by the WorldX an
 //float WorldX = 0;
 //float WorldY = 0;
 
-//Start point of the map
 float WorldX = 800;
-float WorldY = -1700;
+float WorldY = 775;
+//Start point of the map
+//float WorldX = 800;
+//float WorldY = -1700;
 
 //enemy - Jon
 int dead = 0;
@@ -221,6 +225,29 @@ void subgame_update(void) {
 	CP_Font_DrawText("[Esc] Settings", 20, 360);
 	CP_Font_DrawText("[Q] Quit Game", 20, 380);
 
+
+	switch (tutorial_state) {
+	case 0:
+		wake_message();
+		break;
+	case 1:
+		rmb_tut();
+		break;
+	case 2:
+		tutorial_message();
+		break;
+	case 3:
+		dodge();
+		break;
+	case 4:
+		tut_exit();
+		break;
+	case 5:
+		title_screen();
+		break;
+	default:
+		;
+	}
 	//2nd draw layer, the walls of the game
 	if (debug == 1) {
 		DrawWalls();
@@ -260,8 +287,8 @@ void subgame_update(void) {
 
 
 	//Check the controls pressed each frame
-	CheckControls();
 
+	CheckControls();
 
 	//Creating Player
 	if (game_states == resume) {
@@ -269,13 +296,16 @@ void subgame_update(void) {
 		CP_Graphics_DrawCircle(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2, 25);
 	}
 	// movement function
-	movement();
+	if (tutorial_state >= 3)
+	{
+		movement();
+	}
 
 	double title_alpha = -100;
 	double tutorial_alpha = 0;
 	int loop = 0;
 
-	tutorial_message();
+	//tutorial_message();
 
 
 	// World coords on mouse
@@ -285,7 +315,7 @@ void subgame_update(void) {
 	sprintf_s(buffer2, _countof(buffer2), "X:%.0f\nY:%.0f", CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY);
 	CP_Font_DrawText(buffer2, CP_Input_GetMouseX(), CP_Input_GetMouseY() - 20);
 	
-	time++;
+	/*time++;
 	if (time > 10) {
 		CP_Color color = CP_Color_Create(255, 255, 255, 127);
 		//CP_Vector v = AngleToVector(-90);
@@ -300,6 +330,7 @@ void subgame_update(void) {
 		time = 0;
 
 	}
+	*/
 }
 
 void subgame_exit(void) {
