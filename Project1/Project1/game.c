@@ -23,6 +23,8 @@ int energy = 100;
 bool clicked = false;
 CP_Vector click1;
 
+int time = 0;
+
 /*
 WorldX and WorldY functions as the offset for the camera system.
 All coordinates used by all game objects will need to be offset by the WorldX and WorldY coordinates.
@@ -159,25 +161,25 @@ void CheckControls(void) {
 	/* Trigger integration unable to integrate at the moment to subcontroller - MR */
 	if (game_states == resume) {
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
-			if (energy > 30) {
+			if (energy > 40) {
 				float x = CP_System_GetWindowWidth() / 2;
 				float y = CP_System_GetWindowHeight() / 2;
 
-				CP_Color color = CP_Color_Create(90, 180, 77, 155);
+				CP_Color color = CP_Color_Create(255, 255, 255, 155);
 				//CP_Vector v = AngleToVector(90);a
 				//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
 				CP_Vector outv = CP_Vector_Normalize(CP_Vector_Subtract(CP_Vector_Set(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY), CP_Vector_Set(x - WorldX, y - WorldY)));
 				float a = CP_Math_Degrees( atan2(outv.y, outv.x));
 				for (int i = -18; i < 18; i++) {
 					CP_Vector v = AngleToVector(a + i * 1);
-						CreateRay(player1.x - WorldX, player1.y - WorldY, 25, v.x * 300, v.y * 300, 1, color, true);
+						CreateRay(player1.x - WorldX, player1.y - WorldY, 25, v.x * 400, v.y * 400, 1, color, true);
 
 				}
 
 				//CreateRay(click1.x, click1.y, 50, outv.x * 400, outv.y * 400, color);
 
 
-				energy -= 30;
+				energy -= 40;
 				CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
 				//CP_Sound_StopGroup(CP_SOUND_GROUP_MUSIC);
 				//CP_Sound_PlayMusic((bgm_submarine));
@@ -187,18 +189,19 @@ void CheckControls(void) {
 
 
 		}
-		else if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) {
-			CP_Color color = CP_Color_Create(255, 50, 50, 255);
+		else if (CP_Input_MouseTriggered(MOUSE_BUTTON_2) && energy > 60) {
+			CP_Color color = CP_Color_Create(255, 255, 255, 255);
 			//CP_Vector v = AngleToVector(0);
 			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
 
 			for (int i = 0; i < 36; i++) {
 				CP_Vector v = AngleToVector(i * 10);
-				CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x * 400, v.y * 400, 5, color, false);
+				CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x * 300, v.y * 300, 5, color, false);
 
 
 			}
 			CP_Sound_PlayAdvanced(creepyping, volume, 1, FALSE, 0);
+			energy -= 60;
 			//CP_Sound_StopGroup(CP_SOUND_GROUP_MUSIC);
 			//CP_Sound_PlayMusic((bgm_theenemy));
 
@@ -370,7 +373,21 @@ void subgame_update(void) {
 	sprintf_s(buffer2, _countof(buffer2), "X:%.0f\nY:%.0f", CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY);
 	CP_Font_DrawText(buffer2, CP_Input_GetMouseX(), CP_Input_GetMouseY() - 20);
 	
+	time++;
+	if (time > 10) {
+		CP_Color color = CP_Color_Create(255, 255, 255, 127);
+		//CP_Vector v = AngleToVector(-90);
+		//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
 
+		for (int i = 0; i < 18; i++) {
+			CP_Vector v = AngleToVector(i * 20);
+			CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x * 100, v.y * 100, 5, color, false);
+
+
+		}
+		time = 0;
+
+	}
 }
 
 void subgame_exit(void) {
