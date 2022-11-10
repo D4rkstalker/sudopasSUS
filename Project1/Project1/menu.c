@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 #include "cprocessing.h"
 #pragma once
 #include "menu.h"
@@ -168,5 +167,3 @@ void mainmenu_exit(void) {
 
 
 }
-=======
->>>>>>> Stashed changes

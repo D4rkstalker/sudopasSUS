@@ -27,7 +27,6 @@
     <ClInclude Include="music.h" />
     <ClInclude Include="SoundCast.h" />
     <ClInclude Include="subcontroller.h" />
-    <ClInclude Include="tutorial.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="walls.h" />
   </ItemGroup>
@@ -40,7 +39,6 @@
     <ClCompile Include="music.c" />
     <ClCompile Include="SoundCast.c" />
     <ClCompile Include="subcontroller.c" />
-    <ClCompile Include="tutorial.c" />
     <ClCompile Include="Utils.c" />
     <ClCompile Include="walls.c" />
   </ItemGroup>
