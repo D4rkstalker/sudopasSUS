@@ -10,6 +10,7 @@
 #include <math.h>
 #include "enemy.h"
 #include <stdlib.h>
+#include "tutorial.h"
 
 //debug wall flag
 int debug = 1;
