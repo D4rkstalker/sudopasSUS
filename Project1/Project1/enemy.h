@@ -7,16 +7,18 @@ void enemy_exit(void);
 void enemy_place(void);
 void enemy_draw(void);
 int enemy_touch(float WorldX, float WorldY);
-int dead_menu(int dead);
-int enemy_ray_trigger(Ray* ray, int i);
+int dead_menu(void);
+//int enemy_ray_trigger(Ray* ray, int i);
+//void enemy_CheckCollision(ENEMY* enemy, CP_Vector* newPos, float* time);
 
 typedef struct ENEMY {
-	float x;
-	float y;
+
+	CP_Vector pos;
+	CP_Vector vel;
 	float worldx;
 	float worldy;
-	float velocity_x;
-	float velocity_y;
+	float vel_x;
+	float vel_y;
 	float acceleration_x;
 	float acceleration_y;
 	float alpha;

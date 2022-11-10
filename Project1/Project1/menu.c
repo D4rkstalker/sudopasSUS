@@ -4,180 +4,166 @@
 #include "subcontroller.h"
 
 
-float tutorial_alpha = 0;
-float tut_timer = 0.f;
-float tut_duration = 3.f;
-float tut_min_alpha = 0;
-float tut_max_alpha = 255;
-int tut_loop = 0;
-
-float title_alpha = 0;
-float title_timer = 0.f;
-float title_duration = 5.f;
-float title_min_alpha = 0;
-float title_max_alpha = 255;
-int title_loop = 0;
+#define TutorialWalls (10)
 
 
-float EaseInQuad(float start, float end, float value)
-{
-	end -= start;
-	return end * value * value + start;
-}
+double title_alpha = -100;
+double tutorial_alpha = 0;
+int loop = 0;
 
-float EaseOutQuad(float start, float end, float value)
-{
-	end -= start;
-	return -end * value * (value - 2) + start;
+
+
+void mainmenu_init(void) {
+
+	CP_System_SetWindowSize(1920, 1080);
+
 }
 
 void tutorial_message(void)
 {
-	if (tut_loop == 0)
-	{
-		tut_timer += CP_System_GetDt();
-		tutorial_alpha = EaseInQuad(tut_min_alpha, tut_max_alpha, tut_timer / tut_duration);
 
-		//TUTORIAL MESSAGE
-		CP_Settings_Fill(CP_Color_Create(120, 120, 120, tutorial_alpha));
-		CP_Settings_TextSize(100.0f);
-		CP_Font_DrawText("Hey, try moving...", 250.0f, (CP_System_GetWindowHeight() / 2.5f));
+	int tutorial_alpha_speed = 3;
 
 
-
-		CP_Color StartOutline = CP_Color_Create(150, 150, 150, tutorial_alpha);
-		CP_Settings_Stroke(StartOutline);
-		CP_Settings_Fill(CP_Color_Create(25, 25, 25, tutorial_alpha));
-		//W
-		CP_Settings_RectMode(CP_POSITION_CENTER);
-		CP_Graphics_DrawRectAdvanced(810, 700, 70.0f, 70.0f, 0, 10.0f);
-		//A
-		CP_Graphics_DrawRectAdvanced(730, 780, 70.0f, 70.0f, 0, 10.0f);
-		//S
-		CP_Graphics_DrawRectAdvanced(810, 780, 70.0f, 70.0f, 0, 10.0f);
-		//D
-		CP_Graphics_DrawRectAdvanced(890, 780, 70.0f, 70.0f, 0, 10.0f);
-
-		CP_Settings_Fill(CP_Color_Create(120, 120, 120, tutorial_alpha));
-		CP_Settings_TextSize(30.0f);
-		CP_Font_DrawText("W", 785, 700);
-		CP_Font_DrawText("A", 710, 780);
-		CP_Font_DrawText("S", 790, 780);
-		CP_Font_DrawText("D", 870, 780);
-
-
-		if (CP_Input_KeyTriggered(KEY_W) || CP_Input_KeyTriggered(KEY_A) || CP_Input_KeyTriggered(KEY_S) || CP_Input_KeyTriggered(KEY_D))
-		{
-			tutorial_alpha = tutorial_alpha;
-			tut_timer = 0;
-			tut_loop = 1;
-
-		}
+	if (tutorial_alpha < 255 && loop == 0) {
+		tutorial_alpha += 1 * tutorial_alpha_speed;
 	}
-	if (tut_loop == 1)
-		{
-			tut_timer += CP_System_GetDt();
-			tutorial_alpha = EaseOutQuad(tut_max_alpha, tut_min_alpha, tut_timer / tut_duration);
-
-
-			//TUTORIAL MESSAGE
-			CP_Settings_Fill(CP_Color_Create(120, 120, 120, tutorial_alpha));
-			CP_Settings_TextSize(100.0f);
-			CP_Font_DrawText("Hey, try moving...", 250.0f, (CP_System_GetWindowHeight() / 2.5f));
-
-
-
-			CP_Color StartOutline = CP_Color_Create(150, 150, 150, tutorial_alpha);
-			CP_Settings_Stroke(StartOutline);
-			CP_Settings_Fill(CP_Color_Create(25, 25, 25, tutorial_alpha));
-			//W
-			CP_Settings_RectMode(CP_POSITION_CENTER);
-			CP_Graphics_DrawRectAdvanced(810, 700, 70.0f, 70.0f, 0, 10.0f);
-			//A
-			CP_Graphics_DrawRectAdvanced(730, 780, 70.0f, 70.0f, 0, 10.0f);
-			//S
-			CP_Graphics_DrawRectAdvanced(810, 780, 70.0f, 70.0f, 0, 10.0f);
-			//D
-			CP_Graphics_DrawRectAdvanced(890, 780, 70.0f, 70.0f, 0, 10.0f);
-
-			CP_Settings_Fill(CP_Color_Create(120, 120, 120, tutorial_alpha));
-			CP_Settings_TextSize(30.0f);
-			CP_Font_DrawText("W", 785, 700);
-			CP_Font_DrawText("A", 710, 780);
-			CP_Font_DrawText("S", 790, 780);
-			CP_Font_DrawText("D", 870, 780);
-
-
-			if (tutorial_alpha < 10)
-			{
-				CP_Settings_Fill(CP_Color_Create(120, 120, 120, tutorial_alpha));
-				CP_Settings_TextSize(100.0f);
-				CP_Font_DrawText("get fucked", 250.0f, (CP_System_GetWindowHeight() / 2.5f));
-				tut_loop = 2;
-			}
-		}
-	if (tut_loop == 2)
-	{
-		title_screen();
+	if (tutorial_alpha >= 255) {
+		loop = 1;
 	}
-}
-		//if (//check if player passes X)
-		//{
-
-		//}
 
 
-void title_screen(void) 
-{
-	if (title_loop == 0)
-	{
-		title_timer += CP_System_GetDt();
-		title_alpha = EaseInQuad(title_min_alpha, title_max_alpha, title_timer / title_duration);
-		if (title_alpha < 255)
-		{
-			//TITLE CODE
-			CP_Settings_Fill(CP_Color_Create(255, 255, 255, title_alpha));
-			CP_Settings_TextSize(200.0f);
-			CP_Font_DrawText("project", 640.0f, 350.0f);
-			CP_Settings_TextSize(500.0f);
-			CP_Font_DrawText("SONAR", 325.0f, 700.0f);
-		}
-
-		if (title_alpha > 255)
-		{
-			title_loop = 1;
-			title_alpha = 255;
-			title_timer = 0;
-		}
-	}
-	if (title_loop == 1)
-	{
-
-		if (title_alpha > 0)
-		{
-			title_timer += CP_System_GetDt();
-			title_alpha = EaseOutQuad(title_max_alpha, title_min_alpha, title_timer / title_duration);
-			CP_Settings_Fill(CP_Color_Create(255, 255, 255, title_alpha));
-			CP_Settings_TextSize(200.0f);
-			CP_Font_DrawText("project", 640.0f, 350.0f);
-			CP_Settings_TextSize(500.0f);
-			CP_Font_DrawText("SONAR", 325.0f, 700.0f);
-		}
-
-		if (title_alpha < 10)
-		{
-			tut_loop = 4;
-			title_loop = 2;
-			
-		}
-
-	}
-}
-
-void enemy_tutorial(void)
-{
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	//TUTORIAL MESSAGE
+	CP_Settings_Fill(CP_Color_Create(120, 120, 120, tutorial_alpha));
 	CP_Settings_TextSize(100.0f);
-	CP_Font_DrawText("look, there's an enemy nearby.", 640.0f, 350.0f);
+	CP_Font_DrawText("Hey, try moving...", 250.0f, (CP_System_GetWindowHeight() / 2.5f));
+
+
+
+	CP_Color StartOutline = CP_Color_Create(150, 150, 150, tutorial_alpha);
+	CP_Settings_Stroke(StartOutline);
+	CP_Settings_Fill(CP_Color_Create(25, 25, 25, tutorial_alpha));
+	//W
+	CP_Settings_RectMode(CP_POSITION_CENTER);
+	CP_Graphics_DrawRectAdvanced(810, 700, 70.0f, 70.0f, 0, 10.0f);
+	//A
+	CP_Graphics_DrawRectAdvanced(730, 780, 70.0f, 70.0f, 0, 10.0f);
+	//S
+	CP_Graphics_DrawRectAdvanced(810, 780, 70.0f, 70.0f, 0, 10.0f);
+	//D
+	CP_Graphics_DrawRectAdvanced(890, 780, 70.0f, 70.0f, 0, 10.0f);
+
+	CP_Settings_Fill(CP_Color_Create(120, 120, 120, tutorial_alpha));
+	CP_Settings_TextSize(30.0f);
+	CP_Font_DrawText("W", 785, 700);
+	CP_Font_DrawText("A", 710, 780);
+	CP_Font_DrawText("S", 790, 780);
+	CP_Font_DrawText("D", 870, 780);
+
+	//Wait for First Input
+	if ((CP_Input_KeyTriggered(KEY_W) || CP_Input_KeyTriggered(KEY_A) || CP_Input_KeyTriggered(KEY_S) || CP_Input_KeyTriggered(KEY_D)) && loop == 1)
+	{
+		loop = 2;
+
+	}
+
+	//After First Input
+	if (loop == 2 || loop == 3) {
+
+		//fade out tutorial message
+		if (tutorial_alpha > 0 && loop == 2) {
+			tutorial_alpha -= 3 * tutorial_alpha_speed;
+		}
+
+		//Fade in TITLE
+		int title_alpha_speed = 1;
+
+		if (title_alpha < 255 && loop == 2) {
+			title_alpha += 1 * title_alpha_speed;
+		}
+		if (title_alpha >= 155) {
+			loop = 3;
+
+		}
+		//Fade Out Title 
+		if (title_alpha > 0 && loop == 3) {
+			title_alpha -= 3 * tutorial_alpha_speed;
+		}
+
+		//TITLE CODE
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, title_alpha));
+		CP_Settings_TextSize(200.0f);
+		CP_Font_DrawText("project", 640.0f, 350.0f);
+		CP_Settings_TextSize(500.0f);
+		CP_Font_DrawText("SONAR", 325.0f, 700.0f);
+
+	}
+
+	/*
+	//DRAW MAP
+	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 0));
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 10));
+	CP_Settings_RectMode(CP_POSITION_CORNER);
+
+	map tut[TutorialWalls];
+
+	tut[0].x = 0;
+	tut[0].y = 0;
+	tut[0].w = 900;
+	tut[0].h = 1080;
+	CP_Graphics_DrawRect(tut[0].x, tut[0].y, tut[0].w, tut[0].h);
+
+	tut[1].x = 1000;
+	tut[1].y = 0;
+	tut[1].w = 960;
+	tut[1].h = 250;
+	CP_Graphics_DrawRect(tut[1].x, tut[1].y, tut[1].w, tut[1].h);
+
+	tut[2].x = 1000;
+	tut[2].y = 350;
+	tut[2].w = 600;
+	tut[2].h = 400;
+	CP_Graphics_DrawRect(tut[2].x, tut[2].y, tut[2].w, tut[2].h);
+
+	tut[3].x = 1700;
+	tut[3].y = 250;
+	tut[3].w = 300;
+	tut[3].h = 600;
+	CP_Graphics_DrawRect(tut[3].x, tut[3].y, tut[3].w, tut[3].h);
+
+	tut[4].x = 1000;
+	tut[4].y = 850;
+	tut[4].w = 960;
+	tut[4].h = 250;
+	CP_Graphics_DrawRect(tut[4].x, tut[4].y, tut[4].w, tut[4].h);
+	*/
+}
+
+void mainmenu_update(void) {
+	CP_Graphics_ClearBackground(CP_Color_Create(25, 25, 25, 255));
+
+	
+
+
+
+	/*if (CP_Input_KeyTriggered(KEY_Q))
+	{
+		title_alpha = 0;
+		tutorial_alpha = 0;
+		loop = 0;
+		CP_Engine_SetNextGameState(subgame_init, subgame_update, subgame_exit);
+		//CP_Engine_Terminate();
+	}
+	*/
+
+
+
+
+
+}
+
+void mainmenu_exit(void) {
+
+
 
 }

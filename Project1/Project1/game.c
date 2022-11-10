@@ -325,13 +325,10 @@ void subgame_update(void) {
 		CP_Sound_StopGroup(CP_SOUND_GROUP_MUSIC);
 	}
 	if (dead == 1) {
-		dead_menu(dead);
-		if (dead_menu(dead) == 3) {
-			dead = 0;
-			WorldX = 0;
-			WorldY = 0;
-			CP_Sound_PlayMusic((bgm_submarine));
-		}
+		dead_menu();
+		dead = dead_menu();
+		CP_Sound_PlayMusic((bgm_submarine));
+		
 	}
 	
 
