@@ -15,7 +15,7 @@ struct Player {
 } player1;
 
 enum the_states{
-	resume, paused, theMap, volumeC
+	resume, paused, theMap, volumeC, theMenu, reset
 } game_states;
 
 float center_x;

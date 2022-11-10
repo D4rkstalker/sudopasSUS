@@ -5,6 +5,7 @@
 #include "Utils.h"
 #include "music.h"
 #include "walls.h"
+#include "checkpoint.h"
 
 
 #define MAXSPEED 10
@@ -70,6 +71,11 @@ void mapScale() { // Mini Map Scaling
 		CP_Graphics_DrawLine((wall[i].pos1.x/4.5) + 550, (wall[i].pos1.y/4.5) + 300, (wall[i].pos2.x/4.5) + 550, (wall[i].pos2.y/4.5) + 300);
 	
 	}
+	
+	CP_Graphics_DrawRect(point_1.x/1.78, point_1.y/2.78, point_1.w/4, point_1.h/4);
+	CP_Graphics_DrawRect(point_2.x / 2.44, point_2.y / 2.25, point_2.w / 4, point_2.h / 4);
+	CP_Graphics_DrawRect(point_3.x * 1.25, point_3.y / 2.1, point_3.w / 4, point_3.h / 4);
+
 
 } 
 
@@ -85,19 +91,11 @@ void controlskeys(void) {
 	
 
 	if (CP_Input_KeyTriggered(KEY_ESCAPE)) {
-		if (game_states != volumeC) {
-			/*
-			isVolume = 1;
-			isPaused = 1;
-			isMap = 0;
-			*/
-			game_states = volumeC;
+		if (game_states != theMenu) {
+			//game_states = volumeC;
+			game_states = theMenu;
 		}
 		else {
-			/*
-			isVolume = 0;
-			isPaused = 0;
-			*/
 			game_states = resume;
 
 		}
@@ -211,7 +209,11 @@ void movement(void) {
 	if (game_states == theMap) {
 		CP_Settings_Fill(CP_Color_Create(188, 158, 130, 255));
 		CP_Settings_RectMode(CP_POSITION_CORNER); // Line below draws a border
-		CP_Graphics_DrawRect(CP_System_GetDisplayWidth() / 4, CP_System_GetDisplayHeight() / 4, CP_System_GetDisplayWidth() / 2, CP_System_GetDisplayHeight() / 2);
+
+
+
+		CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 4, CP_System_GetWindowHeight() / 4, (CP_System_GetWindowWidth()+50) / 2, (CP_System_GetWindowHeight() + 50) / 2);
+
 		mapScale();
 	}
 

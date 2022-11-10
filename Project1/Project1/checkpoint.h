@@ -27,6 +27,11 @@ typedef struct CheckPoint {
 
 } CheckPoint;
 
+CheckPoint point_1;
+CheckPoint point_2;
+CheckPoint point_3;
+CheckPoint point_exit;
+
 typedef struct Gate {
 	CP_Vector pos1;
 	CP_Vector pos2;
