@@ -45,9 +45,6 @@
     <ClInclude Include="checkpoint.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="tutorial.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -78,9 +75,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="checkpoint.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="tutorial.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
