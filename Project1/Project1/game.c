@@ -271,7 +271,6 @@ void subgame_update(void) {
 	if (dead == 1) {
 		dead_menu();
 		dead = dead_menu();
-		CP_Sound_PlayMusic((bgm_submarine));
 	}
 	
 	

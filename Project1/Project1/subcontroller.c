@@ -162,7 +162,7 @@ void movement(void) {
 
 
 			}
-			CP_Sound_PlayAdvanced(creepyping, volume, 1, FALSE, 0);
+			CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
 			energy -= 60;
 
 		}

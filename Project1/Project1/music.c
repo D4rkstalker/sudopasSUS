@@ -34,6 +34,7 @@ void Sound_Init(void) {
 	CP_Sound_SetGroupVolume(CP_SOUND_GROUP_MUSIC, 0.1);
 	CP_Sound_PlayMusic((bgm_submarine));
 	//CP_Sound_PlayMusic((bgm_theenemy));
+	//CP_Sound_PlayAdvanced(creepyping, volume, 1, FALSE, 0);
 }
 
 void Sound_Deload(void) {

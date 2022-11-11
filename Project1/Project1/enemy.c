@@ -9,6 +9,7 @@
 #include "game.h"
 #include <stdlib.h>
 #include "enemy.h"
+#include "music.h"
 
 float timer;
 float EPSI = 0.00000001;
@@ -23,6 +24,8 @@ void retry_game() {
 	WorldX = 0;
 	WorldY = 0;
 	game_states = resume;
+	CP_Sound_PlayAdvanced(introsound, volume, 1.0, FALSE, 0);
+	CP_Sound_PlayMusic((bgm_submarine));
 }
 int dead_menu(void) {
 

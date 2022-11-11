@@ -91,7 +91,7 @@ void wake_message(void)
 			wake_alpha = wake_alpha;
 			wake_timer = 0;
 			wake_loop = 1;
-
+			CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
 		}
 	}
 	if (wake_loop == 1)
@@ -165,7 +165,7 @@ void rmb_tut(void)
 
 
 			}
-			CP_Sound_PlayAdvanced(creepyping, volume, 1, FALSE, 0);
+			CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
 			rmb_alpha = wake_alpha;
 			rmb_timer = 0;
 			rmb_loop = 1;
@@ -432,6 +432,8 @@ void tut_exit(void)
 		WorldX = 800;
 		WorldY = -1700;
 		tutorial_state = 5;
+
+		CP_Sound_PlayAdvanced(introsound, volume, 1.0, FALSE, 0);
 	}
 }
 
