@@ -46,8 +46,10 @@ int dead_menu(void) {
 		CP_Font_DrawText("Retry from Last Check Point", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 100);
 		CP_Settings_Fill(CP_Color_Create(220, 220, 220, retry_alpha));
 		CP_Settings_Stroke(CP_Color_Create(220, 220, 220, 255));
+		CP_Settings_RectMode(CP_POSITION_CENTER);
 		CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 90, 500, 50);
 	}
+	CP_Settings_RectMode(CP_POSITION_CORNER);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, 0);
 	//Retry Button
 	if (CP_Input_GetMouseWorldX() >= CP_System_GetWindowWidth() / 2 - 250 && CP_Input_GetMouseWorldX() <= CP_System_GetWindowWidth() / 2 + 250 && CP_Input_GetMouseWorldY() >= CP_System_GetWindowHeight() / 2 + 65 && CP_Input_GetMouseWorldY() <= CP_System_GetWindowHeight() / 2 + 115) {
@@ -67,6 +69,13 @@ int dead_menu(void) {
 void enemy_place() {
 	for (int i = 0; i < ENEMY_COUNT; ++i) {
 		enemy[i].alpha = 255;
+		enemy[i].vel.x = 0;
+		enemy[i].vel.y = 0;
+		enemy[i].acceleration_x = 0;
+		enemy[i].acceleration_y = 0;
+		enemy[i].alpha = 255;
+		enemy[i].moving = 0;
+	
 	}
 	// Settings of enemy world cords
 	enemy[0].pos.x = 700;
@@ -92,6 +101,9 @@ void enemy_draw() {
 		CP_Font_DrawText(buffer3, enemy[i].pos.x + WorldX - 45, enemy[i].pos.y + WorldY - 25);
 		sprintf_s(buffer3, _countof(buffer3), "Enemy [%d]", i);
 		CP_Font_DrawText(buffer3, enemy[i].pos.x + WorldX - 35, enemy[i].pos.y + WorldY + 35);
+		if (enemy[i].moving == 1) {
+			enemy_move(enemy, i);
+		}
 	}
 }
 int enemy_touch(float WorldX, float WorldY) {
@@ -106,15 +118,12 @@ int enemy_touch(float WorldX, float WorldY) {
 	return 0;
 }
 void enemy_CheckCollision(ENEMY* enemy, CP_Vector* newPos, float* time, int i) {
+
+
 	for (int i = 0; i < CWall; i++) {
 		if ((CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, wall[i].pos2.x, wall[i].pos2.y)
 			- CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, newPos->x, newPos->y)
 			- CP_Math_Distance(wall[i].pos2.x, wall[i].pos2.y, newPos->x, newPos->y)) > -FUZZYNESS) { //&& part->prevID != i
-			//if (part->isTail == true) {
-			//	part->vel = ray->midpoints[ray->trail].vel;
-			//	*newPos = CP_Vector_Set(part->pos.x + part->vel.x * *time, part->pos.y + part->vel.y * *time);
-			//	return true;
-			//}
 			CP_Vector Vwall = CP_Vector_Normalize(CP_Vector_Subtract(wall[i].pos2, wall[i].pos1));
 			CP_Vector Vray = CP_Vector_Normalize(CP_Vector_Subtract(*newPos, enemy[i].pos));
 			float temp = Vwall.x;
@@ -124,6 +133,7 @@ void enemy_CheckCollision(ENEMY* enemy, CP_Vector* newPos, float* time, int i) {
 			enemy[i].vel = vOut;
 			enemy[i].vel = CP_Vector_Scale(enemy[i].vel, 5);
 			*newPos = CP_Vector_Set(enemy[i].pos.x + enemy[i].pos.x * *time, enemy[i].pos.y + enemy[i].vel.y * *time);
+			//if (enemy[i].vel.x <= 0 && enemy[i].vel.y)
 			return true;
 		}
 		else if (CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, newPos->x, newPos->y) < 2 * FUZZYNESS || CP_Math_Distance(wall[i].pos2.x, wall[i].pos2.y, newPos->x, newPos->y) < 2 * FUZZYNESS) {
@@ -138,22 +148,36 @@ void enemy_CheckCollision(ENEMY* enemy, CP_Vector* newPos, float* time, int i) {
 int enemy_ray_trigger(Ray* ray, int i) {
 
 	enemy[i].vel = CP_Vector_Scale(ray->head.vel, -1);
+	enemy[i].moving = 1;
+
+}
+
+
+void enemy_move(ENEMY* enemy, int i) {	
 
 	float time = CP_System_GetDt();
 	float timeX = time;
 	float timeY = time;
-	while (time > EPSI)
-	{
+
+	while (time > EPSI) {
 		bool collisionX = false;
 		bool collisionY = false;
+
 		CP_Vector newPos = CP_Vector_Set(enemy[i].pos.x + enemy[i].vel.x * time, enemy[i].pos.y + enemy[i].vel.y * time);
 		float newTime = time;
-		enemy_CheckCollision(enemy, &newPos, &time, i);
+		CheckCollision(enemy, &newPos, &time, i);
+
 		enemy[i].pos.x = newPos.x;
 		enemy[i].pos.y = newPos.y;
 		time = 0;
+
 	}
+
 }
+
+
+
+
 void enemy_init(void) {
 	CP_System_SetWindowSize(1920, 1080);
 	CP_System_SetWindowSize(1920, 1080);

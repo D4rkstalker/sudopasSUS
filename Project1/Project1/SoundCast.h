@@ -3,9 +3,9 @@
 #include "walls.h"
 #pragma once
 
-#define MAXRAYS 2000
-#define MAXBOUNCES 300
-#define MAXPARTICLES 200
+#define MAXRAYS 500
+#define MAXBOUNCES 30
+#define MAXPARTICLES 80
 #define FUZZYNESS 1
 
 typedef struct _Particle

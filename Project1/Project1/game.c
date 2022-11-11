@@ -253,10 +253,13 @@ void subgame_update(void) {
 	//2nd draw layer, the walls of the game
 	if (debug == 1) {
 		DrawWalls();
+		//2.5 draw Enemy
+		enemy_draw();
+		
 	}
 
-	//2.5 draw Enemy
-	enemy_draw();
+	//draw checkpoints
+	draw_checkpoint();
 	
 	if (enemy_touch(WorldX, WorldY) == 1 && dead != 1) {
 		//CP_Settings_TextSize(50.0f);
@@ -266,14 +269,11 @@ void subgame_update(void) {
 		CP_Sound_StopGroup(CP_SOUND_GROUP_MUSIC);
 	}
 	if (dead == 1) {
-		dead_menu(dead);
-		if (dead_menu(dead) == 3) {
-			dead = 0;
-			WorldX = 0;
-			WorldY = 0;
-			CP_Sound_PlayMusic((bgm_submarine));
-		}
+		dead_menu();
+		dead = dead_menu();
+		CP_Sound_PlayMusic((bgm_submarine));
 	}
+	
 	
 
 	//3rd draw layer, the raycast
@@ -282,10 +282,6 @@ void subgame_update(void) {
 	//4th draw layer, the UI for the game
 	DrawEnergy();
 	if (energy < 100) energy += 1;
-
-
-	//draw checkpoints
-	draw_checkpoint();
 
 
 	//Check the controls pressed each frame

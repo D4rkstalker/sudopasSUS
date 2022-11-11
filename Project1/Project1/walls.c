@@ -156,8 +156,24 @@ int wallcollision(void) {
 			}
 			player1.acceleration_x = 0;
 			player1.acceleration_y = 0;
-			player1.velocity_x = 0;
-			player1.velocity_y = 0;
+
+			/*
+			CP_Vector line = CP_Vector_Set(wall[i].pos1.x-wall[i].pos2.x, wall[i].pos1.y - wall[i].pos2.y);
+			if (line.x < 0) {
+				line.x = -line.x;
+			}
+			if (line.y < 0) {
+				line.y = -line.y;
+			}
+			CP_Vector_Scale(line, CP_Vector_Length(CP_Vector_Set(player1.velocity_x,player1.velocity_y))/CP_Vector_Length(line));
+			float distx = CP_Math_ClampFloat(player1.velocity_x * line.x,-1,1);
+			float disty = CP_Math_ClampFloat(player1.velocity_y * line.y,-1,1);
+			if (walldistance(i, x1, y1, 0, 0) < walldistance(i, x1, y1, distx, disty)) {
+				WorldX -= distx;
+				WorldY -= disty;
+			}*/
+			player1.velocity_x = -player1.velocity_x * 0.8;
+			player1.velocity_y = -player1.velocity_y * 0.8;
 			return 1;
 		}
 
