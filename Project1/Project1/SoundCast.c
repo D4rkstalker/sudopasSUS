@@ -93,7 +93,7 @@ void ParticleDisplay(Particle* part, int size)
 
 void CheckEnemies(Ray* ray, Particle* part) {
 	for (int i = 0; i < ENEMY_COUNT; i++) {
-		if (enemy[i].pos.x - part->pos.x < 25 && enemy[i].pos.y - part->pos.y < 25) {
+		if (abs(enemy[i].pos.x - part->pos.x) < 25 && abs(enemy[i].pos.y - part->pos.y) < 25) {
 			enemy_ray_trigger(ray, i);
 		}
 	}
