@@ -103,26 +103,19 @@ void CheckEnemies(Ray* ray, Particle* part) {
 }
 
 bool CheckCollision(Ray* ray, Particle* part, CP_Vector* newPos, float* time) {
+	float temp = 0;
 	for (int i = 0; i < CWall; i++) {
 
 		if ((CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, wall[i].pos2.x, wall[i].pos2.y)
 			- CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, newPos->x, newPos->y)
 			- CP_Math_Distance(wall[i].pos2.x, wall[i].pos2.y, newPos->x, newPos->y)) > -FUZZYNESS  ){ //&& part->prevID != i
-			part->prevID = i;
 
-			//if (part->isTail == true) {
-			//	part->vel = ray->midpoints[ray->trail].vel;
-			//	*newPos = CP_Vector_Set(part->pos.x + part->vel.x * *time, part->pos.y + part->vel.y * *time);
-			//	return true;
-			//}
 			CP_Vector Vwall = CP_Vector_Normalize(CP_Vector_Subtract(wall[i].pos2, wall[i].pos1));
 			CP_Vector Vray = CP_Vector_Normalize(CP_Vector_Subtract(*newPos, part->pos));
-			float temp = Vwall.x;
+			temp = Vwall.x;
 			Vwall.x = -Vwall.y;
 			Vwall.y = temp;
-			CP_Vector vOut = CP_Vector_Add(CP_Vector_Scale(Vwall, -2 * CP_Vector_DotProduct(Vray, Vwall)), Vray);
-
-			part->vel = vOut;
+			part->vel = CP_Vector_Add(CP_Vector_Scale(Vwall, -2 * CP_Vector_DotProduct(Vray, Vwall)), Vray);
 			part->vel = CP_Vector_Scale(part->vel, ray->velMult);
 			*newPos = CP_Vector_Set(part->pos.x + part->vel.x * *time, part->pos.y + part->vel.y * *time);
 			return true;
@@ -229,7 +222,7 @@ void _RayUpdate(Ray* ray) {
 void RayUpdate(float _wx, float _wy) {
 	wx = _wx;
 	wy = _wy;
-	for (int i = 0; i < rayCount; ++i)
+	for (int i = 0; i < MAXRAYS; ++i)
 	{
 		_RayUpdate(&rays[i]);
 	}
