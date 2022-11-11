@@ -63,9 +63,11 @@ void draw_checkpoint_1(void)
 	point_1.w = 50;
 	point_1.h = 50;
 
-	CP_Settings_NoStroke();
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Graphics_DrawRect(WorldX + point_1.x, WorldY + point_1.y, point_1.w, point_1.h);
+	if (debug == 1) {
+		CP_Settings_NoStroke();
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+		CP_Graphics_DrawRect(WorldX + point_1.x, WorldY + point_1.y, point_1.w, point_1.h);
+	}
 
 	draw_checkpoint_ping(300, point_1.x, point_1.y + 25);
 
@@ -85,8 +87,10 @@ void draw_checkpoint_2(void)
 	point_2.w = 50;
 	point_2.h = 50;
 
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Graphics_DrawRect(WorldX + point_2.x, WorldY + point_2.y, point_2.w, point_2.h);
+	if (debug == 1) {
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+		CP_Graphics_DrawRect(WorldX + point_2.x, WorldY + point_2.y, point_2.w, point_2.h);
+	}
 
 	draw_checkpoint_ping(300, point_2.x, point_2.y + 25);
 
@@ -106,8 +110,10 @@ void draw_checkpoint_3(void)
 	point_3.w = 50;
 	point_3.h = 50;
 
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Graphics_DrawRect(WorldX + point_3.x, WorldY + point_3.y, point_3.w, point_3.h);
+	if (debug == 1) {
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+		CP_Graphics_DrawRect(WorldX + point_3.x, WorldY + point_3.y, point_3.w, point_3.h);
+	}
 
 	draw_checkpoint_ping(300, point_3.x, point_3.y + 25);
 
@@ -127,9 +133,10 @@ void draw_exit(void)
 	point_exit.w = 50;
 	point_exit.h = 50;
 
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Graphics_DrawRect(WorldX + point_exit.x, WorldY + point_exit.y, point_exit.w, point_exit.h);
-
+	if (debug == 1) {
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+		CP_Graphics_DrawRect(WorldX + point_exit.x, WorldY + point_exit.y, point_exit.w, point_exit.h);
+	}
 }
 
 int CheckPointTrigger(float area_x, float area_y, float area_width, float area_height, float player_X, float player_Y)	
@@ -152,10 +159,12 @@ void cp1_triggered(void)
 
 	if (CheckPointTrigger(point_1.x, point_1.y, point_1.w, point_1.h, x1, y1) == 1)
 	{
-		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, cp1_progress, 25.0f);
-		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 10));
-		CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, 100.0f, 25.0f);
+		if (debug == 1) {
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+			CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, cp1_progress, 25.0f);
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 10));
+			CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, 100.0f, 25.0f);
+		}
 		cp1_progress++;
 		if (cp1_progress == 100)
 		{
@@ -189,10 +198,12 @@ void cp2_triggered(void)
 
 	if (CheckPointTrigger(point_2.x, point_2.y, point_2.w, point_2.h, x1, y1) == 1)
 	{
-		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, cp2_progress, 25.0f);
-		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 10));
-		CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, 100.0f, 25.0f);
+		if (debug == 1) {
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+			CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, cp2_progress, 25.0f);
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 10));
+			CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, 100.0f, 25.0f);
+		}
 		cp2_progress++;
 		if (cp2_progress == 100)
 		{
@@ -226,10 +237,12 @@ void cp3_triggered(void)
 
 	if (CheckPointTrigger(point_3.x, point_3.y, point_3.w, point_3.h, x1, y1) == 1)
 	{
-		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, cp3_progress, 25.0f);
-		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 10));
-		CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, 100.0f, 25.0f);
+		if (debug == 1) {
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+			CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, cp3_progress, 25.0f);
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 10));
+			CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, 100.0f, 25.0f);
+		}
 		cp3_progress++;
 		if (cp3_progress == 100)
 		{
