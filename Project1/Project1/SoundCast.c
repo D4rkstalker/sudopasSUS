@@ -64,10 +64,12 @@ void RemoveMidpoint(Ray* ray) {
 
 }
 
-void CreateRay(float x, float y, int length, int velx, int vely, int fade, CP_Color color, bool trackToSource) {
+void CreateRay(float x, float y, int length, float velx, float vely, int fade, CP_Color color, bool trackToSource, int velMult) {
 	Ray ray = {0};
 	ray.color = color;
-	Particle head = CreateParticle(x, y, velx, vely, ray.color, false, true, false);
+	velx *= velMult;
+	vely *= velMult;
+	Particle head = CreateParticle(x, y, velx , vely, ray.color, false, true, false);
 	Particle tail = CreateParticle(x, y, velx, vely, ray.color, true, false, true);
 	ray.mids = 0;
 	ray.trail = 0;
@@ -78,6 +80,7 @@ void CreateRay(float x, float y, int length, int velx, int vely, int fade, CP_Co
 	ray.maxLength = length;
 	ray.trackToSource = trackToSource;
 	ray.bounces = 0;
+	ray.velMult = velMult;
 	rays[rayCount] = ray;
 	rayCount++;
 	if (rayCount > MAXRAYS) {
@@ -120,7 +123,7 @@ bool CheckCollision(Ray* ray, Particle* part, CP_Vector* newPos, float* time) {
 			CP_Vector vOut = CP_Vector_Add(CP_Vector_Scale(Vwall, -2 * CP_Vector_DotProduct(Vray, Vwall)), Vray);
 
 			part->vel = vOut;
-			part->vel = CP_Vector_Scale(part->vel, 200);
+			part->vel = CP_Vector_Scale(part->vel, ray->velMult);
 			*newPos = CP_Vector_Set(part->pos.x + part->vel.x * *time, part->pos.y + part->vel.y * *time);
 			return true;
 		}
