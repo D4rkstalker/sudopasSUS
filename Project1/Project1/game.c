@@ -268,14 +268,11 @@ void subgame_update(void) {
 		CP_Sound_StopGroup(CP_SOUND_GROUP_MUSIC);
 	}
 	if (dead == 1) {
-		dead_menu(dead);
-		if (dead_menu(dead) == 3) {
-			dead = 0;
-			WorldX = 0;
-			WorldY = 0;
-			CP_Sound_PlayMusic((bgm_submarine));
-		}
+		dead_menu();
+		dead = dead_menu();
+		CP_Sound_PlayMusic((bgm_submarine));
 	}
+	
 	
 
 	//3rd draw layer, the raycast
@@ -316,22 +313,20 @@ void subgame_update(void) {
 		sprintf_s(buffer2, _countof(buffer2), "X:%.0f\nY:%.0f", CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY);
 		CP_Font_DrawText(buffer2, CP_Input_GetMouseX(), CP_Input_GetMouseY() - 20);
 	}
-	/*time++;
+	time++;
 	if (time > 10) {
 		CP_Color color = CP_Color_Create(255, 255, 255, 127);
-		//CP_Vector v = AngleToVector(-90);
-		//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
 
 		for (int i = 0; i < 18; i++) {
 			CP_Vector v = AngleToVector(i * 20);
-			CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x * 100, v.y * 100, 5, color, false);
+			CreateRay(player1.x - WorldX, player1.y - WorldY, 20, v.x , v.y , 1, color, false,50);
 
 
 		}
 		time = 0;
 
 	}
-	*/
+	
 }
 
 void subgame_exit(void) {

@@ -84,7 +84,7 @@ void wake_message(void)
 			CP_Color color = CP_Color_Create(255, 255, 255, 55);
 			for (int i = 0; i < 50; i++) {
 				CP_Vector v = AngleToVector(i * 7);
-				CreateRay(160, -235, 25, v.x * 50, v.y * 50, 0.2, color, false);
+				CreateRay(160, -235, 25, v.x , v.y , 0.2, color, false,50);
 			}
 			wake_alpha = wake_alpha;
 			wake_timer = 0;
@@ -315,7 +315,7 @@ void dodge()
 			CP_Color color = CP_Color_Create(255, 255, 0, 50);
 			for (int i = 0; i < 20; i++) {
 				CP_Vector v = AngleToVector(i * 18);
-				CreateRay(1990, -300, 10, v.x * 100, v.y * 100, 0.5, color, false);
+				CreateRay(1990, -300, 10, v.x, v.y, 1, color, false,100);
 			}
 			tutorial_state = 4;
 		}
@@ -380,7 +380,7 @@ void tut_exit(void)
 		CP_Color color = CP_Color_Create(255, 255, 0, 50);
 		for (int i = 0; i < 20; i++) {
 			CP_Vector v = AngleToVector(i * 18);
-			CreateRay(1990, -300, 10, v.x * 100, v.y * 100, 0.5, color, false);
+			CreateRay(1990, -300, 10, v.x , v.y, 1, color, false,100);
 		}
 
 		timer = 0;
