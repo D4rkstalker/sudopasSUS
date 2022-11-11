@@ -84,7 +84,7 @@ void mapScale() { // Mini Map Scaling
 } 
 
 void controlskeys(void) {
-	if (CP_Input_KeyTriggered(KEY_SPACE)) { // Sample of a Pause phase
+	if (CP_Input_KeyTriggered(KEY_BACKSPACE)) { // Sample of a Pause phase
 		if (game_states != paused) {
 			game_states = paused;
 		}

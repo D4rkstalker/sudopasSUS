@@ -26,6 +26,7 @@ CP_Vector click1;
 int time = 0;
 
 tutorial_state = 0;
+shutdown_state = 1;
 
 /*
 WorldX and WorldY functions as the offset for the camera system.
@@ -317,18 +318,20 @@ void subgame_update(void) {
 		sprintf_s(buffer2, _countof(buffer2), "X:%.0f\nY:%.0f", CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY);
 		CP_Font_DrawText(buffer2, CP_Input_GetMouseX(), CP_Input_GetMouseY() - 20);
 	}
+
+	if (shutdown_state == 0){
 	time++;
 	if (time > 10) {
 		CP_Color color = CP_Color_Create(255, 255, 255, 127);
 
 		for (int i = 0; i < 18; i++) {
 			CP_Vector v = AngleToVector(i * 20);
-			CreateRay(player1.x - WorldX, player1.y - WorldY, 20, v.x , v.y , 1, color, false,50);
+			CreateRay(player1.x - WorldX, player1.y - WorldY, 20, v.x, v.y, 1, color, false, 50);
 
 
 		}
 		time = 0;
-
+	}
 	}
 	
 }

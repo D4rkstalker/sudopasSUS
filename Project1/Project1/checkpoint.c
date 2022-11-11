@@ -36,12 +36,12 @@ void draw_checkpoint_ping(float delay, float x, float y)
 	cp_pingtimer++;
 	if (cp_pingtimer == delay) //Ping every 300 frames
 	{
-		CP_Color color = CP_Color_Create(255, 255, 0, 50);
+		CP_Color color = CP_Color_Create(255, 255, 0, 150);
 		//CP_Vector v = AngleToVector(-90);
 		//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
 
 		for (int i = 0; i < 16; i++) {
-			CP_Vector v = AngleToVector(i * 20);
+			CP_Vector v = AngleToVector(i * 23);
 			CreateRay(x, y, 50, v.x, v.y , 0.1, color, false,100);
 		}
 
@@ -63,11 +63,11 @@ void draw_checkpoint_1(void)
 	point_1.w = 50;
 	point_1.h = 50;
 
-	CP_Settings_NoStroke();
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Graphics_DrawRect(WorldX + point_1.x, WorldY + point_1.y, point_1.w, point_1.h);
+	//CP_Settings_NoStroke();
+	//CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	//CP_Graphics_DrawRect(WorldX + point_1.x, WorldY + point_1.y, point_1.w, point_1.h);
 
-	draw_checkpoint_ping(300, point_1.x, point_1.y + 25);
+	draw_checkpoint_ping(150, point_1.x, point_1.y + 25);
 
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
@@ -85,10 +85,10 @@ void draw_checkpoint_2(void)
 	point_2.w = 50;
 	point_2.h = 50;
 
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Graphics_DrawRect(WorldX + point_2.x, WorldY + point_2.y, point_2.w, point_2.h);
+	//CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	//CP_Graphics_DrawRect(WorldX + point_2.x, WorldY + point_2.y, point_2.w, point_2.h);
 
-	draw_checkpoint_ping(300, point_2.x, point_2.y + 25);
+	draw_checkpoint_ping(150, point_2.x, point_2.y + 25);
 
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
@@ -106,10 +106,10 @@ void draw_checkpoint_3(void)
 	point_3.w = 50;
 	point_3.h = 50;
 
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Graphics_DrawRect(WorldX + point_3.x, WorldY + point_3.y, point_3.w, point_3.h);
+	//CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	//CP_Graphics_DrawRect(WorldX + point_3.x, WorldY + point_3.y, point_3.w, point_3.h);
 
-	draw_checkpoint_ping(300, point_3.x, point_3.y + 25);
+	draw_checkpoint_ping(150, point_3.x, point_3.y + 25);
 
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
@@ -127,8 +127,10 @@ void draw_exit(void)
 	point_exit.w = 50;
 	point_exit.h = 50;
 
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Graphics_DrawRect(WorldX + point_exit.x, WorldY + point_exit.y, point_exit.w, point_exit.h);
+	draw_checkpoint_ping(150, point_exit.x, point_exit.y + 25);
+
+	//CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	//CP_Graphics_DrawRect(WorldX + point_exit.x, WorldY + point_exit.y, point_exit.w, point_exit.h);
 
 }
 
@@ -152,7 +154,34 @@ void cp1_triggered(void)
 
 	if (CheckPointTrigger(point_1.x, point_1.y, point_1.w, point_1.h, x1, y1) == 1)
 	{
-		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+		CP_Settings_Fill(CP_Color_Create(120, 120, 120, 50));
+		CP_Settings_TextSize(65.0f);
+		CP_Font_DrawText("Press", 600, 725);
+
+		CP_Color StartOutline = CP_Color_Create(150, 150, 150, 50);
+		CP_Settings_Stroke(StartOutline);
+		CP_Settings_Fill(CP_Color_Create(25, 25, 25, 50));
+		//space
+		CP_Settings_RectMode(CP_POSITION_CENTER);
+		CP_Graphics_DrawRectAdvanced(1010, 700, 500.0f, 70.0f, 0, 10.0f);
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 20));
+		CP_Graphics_DrawRectAdvanced(1010, 710, 150.0f, 5.0f, 0, 0.0f);
+
+		if (CP_Input_KeyTriggered(KEY_SPACE))
+		{
+			CheckPoint_1_Triggered = 1;
+			UndoWall();
+			CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
+			CP_Color color = CP_Color_Create(255, 255, 0, 50);
+			//CP_Vector v = AngleToVector(-90);
+			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+
+			for (int i = 0; i < 36; i++) {
+				CP_Vector v = AngleToVector(i * 10);
+				CreateRay(1645, 1960, 50, v.x, v.y, 0.5, color, false, 100);
+			}
+		}
+		/*CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 		CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, cp1_progress, 25.0f);
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 10));
 		CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, 100.0f, 25.0f);
@@ -176,7 +205,7 @@ void cp1_triggered(void)
 		{
 			cp1_progress = 100;
 		}
-
+		*/
 	}
 
 }
@@ -185,8 +214,37 @@ void cp2_triggered(void)
 {
 	float x1 = -WorldX + CP_System_GetWindowWidth() / 2;
 	float y1 = -WorldY + CP_System_GetWindowHeight() / 2;
+	if (CheckPointTrigger(point_2.x, point_2.y, point_2.w, point_2.h, x1, y1) == 1)
+	{
+		CP_Settings_Fill(CP_Color_Create(120, 120, 120, 50));
+		CP_Settings_TextSize(65.0f);
+		CP_Font_DrawText("Press", 600, 725);
 
+		CP_Color StartOutline = CP_Color_Create(150, 150, 150, 50);
+		CP_Settings_Stroke(StartOutline);
+		CP_Settings_Fill(CP_Color_Create(25, 25, 25, 50));
+		//space
+		CP_Settings_RectMode(CP_POSITION_CENTER);
+		CP_Graphics_DrawRectAdvanced(1010, 700, 500.0f, 70.0f, 0, 10.0f);
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 20));
+		CP_Graphics_DrawRectAdvanced(1010, 710, 150.0f, 5.0f, 0, 0.0f);
 
+		if (CP_Input_KeyTriggered(KEY_SPACE))
+		{
+			CheckPoint_2_Triggered = 1;
+			UndoWall();
+			CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
+			CP_Color color = CP_Color_Create(255, 255, 0, 50);
+			//CP_Vector v = AngleToVector(-90);
+			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+
+			for (int i = 0; i < 36; i++) {
+				CP_Vector v = AngleToVector(i * 10);
+				CreateRay(1645, 1960, 50, v.x, v.y, 0.5, color, false, 100);
+			}
+		}
+	}
+	/*
 	if (CheckPointTrigger(point_2.x, point_2.y, point_2.w, point_2.h, x1, y1) == 1)
 	{
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
@@ -214,7 +272,7 @@ void cp2_triggered(void)
 			cp2_progress = 100;
 		}
 
-	}
+	}*/
 
 }
 
@@ -222,8 +280,38 @@ void cp3_triggered(void)
 {
 	float x1 = -WorldX + CP_System_GetWindowWidth() / 2;
 	float y1 = -WorldY + CP_System_GetWindowHeight() / 2;
+	if (CheckPointTrigger(point_3.x, point_3.y, point_3.w, point_3.h, x1, y1) == 1)
 
+	{
+		CP_Settings_Fill(CP_Color_Create(120, 120, 120, 50));
+		CP_Settings_TextSize(65.0f);
+		CP_Font_DrawText("Press", 600, 725);
 
+		CP_Color StartOutline = CP_Color_Create(150, 150, 150, 50);
+		CP_Settings_Stroke(StartOutline);
+		CP_Settings_Fill(CP_Color_Create(25, 25, 25, 50));
+		//space
+		CP_Settings_RectMode(CP_POSITION_CENTER);
+		CP_Graphics_DrawRectAdvanced(1010, 700, 500.0f, 70.0f, 0, 10.0f);
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 20));
+		CP_Graphics_DrawRectAdvanced(1010, 710, 150.0f, 5.0f, 0, 0.0f);
+
+		if (CP_Input_KeyTriggered(KEY_SPACE))
+		{
+			CheckPoint_3_Triggered = 1;
+			UndoWall();
+			CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
+			CP_Color color = CP_Color_Create(255, 255, 0, 50);
+			//CP_Vector v = AngleToVector(-90);
+			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+
+			for (int i = 0; i < 36; i++) {
+				CP_Vector v = AngleToVector(i * 10);
+				CreateRay(1645, 1960, 50, v.x, v.y, 0.5, color, false, 100);
+			}
+		}
+	}
+	/*
 	if (CheckPointTrigger(point_3.x, point_3.y, point_3.w, point_3.h, x1, y1) == 1)
 	{
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
@@ -242,7 +330,7 @@ void cp3_triggered(void)
 			cp3_progress = 100;
 		}
 
-	}
+	}*/
 
 }
 
@@ -254,20 +342,9 @@ void exit_triggered(void)
 
 	if (CheckPointTrigger(point_exit.x, point_exit.y, point_exit.w, point_exit.h, x1, y1) == 1)
 	{
-		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, exit_progress, 25.0f);
-		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 10));
-		CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, 100.0f, 25.0f);
-		exit_progress++;
-		if (exit_progress == 100)
-		{
-			exit_Triggered = 1;
-		}
-		if (CheckPoint_3_Triggered == 1)
-		{
-			exit_progress = 100;
-		}
-
+		CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
+		CP_Settings_TextSize(65.0f);
+		CP_Font_DrawText("YOU WON!", CP_System_GetDisplayWidth()/2, CP_System_GetDisplayHeight() / 2);
 	}
 
 }
