@@ -64,7 +64,7 @@ void RemoveMidpoint(Ray* ray) {
 
 }
 
-void CreateRay(float x, float y, int length, float velx, float vely, int fade, CP_Color color, bool trackToSource, int velMult) {
+void CreateRay(float x, float y, int length, float velx, float vely, int fade, CP_Color color, bool trackToSource, int velMult, bool isPlayer) {
 	Ray ray = {0};
 	ray.color = color;
 	velx *= velMult;
@@ -81,6 +81,7 @@ void CreateRay(float x, float y, int length, float velx, float vely, int fade, C
 	ray.trackToSource = trackToSource;
 	ray.bounces = 0;
 	ray.velMult = velMult;
+	ray.isPlayer = isPlayer;
 	rays[rayCount] = ray;
 	rayCount++;
 	if (rayCount > MAXRAYS) {

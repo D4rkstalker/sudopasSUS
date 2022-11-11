@@ -137,7 +137,7 @@ void movement(void) {
 				float a = CP_Math_Degrees(atan2(outv.y, outv.x));
 				for (int i = -18; i < 18; i++) {
 					CP_Vector v = AngleToVector(a + i * 1);
-					CreateRay(player1.x - WorldX, player1.y - WorldY, 25, v.x, v.y, 1, color, true, 200);
+					CreateRay(player1.x - WorldX, player1.y - WorldY, 25, v.x, v.y, 1, color, true, 200,true);
 
 				}
 
@@ -158,7 +158,7 @@ void movement(void) {
 
 			for (int i = 0; i < 36; i++) {
 				CP_Vector v = AngleToVector(i * 10);
-				CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x, v.y, 2, color, false,100);
+				CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x, v.y, 2, color, false,100,true);
 
 
 			}

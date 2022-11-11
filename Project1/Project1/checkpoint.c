@@ -42,7 +42,7 @@ void draw_checkpoint_ping(float delay, float x, float y)
 
 		for (int i = 0; i < 16; i++) {
 			CP_Vector v = AngleToVector(i * 23);
-			CreateRay(x, y, 50, v.x, v.y , 0.1, color, false,100);
+			CreateRay(x, y, 50, v.x, v.y , 0.1, color, false,100,false);
 		}
 
 		if (x + WorldX >= 0 && x + WorldX <= CP_System_GetWindowWidth() && y + WorldY >= 0 && y + WorldY <= CP_System_GetWindowHeight()) {
@@ -195,7 +195,7 @@ void cp1_triggered(void)
 
 			for (int i = 0; i < 36; i++) {
 				CP_Vector v = AngleToVector(i * 10);
-				CreateRay(1645, 1960, 50, v.x, v.y, 0.5, color, false, 100);
+				CreateRay(1645, 1960, 50, v.x, v.y, 0.5, color, false, 100,false);
 			}
 		}
 		/*CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
@@ -263,7 +263,7 @@ void cp2_triggered(void)
 
 			for (int i = 0; i < 36; i++) {
 				CP_Vector v = AngleToVector(i * 10);
-				CreateRay(1645, 1960, 50, v.x, v.y, 0.5, color, false, 100);
+				CreateRay(1645, 1960, 50, v.x, v.y, 0.5, color, false, 100,false);
 			}
 		}
 	}
@@ -332,7 +332,7 @@ void cp3_triggered(void)
 
 			for (int i = 0; i < 36; i++) {
 				CP_Vector v = AngleToVector(i * 10);
-				CreateRay(1645, 1960, 50, v.x, v.y, 0.5, color, false, 100);
+				CreateRay(1645, 1960, 50, v.x, v.y, 0.5, color, false, 100,false);
 			}
 		}
 	}

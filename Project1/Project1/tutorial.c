@@ -85,7 +85,7 @@ void wake_message(void)
 			CP_Color color = CP_Color_Create(255, 255, 255, 55);
 			for (int i = 0; i < 50; i++) {
 				CP_Vector v = AngleToVector(i * 7);
-				CreateRay(160, -235, 25, v.x , v.y , 0.2, color, false,50);
+				CreateRay(160, -235, 25, v.x , v.y , 0.2, color, false,50,false);
 			}
 			shutdown_state = 0;
 			wake_alpha = wake_alpha;
@@ -161,7 +161,7 @@ void rmb_tut(void)
 
 			for (int i = 0; i < 36; i++) {
 				CP_Vector v = AngleToVector(i * 10);
-				CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x, v.y, 2, color, false, 100);
+				CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x, v.y, 2, color, false, 100,false);
 
 
 			}
@@ -326,7 +326,7 @@ void dodge()
 			CP_Color color = CP_Color_Create(255, 255, 0, 150);
 			for (int i = 0; i < 20; i++) {
 				CP_Vector v = AngleToVector(i * 18);
-				CreateRay(1990, -300, 10, v.x, v.y, 1, color, false,100);
+				CreateRay(1990, -300, 10, v.x, v.y, 1, color, false,100,true);
 			}
 			tutorial_state = 4;
 		}
@@ -391,7 +391,7 @@ void tut_exit(void)
 		CP_Color color = CP_Color_Create(255, 255, 0, 150);
 		for (int i = 0; i < 20; i++) {
 			CP_Vector v = AngleToVector(i * 18);
-			CreateRay(1990, -320, 10, v.x , v.y, 1, color, false,100);
+			CreateRay(1990, -320, 10, v.x , v.y, 1, color, false,100,false);
 		}
 
 		timer = 0;
@@ -419,15 +419,15 @@ void tut_exit(void)
 		CP_Color color = CP_Color_Create(255, 255, 0, 100);
 		for (int i = 0; i < 10; i++) {
 			CP_Vector v = AngleToVector(i * 36);
-			CreateRay(123, 2230, 100, v.x, v.y, 1, color, false, 100);
+			CreateRay(123, 2230, 100, v.x, v.y, 1, color, false, 100,false);
 		}
 		for (int i = 0; i < 20; i++) {
 			CP_Vector v = AngleToVector(i * 18);
-			CreateRay(500, 2230, 200, v.x, v.y, 1, color, false, 75);
+			CreateRay(500, 2230, 200, v.x, v.y, 1, color, false, 75, false);
 		}
 		for (int i = 0; i < 30; i++) {
 			CP_Vector v = AngleToVector(i * 12);
-			CreateRay(1000, 2230, 300, v.x, v.y, 1, color, false, 25);
+			CreateRay(1000, 2230, 300, v.x, v.y, 1, color, false, 25, false);
 		}
 		WorldX = 800;
 		WorldY = -1700;

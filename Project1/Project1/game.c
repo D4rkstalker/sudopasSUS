@@ -321,7 +321,7 @@ void subgame_update(void) {
 
 		for (int i = 0; i < 18; i++) {
 			CP_Vector v = AngleToVector(i * 20);
-			CreateRay(player1.x - WorldX, player1.y - WorldY, 20, v.x, v.y, 1, color, false, 50);
+			CreateRay(player1.x - WorldX, player1.y - WorldY, 20, v.x, v.y, 1, color, false, 50,true);
 
 
 		}
