@@ -42,7 +42,7 @@ void draw_checkpoint_ping(float delay, float x, float y)
 
 		for (int i = 0; i < 16; i++) {
 			CP_Vector v = AngleToVector(i * 20);
-			CreateRay(x, y, 50, v.x * 100, v.y * 100, 0.1, color, false);
+			CreateRay(x, y, 50, v.x, v.y , 0.1, color, false,100);
 		}
 
 		if (x + WorldX >= 0 && x + WorldX <= CP_System_GetWindowWidth() && y + WorldY >= 0 && y + WorldY <= CP_System_GetWindowHeight()) {
@@ -168,7 +168,7 @@ void cp1_triggered(void)
 
 			for (int i = 0; i < 36; i++) {
 				CP_Vector v = AngleToVector(i * 10);
-				CreateRay(1645, 1960, 50, v.x * 100, v.y * 100, 0.5, color, false);
+				CreateRay(1645, 1960, 50, v.x, v.y, 0.5, color, false,100);
 
 			}
 		}
@@ -205,7 +205,7 @@ void cp2_triggered(void)
 
 			for (int i = 0; i < 36; i++) {
 				CP_Vector v = AngleToVector(i * 10);
-				CreateRay(2395, 1420, 50, v.x * 100, v.y * 100, 0.5, color, false);
+				CreateRay(2395, 1420, 50, v.x, v.y, 0.5, color, false,100);
 
 			}
 		}

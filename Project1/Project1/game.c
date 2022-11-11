@@ -206,25 +206,26 @@ void subgame_update(void) {
 
 
 	//CONTROL SCHEME FOR TESTING
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Settings_TextSize(20.0f);
-	CP_Font_DrawText("[0] DEBUG MODE", 20, 20);
-	CP_Font_DrawText("[T] DRAW LINE", 20, 40);
-	CP_Font_DrawText("[Y] DRAW TRIANGLE", 20, 60);
-	CP_Font_DrawText("[U] PLACE POINT(S)", 20, 80);
-	CP_Font_DrawText("[I] DRAW POINTS", 20, 100);
-	CP_Font_DrawText("[P] SAVE MAP", 20, 120);
-	CP_Font_DrawText("[Z] UNDO LAST PLACED WALL", 20, 140);
-	CP_Font_DrawText("[M1] FOCUSED BEAM", 20, 200);
-	CP_Font_DrawText("[M2] AOE BEAM", 20, 220);
-	CP_Font_DrawText("[M3] AOE BEAM", 20, 240);
-	CP_Font_DrawText("[N] AOE BEAM FROM PLAYER", 20, 260);
-	//CP_Font_DrawText("[K] ENEMY TEST", 20, 320);
-	CP_Font_DrawText("[M] MINI MAP", 20, 300);
-	CP_Font_DrawText("[Space] Pause", 20, 340);
-	CP_Font_DrawText("[Esc] Settings", 20, 360);
-	CP_Font_DrawText("[Q] Quit Game", 20, 380);
-
+	if (debug == 1) {
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+		CP_Settings_TextSize(20.0f);
+		CP_Font_DrawText("[0] DEBUG MODE", 20, 20);
+		CP_Font_DrawText("[T] DRAW LINE", 20, 40);
+		CP_Font_DrawText("[Y] DRAW TRIANGLE", 20, 60);
+		CP_Font_DrawText("[U] PLACE POINT(S)", 20, 80);
+		CP_Font_DrawText("[I] DRAW POINTS", 20, 100);
+		CP_Font_DrawText("[P] SAVE MAP", 20, 120);
+		CP_Font_DrawText("[Z] UNDO LAST PLACED WALL", 20, 140);
+		CP_Font_DrawText("[M1] FOCUSED BEAM", 20, 200);
+		CP_Font_DrawText("[M2] AOE BEAM", 20, 220);
+		CP_Font_DrawText("[M3] AOE BEAM", 20, 240);
+		CP_Font_DrawText("[N] AOE BEAM FROM PLAYER", 20, 260);
+		//CP_Font_DrawText("[K] ENEMY TEST", 20, 320);
+		CP_Font_DrawText("[M] MINI MAP", 20, 300);
+		CP_Font_DrawText("[Space] Pause", 20, 340);
+		CP_Font_DrawText("[Esc] Settings", 20, 360);
+		CP_Font_DrawText("[Q] Quit Game", 20, 380);
+	}
 
 	switch (tutorial_state) {
 	case 0:
@@ -288,7 +289,7 @@ void subgame_update(void) {
 	CheckControls();
 
 	//Creating Player
-	if (game_states == resume) {
+	if (game_states == resume && debug == 1) {
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 		CP_Graphics_DrawCircle(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2, 25);
 	}
@@ -306,28 +307,27 @@ void subgame_update(void) {
 
 
 	// World coords on mouse
-	CP_Settings_TextSize(20.0f);
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	char buffer2[100] = { 0 };
-	sprintf_s(buffer2, _countof(buffer2), "X:%.0f\nY:%.0f", CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY);
-	CP_Font_DrawText(buffer2, CP_Input_GetMouseX(), CP_Input_GetMouseY() - 20);
-	
-	/*time++;
+	if (debug == 1) {
+		CP_Settings_TextSize(20.0f);
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+		char buffer2[100] = { 0 };
+		sprintf_s(buffer2, _countof(buffer2), "X:%.0f\nY:%.0f", CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY);
+		CP_Font_DrawText(buffer2, CP_Input_GetMouseX(), CP_Input_GetMouseY() - 20);
+	}
+	time++;
 	if (time > 10) {
 		CP_Color color = CP_Color_Create(255, 255, 255, 127);
-		//CP_Vector v = AngleToVector(-90);
-		//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
 
 		for (int i = 0; i < 18; i++) {
 			CP_Vector v = AngleToVector(i * 20);
-			CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x * 100, v.y * 100, 5, color, false);
+			CreateRay(player1.x - WorldX, player1.y - WorldY, 20, v.x , v.y , 1, color, false,50);
 
 
 		}
 		time = 0;
 
 	}
-	*/
+	
 }
 
 void subgame_exit(void) {
