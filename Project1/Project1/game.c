@@ -314,7 +314,7 @@ void subgame_update(void) {
 		CP_Font_DrawText(buffer2, CP_Input_GetMouseX(), CP_Input_GetMouseY() - 20);
 	}
 
-	if (shutdown_state == 0){
+	if (shutdown_state == 0 || game_states != resume){
 	time++;
 	if (time > 10) {
 		CP_Color color = CP_Color_Create(255, 255, 255, 127);

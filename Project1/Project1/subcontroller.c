@@ -70,7 +70,7 @@ void mapScale() { // Mini Map Scaling
 
 	for (i = 0; i < CWall + 1; i++) {
 		CP_Settings_RectMode(CP_POSITION_CENTER);
-		CP_Graphics_DrawLine((wall[i].pos1.x/4.5) + 550, (wall[i].pos1.y/4.5) + 300, (wall[i].pos2.x/4.5) + 550, (wall[i].pos2.y/4.5) + 300);
+		CP_Graphics_DrawLine((wall[i].pos1.x/9) + 550, (wall[i].pos1.y/9) + 300, (wall[i].pos2.x/9) + 550, (wall[i].pos2.y/9) + 300);
 	
 	}
 	
