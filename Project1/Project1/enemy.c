@@ -165,7 +165,7 @@ void enemy_move(ENEMY* enemy, int i) {
 
 		CP_Vector newPos = CP_Vector_Set(enemy[i].pos.x + enemy[i].vel.x * time, enemy[i].pos.y + enemy[i].vel.y * time);
 		float newTime = time;
-		CheckCollision(enemy, &newPos, &time, i);
+		enemy_CheckCollision(enemy, &newPos, &time, i);
 
 		enemy[i].pos.x = newPos.x;
 		enemy[i].pos.y = newPos.y;
