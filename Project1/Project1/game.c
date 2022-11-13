@@ -184,6 +184,7 @@ void subgame_init(void) {
 	CP_System_SetWindowSize(1920, 1080);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_BlendMode(CP_BLEND_ALPHA);
+
 	game_states = resume;
 	Sound_Init();
 	CP_Sound_PlayAdvanced(introsound, volume, 1.0, FALSE, 0);
@@ -198,12 +199,14 @@ void subgame_init(void) {
 
 	// Enemy test Jon
 	enemy_place();
+	checkpoint_init();
 	dead = 0;
 }
 
 void subgame_update(void) {
 	//1st draw layer, clear the background
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, 0);
 
 
 	//CONTROL SCHEME FOR TESTING

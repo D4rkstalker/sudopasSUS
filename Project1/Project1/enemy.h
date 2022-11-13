@@ -17,15 +17,31 @@ typedef struct ENEMY {
 	float alpha;
 	int moving;
 } ENEMY;
-#define DEAD()
+
+typedef struct CHECKPOINT {
+	int current_checkpoint;
+	float respawn_x;
+	float respawn_y;
+}CHECKPOINT;
+
 #define ENEMY_COUNT (10)
+#define CHECKPOINT_COUNT (5)
+//CP1 - Tutorial / Start
+//CP2 - Level Start
+//CP3 - Checkpoint 1
+//CP4 - Checkpoint 2
+//CP5 - Checkpoint 3
+
 ENEMY enemy[ENEMY_COUNT];
+CHECKPOINT checkpoint[CHECKPOINT_COUNT];
 
 void enemy_init(void);
 void enemy_update(void);
 void enemy_exit(void);
 void enemy_place(void);
 void enemy_draw(void);
+void checkpoint_init(void);
 int enemy_touch(float WorldX, float WorldY);
 int dead_menu(void);
+void retry_game(int i);
 void enemy_move(ENEMY* enemy);

@@ -16,17 +16,41 @@ float EPSI = 0.00000001;
 int state = 0;
 int menu_alpha = 00;
 int retry_alpha = 0;
-void retry_game() {
-
+void retry_game(int i) {
+	// From last checkpoint
 	enemy_place();
 	menu_alpha = 0;
 	state = 0;
-	WorldX = 0;
-	WorldY = 0;
+	WorldX = checkpoint[i].respawn_x;
+	WorldY = checkpoint[i].respawn_y;
 	game_states = resume;
 	CP_Sound_PlayAdvanced(introsound, volume, 1.0, FALSE, 0);
 	CP_Sound_PlayMusic((bgm_submarine));
 }
+
+void checkpoint_init(void) {
+	checkpoint[0].current_checkpoint = 1;
+
+	checkpoint[0].respawn_x = 0;
+	checkpoint[0].respawn_y = 0;
+
+	checkpoint[1].respawn_x = 500;
+	checkpoint[1].respawn_y = 500;
+
+	checkpoint[2].respawn_x = 0;
+	checkpoint[2].respawn_y = 0;
+
+	checkpoint[3].respawn_x = 0;
+	checkpoint[3].respawn_y = 0;
+
+	checkpoint[4].respawn_x = 0;
+	checkpoint[4].respawn_y = 0;
+
+	checkpoint[5].respawn_x = 1000;
+	checkpoint[5].respawn_y = 1000;
+
+}
+
 int dead_menu(void) {
 
 
@@ -58,7 +82,7 @@ int dead_menu(void) {
 	if (CP_Input_GetMouseWorldX() >= CP_System_GetWindowWidth() / 2 - 250 && CP_Input_GetMouseWorldX() <= CP_System_GetWindowWidth() / 2 + 250 && CP_Input_GetMouseWorldY() >= CP_System_GetWindowHeight() / 2 + 65 && CP_Input_GetMouseWorldY() <= CP_System_GetWindowHeight() / 2 + 115) {
 		retry_alpha = 50;
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
-			retry_game();
+			retry_game(checkpoint[0].current_checkpoint);
 			return 0;
 		}
 	}
@@ -83,10 +107,15 @@ void enemy_place() {
 	// Settings of enemy world cords
 	enemy[0].pos.x = 700;
 	enemy[0].pos.y = 700;
+
 	enemy[1].pos.x = 2000;
 	enemy[1].pos.y = 1500;
+
 	enemy[2].pos.x = 1340;
 	enemy[2].pos.y = 220;
+
+	enemy[3].pos.x = 500;
+	enemy[3].pos.y = -400;
 }
 void enemy_draw() {
 	for (int i = 0; i < ENEMY_COUNT; ++i) {

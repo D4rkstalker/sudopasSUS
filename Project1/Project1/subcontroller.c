@@ -8,11 +8,16 @@
 #include "checkpoint.h"
 #include "SoundCast.h"
 #include <math.h>
+#include "enemy.h"
 
 
 #define MAXSPEED 3
 
 CP_Vector mouseMovement;
+int settings_alpha_1 = 0;
+int settings_alpha_2 = 0;
+int settings_alpha_3 = 0;
+int settings_alpha_4 = 0;
 
 void checkMouse(CP_Vector volumeMin, CP_Vector volumeMax) {
 	CP_Vector distvect = CP_Vector_Subtract(volumeMax, volumeMin);
@@ -43,8 +48,68 @@ void checkMouse(CP_Vector volumeMin, CP_Vector volumeMax) {
 	CP_Graphics_DrawCircle(mouseMovement.x, mouseMovement.y, 25);
 }
 
+void settings_menu(void) {
+	CP_Settings_Fill(CP_Color_Create(220, 220, 220, 255));
+	CP_Settings_TextSize(150.0f);
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, 0);
+	CP_Font_DrawText("Pause Menu", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 - 200);
+	
+	CP_Settings_TextSize(40.0f);
+	CP_Settings_Fill(CP_Color_Create(220, 220, 220, 255));
+	CP_Font_DrawText("Resume Game", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 - 100);
+	//CP_Font_DrawText("Retry from Last Check Point", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 );
+	CP_Font_DrawText("Retry from Last Check Point", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 100);
+	CP_Font_DrawText("Exit Game", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 200);
+
+	CP_Settings_Stroke(CP_Color_Create(220, 220, 220, 255));
+	CP_Settings_RectMode(CP_POSITION_CENTER);
+	CP_Settings_Fill(CP_Color_Create(220, 220, 220, settings_alpha_1));
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 -110, 500, 50);
+	CP_Settings_Fill(CP_Color_Create(220, 220, 220, settings_alpha_2));
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 - 10, 500, 50);
+	CP_Settings_Fill(CP_Color_Create(220, 220, 220, settings_alpha_3));
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 90, 500, 50);
+	CP_Settings_Fill(CP_Color_Create(220, 220, 220, settings_alpha_4));
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 190, 500, 50);
+
+
+	if (CP_Input_GetMouseWorldX() >= CP_System_GetWindowWidth() / 2 - 250 && CP_Input_GetMouseWorldX() <= CP_System_GetWindowWidth() / 2 + 250 && CP_Input_GetMouseWorldY() >= CP_System_GetWindowHeight() / 2 - 145 && CP_Input_GetMouseWorldY() <= CP_System_GetWindowHeight() / 2 - 85) {
+		settings_alpha_1 = 50;
+		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
+			game_states = resume;
+		}
+	}
+	else {
+		settings_alpha_1 = 0;
+	}
+	//Check for retry game
+	if (CP_Input_GetMouseWorldX() >= CP_System_GetWindowWidth() / 2 - 250 && CP_Input_GetMouseWorldX() <= CP_System_GetWindowWidth() / 2 + 250 && CP_Input_GetMouseWorldY() >= CP_System_GetWindowHeight() / 2 + 65 && CP_Input_GetMouseWorldY() <= CP_System_GetWindowHeight() / 2 + 115) {
+		settings_alpha_3 = 50;
+		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
+			retry_game(checkpoint[0].current_checkpoint);
+			return 0;
+		}
+	}
+	else {
+		settings_alpha_3 = 0;
+	}
+
+	if (CP_Input_GetMouseWorldX() >= CP_System_GetWindowWidth() / 2 - 250 && CP_Input_GetMouseWorldX() <= CP_System_GetWindowWidth() / 2 + 250 && CP_Input_GetMouseWorldY() >= CP_System_GetWindowHeight() / 2 + 165 && CP_Input_GetMouseWorldY() <= CP_System_GetWindowHeight() / 2 + 215) {
+		settings_alpha_4 = 50;
+		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
+			CP_Engine_Terminate();
+			return 0;
+		}
+	}
+	else {
+		settings_alpha_4 = 0;
+	}
+
+	
+}
+
 void volumeControl(void) {
-	CP_Settings_Fill(CP_Color_Create(155, 155, 155, 255));
+	CP_Settings_Fill(CP_Color_Create(50, 50, 50, 0));
 	CP_Settings_RectMode(CP_POSITION_CORNER);
 	float screenborderX = CP_System_GetWindowWidth() / 4;
 	float screenborderY = CP_System_GetWindowHeight() / 4;
@@ -257,8 +322,9 @@ void movement(void) {
 			player1.velocity_y *= 0.9;
 			player1.velocity_x *= 0.9;
 	}
-	if (game_states == volumeC) {
+	if (game_states == theMenu) {
 		volumeControl();
+		settings_menu();
 	}
 	if (game_states == theMap) {
 		CP_Settings_Fill(CP_Color_Create(188, 158, 130, 255));
