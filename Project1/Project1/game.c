@@ -26,6 +26,7 @@ CP_Vector click1;
 int time = 0;
 
 tutorial_state = 0;
+shutdown_state = 1;
 
 /*
 WorldX and WorldY functions as the offset for the camera system.
@@ -252,10 +253,13 @@ void subgame_update(void) {
 	//2nd draw layer, the walls of the game
 	if (debug == 1) {
 		DrawWalls();
+		//2.5 draw Enemy
+		enemy_draw();
+		
 	}
 
-	//2.5 draw Enemy
-	enemy_draw();
+	//draw checkpoints
+	draw_checkpoint();
 	
 	if (enemy_touch(WorldX, WorldY) == 1 && dead != 1) {
 		//CP_Settings_TextSize(50.0f);
@@ -267,7 +271,6 @@ void subgame_update(void) {
 	if (dead == 1) {
 		dead_menu();
 		dead = dead_menu();
-		CP_Sound_PlayMusic((bgm_submarine));
 	}
 	
 	
@@ -278,10 +281,6 @@ void subgame_update(void) {
 	//4th draw layer, the UI for the game
 	DrawEnergy();
 	if (energy < 100) energy += 1;
-
-
-	//draw checkpoints
-	draw_checkpoint();
 
 
 	//Check the controls pressed each frame
@@ -314,18 +313,20 @@ void subgame_update(void) {
 		sprintf_s(buffer2, _countof(buffer2), "X:%.0f\nY:%.0f", CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY);
 		CP_Font_DrawText(buffer2, CP_Input_GetMouseX(), CP_Input_GetMouseY() - 20);
 	}
+
+	if (shutdown_state == 0 || game_states != resume){
 	time++;
 	if (time > 10) {
 		CP_Color color = CP_Color_Create(255, 255, 255, 127);
 
 		for (int i = 0; i < 18; i++) {
 			CP_Vector v = AngleToVector(i * 20);
-			CreateRay(player1.x - WorldX, player1.y - WorldY, 20, v.x , v.y , 1, color, false,50);
+			CreateRay(player1.x - WorldX, player1.y - WorldY, 20, v.x, v.y, 1, color, false, 50,true);
 
 
 		}
 		time = 0;
-
+	}
 	}
 	
 }

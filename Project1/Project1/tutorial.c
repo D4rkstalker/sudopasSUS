@@ -5,6 +5,7 @@
 #include "Utils.h"
 #include "SoundCast.h"
 #include "checkpoint.h"
+#include "music.h"
 
 //message tutorial, title, wake, rmb;
 
@@ -79,17 +80,18 @@ void wake_message(void)
 
 
 
-		if (CP_Input_KeyTriggered(KEY_1))
+		if (CP_Input_KeyTriggered(KEY_SPACE))
 		{
 			CP_Color color = CP_Color_Create(255, 255, 255, 55);
 			for (int i = 0; i < 50; i++) {
 				CP_Vector v = AngleToVector(i * 7);
-				CreateRay(160, -235, 25, v.x , v.y , 0.2, color, false,50);
+				CreateRay(160, -235, 25, v.x , v.y , 0.2, color, false,50,false);
 			}
+			shutdown_state = 0;
 			wake_alpha = wake_alpha;
 			wake_timer = 0;
 			wake_loop = 1;
-
+			CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
 		}
 	}
 	if (wake_loop == 1)
@@ -155,6 +157,15 @@ void rmb_tut(void)
 
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_RIGHT))
 		{
+			CP_Color color = CP_Color_Create(255, 255, 255, 255);
+
+			for (int i = 0; i < 36; i++) {
+				CP_Vector v = AngleToVector(i * 10);
+				CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x, v.y, 2, color, false, 100,false);
+
+
+			}
+			CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
 			rmb_alpha = wake_alpha;
 			rmb_timer = 0;
 			rmb_loop = 1;
@@ -312,10 +323,10 @@ void dodge()
 		//if LMB clicked update dodge_loop and  tutorialstate.
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT))
 		{
-			CP_Color color = CP_Color_Create(255, 255, 0, 50);
+			CP_Color color = CP_Color_Create(255, 255, 0, 150);
 			for (int i = 0; i < 20; i++) {
 				CP_Vector v = AngleToVector(i * 18);
-				CreateRay(1990, -300, 10, v.x, v.y, 1, color, false,100);
+				CreateRay(1990, -300, 10, v.x, v.y, 1, color, false,100,true);
 			}
 			tutorial_state = 4;
 		}
@@ -377,16 +388,16 @@ void tut_exit(void)
 	timer++;
 	if (timer == 100) //Ping every 15 frames
 	{
-		CP_Color color = CP_Color_Create(255, 255, 0, 50);
+		CP_Color color = CP_Color_Create(255, 255, 0, 150);
 		for (int i = 0; i < 20; i++) {
 			CP_Vector v = AngleToVector(i * 18);
-			CreateRay(1990, -300, 10, v.x , v.y, 1, color, false,100);
+			CreateRay(1990, -320, 10, v.x , v.y, 1, color, false,100,false);
 		}
 
 		timer = 0;
 
 	}
-	if (CheckPointTrigger(1975, -500, 500, 500, x1, y1) == 1)
+	if (CheckPointTrigger(1975, -500, 500, 750, x1, y1) == 1)
 	{
 		CP_Settings_Fill(CP_Color_Create(120, 120, 120, 50));
 		CP_Settings_TextSize(65.0f);
@@ -402,11 +413,27 @@ void tut_exit(void)
 		CP_Graphics_DrawRectAdvanced(1010, 710, 150.0f, 5.0f, 0, 0.0f);
 	}
 
-	if (CheckPointTrigger(1990,-500, 500, 500, x1, y1) == 1 && CP_Input_KeyTriggered(KEY_1))
+	if (CheckPointTrigger(1990,-500, 500, 750, x1, y1) == 1 && CP_Input_KeyTriggered(KEY_SPACE))
 	{
+		
+		CP_Color color = CP_Color_Create(255, 255, 0, 100);
+		for (int i = 0; i < 10; i++) {
+			CP_Vector v = AngleToVector(i * 36);
+			CreateRay(123, 2230, 100, v.x, v.y, 1, color, false, 100,false);
+		}
+		for (int i = 0; i < 20; i++) {
+			CP_Vector v = AngleToVector(i * 18);
+			CreateRay(500, 2230, 200, v.x, v.y, 1, color, false, 75, false);
+		}
+		for (int i = 0; i < 30; i++) {
+			CP_Vector v = AngleToVector(i * 12);
+			CreateRay(1000, 2230, 300, v.x, v.y, 1, color, false, 25, false);
+		}
 		WorldX = 800;
 		WorldY = -1700;
 		tutorial_state = 5;
+
+		CP_Sound_PlayAdvanced(introsound, volume, 1.0, FALSE, 0);
 	}
 }
 

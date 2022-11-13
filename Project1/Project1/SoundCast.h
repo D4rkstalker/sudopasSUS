@@ -34,9 +34,10 @@ typedef struct _Ray
 	bool trackToSource;
 	int bounces;
 	int velMult;
+	bool isPlayer;
 } Ray;
 void InitScene(Wall* _walls, int _maxWalls);
 
 void RayUpdate(float wx, float wy);
-void CreateRay(float x, float y, int length, float velx, float vely,int fade, CP_Color color, bool trackToSource, int velMult);
+void CreateRay(float x, float y, int length, float velx, float vely,int fade, CP_Color color, bool trackToSource, int velMult, bool isPlayer);
 

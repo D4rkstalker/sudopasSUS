@@ -70,7 +70,7 @@ void mapScale() { // Mini Map Scaling
 
 	for (i = 0; i < CWall + 1; i++) {
 		CP_Settings_RectMode(CP_POSITION_CENTER);
-		CP_Graphics_DrawLine((wall[i].pos1.x/4.5) + 550, (wall[i].pos1.y/4.5) + 300, (wall[i].pos2.x/4.5) + 550, (wall[i].pos2.y/4.5) + 300);
+		CP_Graphics_DrawLine((wall[i].pos1.x/9) + 550, (wall[i].pos1.y/9) + 300, (wall[i].pos2.x/9) + 550, (wall[i].pos2.y/9) + 300);
 	
 	}
 	
@@ -84,7 +84,7 @@ void mapScale() { // Mini Map Scaling
 } 
 
 void controlskeys(void) {
-	if (CP_Input_KeyTriggered(KEY_SPACE)) { // Sample of a Pause phase
+	if (CP_Input_KeyTriggered(KEY_BACKSPACE)) { // Sample of a Pause phase
 		if (game_states != paused) {
 			game_states = paused;
 		}
@@ -137,7 +137,7 @@ void movement(void) {
 				float a = CP_Math_Degrees(atan2(outv.y, outv.x));
 				for (int i = -18; i < 18; i++) {
 					CP_Vector v = AngleToVector(a + i * 1);
-					CreateRay(player1.x - WorldX, player1.y - WorldY, 25, v.x, v.y, 1, color, true, 200);
+					CreateRay(player1.x - WorldX, player1.y - WorldY, 25, v.x, v.y, 1, color, true, 200,true);
 
 				}
 
@@ -158,11 +158,11 @@ void movement(void) {
 
 			for (int i = 0; i < 36; i++) {
 				CP_Vector v = AngleToVector(i * 10);
-				CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x, v.y, 2, color, false,100);
+				CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x, v.y, 2, color, false,100,true);
 
 
 			}
-			CP_Sound_PlayAdvanced(creepyping, volume, 1, FALSE, 0);
+			CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
 			energy -= 60;
 
 		}
