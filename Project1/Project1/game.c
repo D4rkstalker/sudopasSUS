@@ -20,6 +20,7 @@ float particleSize = 3.0f;
 
 //energy used for pings -Nigel
 int energy = 100;
+int bar_timer = 0;
 float bar_alpha = 255;
 bool clicked = false;
 CP_Vector click1;
@@ -53,16 +54,20 @@ void DrawEnergy(void) {
 	float barw = 15;
 	float barh = -600;
 
-	if (energy >= 100 && bar_alpha >= 0) {
-		bar_alpha -= 15;
+	if (energy >= 100 && bar_alpha >= 0 ) {
+		bar_timer += 1;
+		if (bar_timer > 20) {
+			bar_alpha -= 15;
+		}
 	}
 	else if (bar_alpha <= 240 && energy < 100) {
 		bar_alpha = 255;
+		bar_timer = 0;
 	}
 	CP_Settings_NoStroke();
-	CP_Settings_Fill(CP_Color_Create(40, 40, 40, bar_alpha));
+	CP_Settings_Fill(CP_Color_Create(30, 30, 30, bar_alpha));
 	CP_Graphics_DrawRect(barx, bary, barw, barh);
-	CP_Settings_Fill(CP_Color_Create(240, 240, 240, bar_alpha));
+	CP_Settings_Fill(CP_Color_Create(180, 180, 180, bar_alpha));
 	CP_Graphics_DrawRect(barx, bary, barw, barh * ((float)energy / 100));
 }
 
@@ -318,13 +323,13 @@ void subgame_update(void) {
 
 	if (shutdown_state == 0 || game_states != resume){
 	time++;
-	if (time > 100) {
+	if (time > 50) {
 		CP_Color color = CP_Color_Create(255, 255, 255, 150);
 		CP_Color enemy_color = CP_Color_Create(155, 50, 20, 150);
 
 		for (int i = 0; i < 18; i++) {
 			CP_Vector v = AngleToVector(i * 20);
-			CreateRay(player1.x - WorldX, player1.y - WorldY, 20, v.x, v.y, 3, color, false, 50,true);
+			CreateRay(player1.x - WorldX, player1.y - WorldY, 20, v.x, v.y, 4, color, false, 50,true);
 
 			for (int n = 0; n < ENEMY_COUNT; n++) {
 				//CreateRay(enemy[n].pos.x, enemy[n].pos.y, 20, v.x, v.y, 4, enemy_color, false, 50, true);
