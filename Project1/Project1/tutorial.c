@@ -157,7 +157,7 @@ void rmb_tut(void)
 
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_RIGHT))
 		{
-			CP_Color color = CP_Color_Create(255, 255, 255, 255);
+			CP_Color color = CP_Color_Create(225, 225, 225, 200);
 
 			for (int i = 0; i < 36; i++) {
 				CP_Vector v = AngleToVector(i * 10);
@@ -323,7 +323,7 @@ void dodge()
 		//if LMB clicked update dodge_loop and  tutorialstate.
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT))
 		{
-			CP_Color color = CP_Color_Create(255, 255, 0, 150);
+			CP_Color color = CP_Color_Create(255, 255, 0, 200);
 			for (int i = 0; i < 20; i++) {
 				CP_Vector v = AngleToVector(i * 18);
 				CreateRay(1990, -300, 10, v.x, v.y, 1, color, false,100,true);

@@ -21,33 +21,94 @@ void retry_game(int i) {
 	enemy_place();
 	menu_alpha = 0;
 	state = 0;
-	WorldX = checkpoint[i].respawn_x;
-	WorldY = checkpoint[i].respawn_y;
+	WorldX = -checkpoint[i].respawn_x + CP_System_GetWindowWidth() / 2;
+	WorldY = -checkpoint[i].respawn_y + CP_System_GetWindowHeight() / 2;
 	game_states = resume;
 	CP_Sound_PlayAdvanced(introsound, volume, 1.0, FALSE, 0);
 	CP_Sound_PlayMusic((bgm_submarine));
 }
 
 void checkpoint_init(void) {
-	checkpoint[0].current_checkpoint = 1;
+	checkpoint[0].current_checkpoint = 0;
 
-	checkpoint[0].respawn_x = 0;
-	checkpoint[0].respawn_y = 0;
+	checkpoint[0].respawn_x = 285;
+	checkpoint[0].respawn_y = -485;
 
-	checkpoint[1].respawn_x = 500;
-	checkpoint[1].respawn_y = 500;
+	checkpoint[1].respawn_x = 2560;
+	checkpoint[1].respawn_y = -535;
 
-	checkpoint[2].respawn_x = 0;
-	checkpoint[2].respawn_y = 0;
+	checkpoint[2].respawn_x = 370;
+	checkpoint[2].respawn_y = 4465;
 
-	checkpoint[3].respawn_x = 0;
-	checkpoint[3].respawn_y = 0;
+	checkpoint[3].respawn_x = 3350;
+	checkpoint[3].respawn_y = 4500;
 
-	checkpoint[4].respawn_x = 0;
-	checkpoint[4].respawn_y = 0;
+	checkpoint[4].respawn_x = 5950;
+	checkpoint[4].respawn_y = 2785;
 
-	checkpoint[5].respawn_x = 1000;
-	checkpoint[5].respawn_y = 1000;
+	checkpoint[5].respawn_x = 2200;
+	checkpoint[5].respawn_y = 2300;
+
+}
+
+void enemy_place() {
+	for (int i = 0; i < ENEMY_COUNT; ++i) {
+		enemy[i].alpha = 255;
+		enemy[i].vel.x = 0;
+		enemy[i].vel.y = 0;
+		enemy[i].acceleration_x = 0;
+		enemy[i].acceleration_y = 0;
+		enemy[i].alpha = 255;
+		enemy[i].moving = 0;
+
+	}
+	// Settings of enemy world cords
+	enemy[0].pos.x = 1600;
+	enemy[0].pos.y = -515;
+
+	enemy[1].pos.x = 3470;
+	enemy[1].pos.y = -610;
+
+	enemy[2].pos.x = 1990;
+	enemy[2].pos.y = 4165;
+
+	enemy[3].pos.x = 2830;
+	enemy[3].pos.y = 4350;
+
+	enemy[4].pos.x = 4900;
+	enemy[4].pos.y = 3870;
+
+	enemy[5].pos.x = 6000;
+	enemy[5].pos.y = 4030;
+
+	enemy[5].pos.x = 6000;
+	enemy[5].pos.y = 4030;
+
+	enemy[6].pos.x = 5740;
+	enemy[6].pos.y = 2900;
+	enemy[7].pos.x = 5900;
+	enemy[7].pos.y = 2900;
+	enemy[8].pos.x = 6100;
+	enemy[8].pos.y = 2900;
+
+	enemy[9].pos.x = 3700;
+	enemy[9].pos.y = 2780;
+
+	enemy[10].pos.x = 1180;
+	enemy[10].pos.y = 2775;
+	enemy[11].pos.x = 1180;
+	enemy[11].pos.y = 2020;
+	enemy[12].pos.x = 870;
+	enemy[12].pos.y = 2170;
+	enemy[13].pos.x = 870;
+	enemy[13].pos.y = 2640;
+	enemy[14].pos.x = 1445;
+	enemy[14].pos.y = 2640;
+	enemy[15].pos.x = 1445;
+	enemy[15].pos.y = 2170;
+
+	enemy[16].pos.x = 3610;
+	enemy[16].pos.y = 1910;
 
 }
 
@@ -93,30 +154,7 @@ int dead_menu(void) {
 	return 1;
 }
 // Placing enemy
-void enemy_place() {
-	for (int i = 0; i < ENEMY_COUNT; ++i) {
-		enemy[i].alpha = 255;
-		enemy[i].vel.x = 0;
-		enemy[i].vel.y = 0;
-		enemy[i].acceleration_x = 0;
-		enemy[i].acceleration_y = 0;
-		enemy[i].alpha = 255;
-		enemy[i].moving = 0;
-	
-	}
-	// Settings of enemy world cords
-	enemy[0].pos.x = 700;
-	enemy[0].pos.y = 700;
 
-	enemy[1].pos.x = 2000;
-	enemy[1].pos.y = 1500;
-
-	enemy[2].pos.x = 1340;
-	enemy[2].pos.y = 220;
-
-	enemy[3].pos.x = 500;
-	enemy[3].pos.y = -400;
-}
 void enemy_draw() {
 	for (int i = 0; i < ENEMY_COUNT; ++i) {
 		CP_Settings_NoStroke();
@@ -128,8 +166,12 @@ void enemy_draw() {
 		CP_Settings_TextSize(20.0f);
 		char buffer3[100] = { 0 };
 
+		if (enemy[i].timer >= 0) {
+			enemy[i].timer -= 1;
+		}
+
 		sprintf_s(buffer3, _countof(buffer3), "X:%.0f\nY:%.0f", enemy[i].pos.x, enemy[i].pos.y);
-		CP_Settings_Fill(CP_Color_Create(255, 70, 84, 255));
+		CP_Settings_Fill(CP_Color_Create(255, 70, 84, 10));
 		CP_Font_DrawText(buffer3, enemy[i].pos.x + WorldX - 45, enemy[i].pos.y + WorldY - 25);
 		sprintf_s(buffer3, _countof(buffer3), "Enemy [%d]", i);
 		CP_Font_DrawText(buffer3, enemy[i].pos.x + WorldX - 35, enemy[i].pos.y + WorldY + 35);
@@ -149,29 +191,30 @@ int enemy_touch(float WorldX, float WorldY) {
 	}
 	return 0;
 }
-void enemy_CheckCollision(ENEMY* enemy, CP_Vector* newPos, float* time, int i) {
+void enemy_CheckCollision(ENEMY* enemy, CP_Vector* enemy_newPos, float* time, int n) {
+	float tmp = 0;
 
 
 	for (int i = 0; i < CWall; i++) {
 		if ((CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, wall[i].pos2.x, wall[i].pos2.y)
-			- CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, newPos->x, newPos->y)
-			- CP_Math_Distance(wall[i].pos2.x, wall[i].pos2.y, newPos->x, newPos->y)) > -FUZZYNESS) { //&& part->prevID != i
+			- CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, enemy_newPos->x, enemy_newPos->y)
+			- CP_Math_Distance(wall[i].pos2.x, wall[i].pos2.y, enemy_newPos->x, enemy_newPos->y)) > -FUZZYNESS) { //&& part->prevID != i
 			CP_Vector Vwall = CP_Vector_Normalize(CP_Vector_Subtract(wall[i].pos2, wall[i].pos1));
-			CP_Vector Vray = CP_Vector_Normalize(CP_Vector_Subtract(*newPos, enemy[i].pos));
-			float temp = Vwall.x;
+			CP_Vector Vray = CP_Vector_Normalize(CP_Vector_Subtract(*enemy_newPos, enemy[n].pos));
+			tmp = Vwall.x;
 			Vwall.x = -Vwall.y;
-			Vwall.y = temp;
+			Vwall.y = tmp;
 			CP_Vector vOut = CP_Vector_Add(CP_Vector_Scale(Vwall, -2 * CP_Vector_DotProduct(Vray, Vwall)), Vray);
-			enemy[i].vel = vOut;
-			enemy[i].vel = CP_Vector_Scale(enemy[i].vel, 5);
-			*newPos = CP_Vector_Set(enemy[i].pos.x + enemy[i].pos.x * *time, enemy[i].pos.y + enemy[i].vel.y * *time);
-			//if (enemy[i].vel.x <= 0 && enemy[i].vel.y)
-			return true;
+			enemy[n].vel = vOut;
+			enemy[n].vel = CP_Vector_Scale(enemy[n].vel, 100);
+			*enemy_newPos = CP_Vector_Set(enemy[n].pos.x + enemy[n].vel.x * *time, enemy[n].pos.y + enemy[n].vel.y * *time);
+			//if (enemy[n].vel.x <= 0 && enemy[n].vel.y)
 		}
-		else if (CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, newPos->x, newPos->y) < 2 * FUZZYNESS || CP_Math_Distance(wall[i].pos2.x, wall[i].pos2.y, newPos->x, newPos->y) < 2 * FUZZYNESS) {
-			enemy[i].vel.x *= -1;
-			enemy[i].vel.x *= -1;
-			*newPos = CP_Vector_Set(enemy[i].pos.x + enemy[i].vel.x * *time, enemy[i].pos.y + enemy[i].pos.y * *time);
+		else if (CP_Math_Distance(wall[i].pos1.x, wall[i].pos1.y, enemy_newPos->x, enemy_newPos->y) < 2 * FUZZYNESS || CP_Math_Distance(wall[i].pos2.x, wall[i].pos2.y, enemy_newPos->x, enemy_newPos->y) < 2 * FUZZYNESS) {
+
+			enemy[n].vel.x *= -1;
+			
+			*enemy_newPos = CP_Vector_Set(enemy[n].pos.x + enemy[n].vel.x * *time, enemy[n].pos.y + enemy[n].vel.y * *time);
 			return true;
 		}
 	}
@@ -179,9 +222,21 @@ void enemy_CheckCollision(ENEMY* enemy, CP_Vector* newPos, float* time, int i) {
 
 int enemy_ray_trigger(Ray* ray, int i) {
 
-	enemy[i].vel = CP_Vector_Scale(ray->head.vel, -1);
-	enemy[i].moving = 1;
 
+
+	if (enemy[i].timer <= 0) {
+		enemy[i].vel = CP_Vector_Scale(ray->head.vel, -1);
+		enemy[i].moving = 1;
+
+		enemy[i].tmp = 200 - ray->color.a;
+		enemy[i].tmp_strength = ray->fadeStrength;
+		// Cooldown of enemy being beamed
+		enemy[i].timer = 50;
+	}
+
+	
+
+	return 0;
 }
 
 
@@ -194,14 +249,34 @@ void enemy_move(ENEMY* enemy, int i) {
 	while (time > EPSI) {
 		bool collisionX = false;
 		bool collisionY = false;
+		
 
-		CP_Vector newPos = CP_Vector_Set(enemy[i].pos.x + enemy[i].vel.x * time, enemy[i].pos.y + enemy[i].vel.y * time);
+
+		CP_Vector enemy_newPos = CP_Vector_Set(enemy[i].pos.x + enemy[i].vel.x * time, enemy[i].pos.y + enemy[i].vel.y * time);
 		float newTime = time;
-		enemy_CheckCollision(enemy, &newPos, &time, i);
+		enemy_CheckCollision(enemy, &enemy_newPos, &time, i);
 
-		enemy[i].pos.x = newPos.x;
-		enemy[i].pos.y = newPos.y;
+		enemy[i].pos.x = enemy_newPos.x;
+		enemy[i].pos.y = enemy_newPos.y;
+
+
+		//if (enemy[i].pos.x > enemy[i].tmp_x - 100 && enemy[i].pos.x < enemy[i].tmp_x + 100 && enemy[i].pos.y > enemy[i].tmp_y - 100 && enemy[i].pos.y < enemy[i].tmp_y + 100) {
+		//	enemy[i].moving = 0;
+		//	enemy[i].vel_x = 0;
+		//	enemy[i].vel_y = 0;
+		//}
+
+		if (enemy[i].tmp <= 0) {
+			enemy[i].moving = 0;
+			enemy[i].vel_x = 0;
+			enemy[i].vel_y = 0;
+		}
+		else {
+			enemy[i].tmp -= enemy[i].tmp_strength;
+		}
+
 		time = 0;
+		
 
 	}
 
@@ -211,32 +286,10 @@ void enemy_move(ENEMY* enemy, int i) {
 
 
 void enemy_init(void) {
-	CP_System_SetWindowSize(1920, 1080);
-	CP_System_SetWindowSize(1920, 1080);
-	CP_Settings_EllipseMode(CP_POSITION_CENTER);
 
-	// Player initialisation
-	float center_x = CP_System_GetDisplayWidth() / 2;
-	float center_y = CP_System_GetDisplayHeight() / 2;
 }
 void enemy_update(void) {
-	CP_Graphics_ClearBackground(CP_Color_Create(25, 25, 25, 255));
-	//Creating Player
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Graphics_DrawCircle(player1.x, player1.y, 25);
-	//Creating Enemy
-	CP_Settings_Fill(CP_Color_Create(222, 70, 84, enemy[1].alpha));
-	CP_Graphics_DrawCircle(enemy[1].pos.x, enemy[1].pos.y, 25);
-	//Referece point
-	CP_Settings_Fill(CP_Color_Create(150, 250, 84, 255));
-	CP_Graphics_DrawCircle(950, 500, 25);
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Settings_TextSize(20.0f);
-	CP_Font_DrawText("[K] RETURN TO GAME", 20, 20);
-	if (CP_Input_KeyTriggered(KEY_K))
-	{
-		CP_Engine_SetNextGameState(subgame_init, subgame_update, subgame_exit);
-	}
+
 }
 void enemy_exit(void) {
 }

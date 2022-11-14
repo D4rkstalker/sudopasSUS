@@ -20,6 +20,7 @@ float particleSize = 3.0f;
 
 //energy used for pings -Nigel
 int energy = 100;
+float bar_alpha = 255;
 bool clicked = false;
 CP_Vector click1;
 
@@ -35,8 +36,8 @@ All coordinates used by all game objects will need to be offset by the WorldX an
 //float WorldX = 0;
 //float WorldY = 0;
 
-float WorldX = 800;
-float WorldY = 775;
+float WorldX = -285 + 960;
+float WorldY = 485 + 540;
 //Start point of the map
 //float WorldX = 800;
 //float WorldY = -1700;
@@ -47,22 +48,21 @@ int dead = 0;
 void DrawEnergy(void) {
 
 	CP_Settings_RectMode(CP_POSITION_CORNER);
-	float alpha = 255;
-	float barx = CP_System_GetDisplayWidth() / 2 + 50;
-	float bary = CP_System_GetDisplayHeight() / 2 + 16;
-	float barw = 5;
-	float barh = -60;
+	float barx = 1850;
+	float bary = CP_System_GetDisplayHeight() / 2 + 150;
+	float barw = 15;
+	float barh = -600;
 
-	if (energy >= 100 && alpha >= 0) {
-		alpha -= 15;
+	if (energy >= 100 && bar_alpha >= 0) {
+		bar_alpha -= 15;
 	}
-	else if (alpha <= 240) {
-		alpha += 15;
+	else if (bar_alpha <= 240 && energy < 100) {
+		bar_alpha = 255;
 	}
 	CP_Settings_NoStroke();
-	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+	CP_Settings_Fill(CP_Color_Create(40, 40, 40, bar_alpha));
 	CP_Graphics_DrawRect(barx, bary, barw, barh);
-	CP_Settings_Fill(CP_Color_Create(240, 240, 240, alpha));
+	CP_Settings_Fill(CP_Color_Create(240, 240, 240, bar_alpha));
 	CP_Graphics_DrawRect(barx, bary, barw, barh * ((float)energy / 100));
 }
 
@@ -224,7 +224,6 @@ void subgame_update(void) {
 		CP_Font_DrawText("[M2] AOE BEAM", 20, 220);
 		CP_Font_DrawText("[M3] AOE BEAM", 20, 240);
 		CP_Font_DrawText("[N] AOE BEAM FROM PLAYER", 20, 260);
-		//CP_Font_DrawText("[K] ENEMY TEST", 20, 320);
 		CP_Font_DrawText("[M] MINI MAP", 20, 300);
 		CP_Font_DrawText("[Space] Pause", 20, 340);
 		CP_Font_DrawText("[Esc] Settings", 20, 360);
@@ -319,13 +318,17 @@ void subgame_update(void) {
 
 	if (shutdown_state == 0 || game_states != resume){
 	time++;
-	if (time > 10) {
-		CP_Color color = CP_Color_Create(255, 255, 255, 127);
+	if (time > 100) {
+		CP_Color color = CP_Color_Create(255, 255, 255, 150);
+		CP_Color enemy_color = CP_Color_Create(155, 50, 20, 150);
 
 		for (int i = 0; i < 18; i++) {
 			CP_Vector v = AngleToVector(i * 20);
-			CreateRay(player1.x - WorldX, player1.y - WorldY, 20, v.x, v.y, 1, color, false, 50,true);
+			CreateRay(player1.x - WorldX, player1.y - WorldY, 20, v.x, v.y, 3, color, false, 50,true);
 
+			for (int n = 0; n < ENEMY_COUNT; n++) {
+				//CreateRay(enemy[n].pos.x, enemy[n].pos.y, 20, v.x, v.y, 4, enemy_color, false, 50, true);
+			}
 
 		}
 		time = 0;

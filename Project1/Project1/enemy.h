@@ -6,6 +6,7 @@
 //int enemy_ray_trigger(Ray* ray, int i);
 //void enemy_CheckCollision(ENEMY* enemy, CP_Vector* newPos, float* time);
 typedef struct ENEMY {
+	int timer;
 	CP_Vector pos;
 	CP_Vector vel;
 	float worldx;
@@ -15,6 +16,8 @@ typedef struct ENEMY {
 	float acceleration_x;
 	float acceleration_y;
 	float alpha;
+	float tmp;
+	float tmp_strength;
 	int moving;
 } ENEMY;
 
@@ -24,8 +27,8 @@ typedef struct CHECKPOINT {
 	float respawn_y;
 }CHECKPOINT;
 
-#define ENEMY_COUNT (10)
-#define CHECKPOINT_COUNT (5)
+#define ENEMY_COUNT (17)
+#define CHECKPOINT_COUNT (6)
 //CP1 - Tutorial / Start
 //CP2 - Level Start
 //CP3 - Checkpoint 1
@@ -44,4 +47,4 @@ void checkpoint_init(void);
 int enemy_touch(float WorldX, float WorldY);
 int dead_menu(void);
 void retry_game(int i);
-void enemy_move(ENEMY* enemy);
+void enemy_move(ENEMY* enemy, int i);

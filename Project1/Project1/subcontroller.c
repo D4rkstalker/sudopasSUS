@@ -130,7 +130,7 @@ void volumeControl(void) {
 void mapScale() { // Mini Map Scaling
 	int i;
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
+	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));	
 
 
 	for (i = 0; i < CWall + 1; i++) {
