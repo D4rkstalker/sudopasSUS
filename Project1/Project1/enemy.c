@@ -278,6 +278,8 @@ int enemy_ray_trigger(Ray* ray, int i) {
 		enemy[i].tmp_strength = ray->fadeStrength;
 		// Cooldown of enemy being beamed
 		enemy[i].timer = 50;
+
+		CP_Sound_PlayAdvanced(creepyping, volume, 1, FALSE, 0);
 	}
 
 	
