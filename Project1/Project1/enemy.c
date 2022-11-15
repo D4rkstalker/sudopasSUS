@@ -157,6 +157,9 @@ int dead_menu(void) {
 
 void enemy_draw() {
 	for (int i = 0; i < ENEMY_COUNT; ++i) {
+		if (debug == 0) {
+			enemy[i].alpha = 0;
+		}
 		CP_Settings_NoStroke();
 		CP_Color enemy_colour = (CP_Color_Create(255, 70, 84, enemy[i].alpha));
 		CP_Settings_Fill(enemy_colour);
@@ -177,6 +180,10 @@ void enemy_draw() {
 		CP_Font_DrawText(buffer3, enemy[i].pos.x + WorldX - 35, enemy[i].pos.y + WorldY + 35);
 		if (enemy[i].moving == 1) {
 			enemy_move(enemy, i);
+		}
+
+		if (debug == 0) {
+			enemy[i].alpha = 255;
 		}
 	}
 }
