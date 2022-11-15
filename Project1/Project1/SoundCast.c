@@ -150,7 +150,10 @@ void ParticleUpdate(Particle* part, Ray* ray)
 
 		CP_Vector newPos = CP_Vector_Set(part->pos.x + part->vel.x * time, part->pos.y + part->vel.y * time);
 		float newTime = time;
-		CheckEnemies(ray, part);
+		if (ray->isPlayer) {
+			CheckEnemies(ray, part);
+
+		}
 		if (CheckCollision(ray, part, &newPos, &time)) {
 			ray->bounces++;
 			if (part->isHead) {
