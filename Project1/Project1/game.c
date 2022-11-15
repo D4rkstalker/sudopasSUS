@@ -260,10 +260,10 @@ void subgame_update(void) {
 	//2nd draw layer, the walls of the game
 	if (debug == 1) {
 		DrawWalls();
-		//2.5 draw Enemy
-		enemy_draw();
 		
 	}
+	//2.5 draw Enemy
+	enemy_draw();
 
 	//draw checkpoints
 	draw_checkpoint();
