@@ -14,8 +14,10 @@
 float timer;
 float EPSI = 0.00000001;
 int state = 0;
-int menu_alpha = 00;
+int menu_alpha = 0;
 int retry_alpha = 0;
+int beam_timer = 0;
+
 void retry_game(int i) {
 	// From last checkpoint
 	enemy_place();
@@ -50,6 +52,9 @@ void checkpoint_init(void) {
 	checkpoint[5].respawn_y = 2300;
 
 }
+
+
+
 
 void enemy_place() {
 	for (int i = 0; i < ENEMY_COUNT; ++i) {
@@ -155,11 +160,37 @@ int dead_menu(void) {
 }
 // Placing enemy
 
+void enemy_beam(float x, float y) {
+	
+	CP_Color enemy_color = CP_Color_Create(200, 50, 20, 230);
+	for (int n = 0; n < ENEMY_COUNT; n++) {
+		enemy[n].beam_timer++;
+		if (enemy[n].moving == 1) {
+			enemy[n].beam_threshold = 8;
+		}
+		else {
+			enemy[n].beam_threshold = 50;
+		}
+		if (abs(x - enemy[n].pos.x) > 2000 || abs(y - enemy[n].pos.y) > 1200) {
+			enemy[n].beam_threshold = 99999;
+		}
+		if (enemy[n].beam_timer > enemy[n].beam_threshold) {
+			for (int i = 0; i < 18; i++) {
+				CP_Vector v = AngleToVector(i * 20);
+				CreateRay(enemy[n].pos.x, enemy[n].pos.y, 15, v.x, v.y, 5, enemy_color, false, 40, false);
+			}
+			enemy[n].beam_timer = 0;
+		}
+	}
+
+
+
+
+}
+
 void enemy_draw() {
 	for (int i = 0; i < ENEMY_COUNT; ++i) {
-		if (debug == 0) {
-			enemy[i].alpha = 0;
-		}
+ 
 		CP_Settings_NoStroke();
 		CP_Color enemy_colour = (CP_Color_Create(255, 70, 84, enemy[i].alpha));
 		CP_Settings_Fill(enemy_colour);
@@ -173,6 +204,11 @@ void enemy_draw() {
 			enemy[i].timer -= 1;
 		}
 
+		if (enemy[i].timer < 20 && enemy[i].timer > 10) {
+			enemy[i].alpha + 10;
+		}
+
+		
 		sprintf_s(buffer3, _countof(buffer3), "X:%.0f\nY:%.0f", enemy[i].pos.x, enemy[i].pos.y);
 		CP_Settings_Fill(CP_Color_Create(255, 70, 84, 10));
 		CP_Font_DrawText(buffer3, enemy[i].pos.x + WorldX - 45, enemy[i].pos.y + WorldY - 25);
@@ -182,8 +218,11 @@ void enemy_draw() {
 			enemy_move(enemy, i);
 		}
 
-		if (debug == 0) {
+		if (debug == 1) {
 			enemy[i].alpha = 255;
+		}
+		if (debug == 0) {
+			enemy[i].alpha = 0;
 		}
 	}
 }
@@ -235,7 +274,7 @@ int enemy_ray_trigger(Ray* ray, int i) {
 		enemy[i].vel = CP_Vector_Scale(ray->head.vel, -1);
 		enemy[i].moving = 1;
 
-		enemy[i].tmp = 200 - ray->color.a;
+		enemy[i].tmp = 230 - ray->color.a;
 		enemy[i].tmp_strength = ray->fadeStrength;
 		// Cooldown of enemy being beamed
 		enemy[i].timer = 50;

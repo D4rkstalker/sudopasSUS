@@ -123,6 +123,7 @@ void volumeControl(void) {
 	CP_Graphics_DrawRect(screenborderX, screenborderY, screensizeX, screensizeY); // Drawing border
 	
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
 	CP_Graphics_DrawLine(volumeMin.x, volumeMin.y, volumeMax.x, volumeMax.y);
 	checkMouse(volumeMin, volumeMax);
 }
@@ -197,12 +198,12 @@ void movement(void) {
 				float x = CP_System_GetWindowWidth() / 2;
 				float y = CP_System_GetWindowHeight() / 2;
 
-				CP_Color color = CP_Color_Create(255, 255, 255, 155);
+				CP_Color color = CP_Color_Create(255, 255, 255, 220);
 				CP_Vector outv = CP_Vector_Normalize(CP_Vector_Subtract(CP_Vector_Set(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY), CP_Vector_Set(x - WorldX, y - WorldY)));
 				float a = CP_Math_Degrees(atan2(outv.y, outv.x));
 				for (int i = -18; i < 18; i++) {
 					CP_Vector v = AngleToVector(a + i * 1);
-					CreateRay(player1.x - WorldX, player1.y - WorldY, 25, v.x, v.y, 1, color, true, 200,true);
+					CreateRay(player1.x - WorldX, player1.y - WorldY, 25, v.x, v.y, 2, color, true, 200,true);
 
 				}
 
@@ -219,11 +220,11 @@ void movement(void) {
 
 		}
 		else if (CP_Input_MouseTriggered(MOUSE_BUTTON_2) && energy > 60) {
-			CP_Color color = CP_Color_Create(255, 255, 255, 255);
+			CP_Color color = CP_Color_Create(255, 255, 255, 220);
 
 			for (int i = 0; i < 36; i++) {
 				CP_Vector v = AngleToVector(i * 10);
-				CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x, v.y, 2, color, false,100,true);
+				CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x, v.y, 2, color, false,130,true);
 
 
 			}

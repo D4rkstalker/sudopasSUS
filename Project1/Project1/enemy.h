@@ -19,6 +19,8 @@ typedef struct ENEMY {
 	float tmp;
 	float tmp_strength;
 	int moving;
+	int beam_timer;
+	int beam_threshold;
 } ENEMY;
 
 typedef struct CHECKPOINT {
@@ -48,3 +50,4 @@ int enemy_touch(float WorldX, float WorldY);
 int dead_menu(void);
 void retry_game(int i);
 void enemy_move(ENEMY* enemy, int i);
+void enemy_beam(float x, float y);

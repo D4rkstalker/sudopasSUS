@@ -21,7 +21,7 @@ float particleSize = 3.0f;
 //energy used for pings -Nigel
 int energy = 100;
 int bar_timer = 0;
-float bar_alpha = 255;
+int bar_alpha = 255;
 bool clicked = false;
 CP_Vector click1;
 
@@ -109,6 +109,13 @@ void CheckControls(void) {
 			debug = 0;
 		}
 	}
+	(CP_Input_KeyTriggered(KEY_1)) ? WorldX = -285 + CP_System_GetWindowWidth() / 2, WorldY = 485 + CP_System_GetWindowHeight() / 2 : 0;
+	(CP_Input_KeyTriggered(KEY_2)) ? WorldX = -370 + CP_System_GetWindowWidth() / 2, WorldY = -4465 + CP_System_GetWindowHeight() / 2 : 0;
+	(CP_Input_KeyTriggered(KEY_3)) ? WorldX = -3350 + CP_System_GetWindowWidth() / 2, WorldY = -4500 + CP_System_GetWindowHeight() / 2 : 0;
+	(CP_Input_KeyTriggered(KEY_4)) ? WorldX = -5950 + CP_System_GetWindowWidth() / 2, WorldY = -2785 + CP_System_GetWindowHeight() / 2 : 0;
+	(CP_Input_KeyTriggered(KEY_5)) ? WorldX = -2200 + CP_System_GetWindowWidth() / 2, WorldY = -2300 + CP_System_GetWindowHeight() / 2 : 0;
+
+
 
 	/*
 	Made by Nigel
@@ -260,10 +267,11 @@ void subgame_update(void) {
 	//2nd draw layer, the walls of the game
 	if (debug == 1) {
 		DrawWalls();
-		
+
 	}
 	//2.5 draw Enemy
 	enemy_draw();
+	enemy_beam(player1.x - WorldX, player1.y - WorldY);
 
 	//draw checkpoints
 	draw_checkpoint();
@@ -325,21 +333,15 @@ void subgame_update(void) {
 	time++;
 	if (time > 50) {
 		CP_Color color = CP_Color_Create(255, 255, 255, 150);
-		CP_Color enemy_color = CP_Color_Create(155, 50, 20, 150);
 
 		for (int i = 0; i < 18; i++) {
 			CP_Vector v = AngleToVector(i * 20);
-			CreateRay(player1.x - WorldX, player1.y - WorldY, 20, v.x, v.y, 4, color, false, 50,true);
-
-			for (int n = 0; n < ENEMY_COUNT; n++) {
-				//CreateRay(enemy[n].pos.x, enemy[n].pos.y, 20, v.x, v.y, 4, enemy_color, false, 50, true);
+			CreateRay(player1.x - WorldX, player1.y - WorldY, 20, v.x, v.y, 4, color, false, 50, true);
 			}
-
 		}
 		time = 0;
 	}
-	}
-	
+
 }
 
 void subgame_exit(void) {

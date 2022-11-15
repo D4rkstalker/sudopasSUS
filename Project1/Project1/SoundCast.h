@@ -3,7 +3,7 @@
 #include "walls.h"
 #pragma once
 
-#define MAXRAYS 500
+#define MAXRAYS 1500
 #define MAXBOUNCES 30
 #define MAXPARTICLES 80
 #define FUZZYNESS 1
