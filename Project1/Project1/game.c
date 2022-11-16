@@ -49,9 +49,9 @@ void DrawEnergy(void) {
 
 	CP_Settings_RectMode(CP_POSITION_CORNER);
 	float barx = 1850;
-	float bary = 1.5 * (CP_System_GetDisplayHeight() / 4);
+	float bary = 1.5 * (CP_System_GetWindowHeight() / 2);
 	float barw = 15;
-	float barh = -CP_System_GetDisplayHeight() / 4;
+	float barh = -CP_System_GetWindowHeight() / 2;
 
 	if (energy >= 100 && bar_alpha >= 0 ) {
 		bar_timer += 1;
