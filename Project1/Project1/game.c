@@ -37,6 +37,8 @@ All coordinates used by all game objects will need to be offset by the WorldX an
 //float WorldY = 0;
 
 float WorldX = -285 + 960;
+//float WorldX = -285 + CP_System_GetWindowWidth() / 2;
+//float WorldY = 485 + CP_System_GetWindowHeight() / 2
 float WorldY = 485 + 540;
 
 //Start point of the map
@@ -215,8 +217,8 @@ void subgame_init(void) {
 	dead = 0;
 
 
-	WorldX = 725;
-	WorldY = 1025;
+	WorldX = -285 + CP_System_GetWindowWidth() / 2;
+	WorldY = 485 + CP_System_GetWindowHeight() / 2;
 
 }
 
@@ -275,8 +277,12 @@ void subgame_update(void) {
 
 	}
 	//2.5 draw Enemy
-	enemy_draw();
-	enemy_beam(player1.x - WorldX, player1.y - WorldY);
+	if (game_states == resume) {
+		enemy_draw();
+		enemy_beam(player1.x - WorldX, player1.y - WorldY);
+		RayUpdate(WorldX, WorldY);
+		if (energy < 100) energy += 1;
+	}
 
 	//draw checkpoints
 	draw_checkpoint();
@@ -294,13 +300,9 @@ void subgame_update(void) {
 	}
 
 
-
-	//3rd draw layer, the raycast
-
-	RayUpdate(WorldX, WorldY);
-	//4th draw layer, the UI for the game
+	
 	DrawEnergy();
-	if (energy < 100) energy += 1;
+	
 
 
 	//Check the controls pressed each frame

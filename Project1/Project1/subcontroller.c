@@ -195,7 +195,7 @@ void movement(void) {
 
 	
 	if (game_states == resume) {
-		// On Hold for Integration, doesn't work on subcontroller but works on game.c
+		
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
 			if (energy > 40) {
 				float x = CP_System_GetWindowWidth() / 2;
@@ -334,7 +334,19 @@ void movement(void) {
 			WorldY -= player1.velocity_y;
 			player1.velocity_y *= 0.9;
 			player1.velocity_x *= 0.9;
-	}
+
+			time++;
+			if (time > 25) {
+				CP_Color color = CP_Color_Create(255, 255, 255, 150);
+
+				for (int i = 0; i < 18; i++) {
+					CP_Vector v = AngleToVector(i * 20);
+					CreateRay(player1.x - WorldX, player1.y - WorldY, 20, v.x, v.y, 4, color, false, 50, true);
+				}
+				time = 0;
+			}
+
+}
 	if (game_states == theMenu) {
 		volumeControl();
 		settings_menu();
@@ -349,21 +361,6 @@ void movement(void) {
 
 		mapScale();
 	}
-
-	time++;
-	if (time > 25) {
-		CP_Color color = CP_Color_Create(255, 255, 255, 150);
-
-		for (int i = 0; i < 18; i++) {
-			CP_Vector v = AngleToVector(i * 20);
-			CreateRay(player1.x - WorldX, player1.y - WorldY, 20, v.x, v.y, 4, color, false, 50, true);
-		}
-		time = 0;
-	}
-
-		
-
-		//	RayUpdate(0,0);
 	
 }
 
