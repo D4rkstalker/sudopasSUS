@@ -19,6 +19,9 @@ int settings_alpha_2 = 0;
 int settings_alpha_3 = 0;
 int settings_alpha_4 = 0;
 
+int time = 0;
+
+
 void checkMouse(CP_Vector volumeMin, CP_Vector volumeMax) {
 	CP_Vector distvect = CP_Vector_Subtract(volumeMax, volumeMin);
 	CP_Vector dirvect = CP_Vector_Normalize(distvect);
@@ -267,6 +270,7 @@ void movement(void) {
 			if (CP_Input_KeyDown(KEY_W)) {
 				player1.acceleration_y += (MAXSPEED - player1.acceleration_y) / MAXSPEED;
 				player1.velocity_y -= player1.acceleration_y * 0.1;
+				time++;
 
 			}
 			else if (CP_Input_KeyReleased(KEY_W)) {
@@ -279,7 +283,7 @@ void movement(void) {
 
 				player1.acceleration_y += (MAXSPEED - player1.acceleration_y) / MAXSPEED;
 				player1.velocity_y += player1.acceleration_y * 0.1;
-
+				time++;
 			}
 			else if (CP_Input_KeyReleased(KEY_S)) {
 
@@ -295,6 +299,7 @@ void movement(void) {
 			if (CP_Input_KeyDown(KEY_D)) {
 				player1.acceleration_x += (MAXSPEED - player1.acceleration_x) / MAXSPEED;
 				player1.velocity_x += player1.acceleration_x * 0.1;
+				time++;
 			}
 			else if (CP_Input_KeyReleased(KEY_D)) {
 
@@ -305,7 +310,7 @@ void movement(void) {
 			if (CP_Input_KeyDown(KEY_A)) {
 				player1.acceleration_x += (MAXSPEED - player1.acceleration_x) / MAXSPEED;
 				player1.velocity_x -= player1.acceleration_x * 0.1;
-
+				time++;
 			}
 			else if (CP_Input_KeyReleased(KEY_A)) {
 
@@ -315,6 +320,13 @@ void movement(void) {
 		}
 		if (debug == 0) {
 			if (wallcollision()) {
+				CP_Color color = CP_Color_Create(255, 255, 255, 150);
+
+				for (int i = 0; i < 18; i++) {
+					CP_Vector v = AngleToVector(i * 20);
+					CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 2, color, false, 150, true);
+				}
+
 				return;
 			}
 		}
@@ -338,6 +350,16 @@ void movement(void) {
 		mapScale();
 	}
 
+	time++;
+	if (time > 25) {
+		CP_Color color = CP_Color_Create(255, 255, 255, 150);
+
+		for (int i = 0; i < 18; i++) {
+			CP_Vector v = AngleToVector(i * 20);
+			CreateRay(player1.x - WorldX, player1.y - WorldY, 20, v.x, v.y, 4, color, false, 50, true);
+		}
+		time = 0;
+	}
 
 		
 
@@ -393,7 +415,7 @@ void controller_update(void) {
 		CP_Engine_SetNextGameState(subgame_init, subgame_update, subgame_exit);
 
 	}
-	
+
 	
 	return 0;
 

@@ -25,7 +25,6 @@ int bar_alpha = 255;
 bool clicked = false;
 CP_Vector click1;
 
-int time = 0;
 
 tutorial_state = 0;
 shutdown_state = 1;
@@ -275,7 +274,7 @@ void subgame_update(void) {
 
 	//draw checkpoints
 	draw_checkpoint();
-	
+
 	if (enemy_touch(WorldX, WorldY) == 1 && dead != 1) {
 		//CP_Settings_TextSize(50.0f);
 		//CP_Font_DrawText("You are Dead", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 - 200);
@@ -287,8 +286,8 @@ void subgame_update(void) {
 		dead_menu();
 		dead = dead_menu();
 	}
-	
-	
+
+
 
 	//3rd draw layer, the raycast
 
@@ -329,20 +328,10 @@ void subgame_update(void) {
 		CP_Font_DrawText(buffer2, CP_Input_GetMouseX(), CP_Input_GetMouseY() - 20);
 	}
 
-	if (shutdown_state == 0 || game_states != resume){
-	time++;
-	if (time > 50) {
-		CP_Color color = CP_Color_Create(255, 255, 255, 150);
-
-		for (int i = 0; i < 18; i++) {
-			CP_Vector v = AngleToVector(i * 20);
-			CreateRay(player1.x - WorldX, player1.y - WorldY, 20, v.x, v.y, 4, color, false, 50, true);
-			}
-		}
-		time = 0;
-	}
-
+		
+	
 }
+
 
 void subgame_exit(void) {
 	Sound_Deload();
