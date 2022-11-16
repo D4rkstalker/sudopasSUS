@@ -38,6 +38,7 @@ All coordinates used by all game objects will need to be offset by the WorldX an
 
 float WorldX = -285 + 960;
 float WorldY = 485 + 540;
+
 //Start point of the map
 //float WorldX = 800;
 //float WorldY = -1700;
@@ -212,6 +213,11 @@ void subgame_init(void) {
 	enemy_place();
 	checkpoint_init();
 	dead = 0;
+
+
+	WorldX = 725;
+	WorldY = 1025;
+
 }
 
 void subgame_update(void) {

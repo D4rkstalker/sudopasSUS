@@ -85,7 +85,7 @@ void wake_message(void)
 			CP_Color color = CP_Color_Create(255, 255, 255, 55);
 			for (int i = 0; i < 50; i++) {
 				CP_Vector v = AngleToVector(i * 7);
-				CreateRay(160, -235, 25, v.x , v.y , 0.2, color, false,50,false);
+				CreateRay(232, -481, 25, v.x , v.y , 0.2, color, false,50,false);
 			}
 			shutdown_state = 0;
 			wake_alpha = wake_alpha;
@@ -297,7 +297,7 @@ void dodge()
 	float x1 = -WorldX + CP_System_GetWindowWidth() / 2;
 	float y1 = -WorldY + CP_System_GetWindowHeight() / 2;
 
-	if (CheckPointTrigger(700, -300, 10, 1000, x1, y1) == 1)
+	if (CheckPointTrigger(700, -300, 10, 1000, x1, y1) == 1) // @TODO
 	{
 		dodge_loop = 1;
 	}
@@ -321,12 +321,12 @@ void dodge()
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 		CP_Graphics_DrawCircle(WorldX+1630, WorldY-505, 25);
 		//if LMB clicked update dodge_loop and  tutorialstate.
-		if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT))
+		if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT)) //@TODO
 		{
 			CP_Color color = CP_Color_Create(255, 255, 0, 200);
 			for (int i = 0; i < 20; i++) {
 				CP_Vector v = AngleToVector(i * 18);
-				CreateRay(1990, -300, 10, v.x, v.y, 1, color, false,100,true);
+				CreateRay(1990, -300, 10, v.x, v.y, 1, color, false,100,true); //@TODO
 			}
 			tutorial_state = 4;
 		}
@@ -397,7 +397,7 @@ void tut_exit(void)
 		timer = 0;
 
 	}
-	if (CheckPointTrigger(1975, -500, 500, 750, x1, y1) == 1)
+	if (CheckPointTrigger(1975, -500, 500, 750, x1, y1) == 1) //@TODO
 	{
 		CP_Settings_Fill(CP_Color_Create(120, 120, 120, 50));
 		CP_Settings_TextSize(65.0f);
@@ -413,7 +413,7 @@ void tut_exit(void)
 		CP_Graphics_DrawRectAdvanced(1010, 710, 150.0f, 5.0f, 0, 0.0f);
 	}
 
-	if (CheckPointTrigger(1990,-500, 500, 750, x1, y1) == 1 && CP_Input_KeyTriggered(KEY_SPACE))
+	if (CheckPointTrigger(1990,-500, 500, 750, x1, y1) == 1 && CP_Input_KeyTriggered(KEY_SPACE)) //@TODO
 	{
 		
 		CP_Color color = CP_Color_Create(255, 255, 0, 100);
@@ -429,8 +429,8 @@ void tut_exit(void)
 			CP_Vector v = AngleToVector(i * 12);
 			CreateRay(1000, 2230, 300, v.x, v.y, 1, color, false, 25, false);
 		}
-		WorldX = 800;
-		WorldY = -1700;
+		WorldX = 800; //@TODO
+		WorldY = -1700; //@TODO
 		tutorial_state = 5;
 
 		CP_Sound_PlayAdvanced(introsound, volume, 1.0, FALSE, 0);

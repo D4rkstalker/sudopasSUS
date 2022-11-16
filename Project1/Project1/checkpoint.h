@@ -20,8 +20,7 @@ void draw_checkpoint_ping (float delay, float x, float y);
 
 
 typedef struct CheckPoint {
-	float x;
-	float y;
+	CP_Vector pos;
 	float w;
 	float h;
 
@@ -40,6 +39,7 @@ typedef struct Gate {
 Gate cp1_gate;
 Gate cp2_gate;
 Gate cp3_gate;
+
 
 void draw_checkpoint(void);
 

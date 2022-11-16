@@ -57,9 +57,10 @@ void draw_checkpoint_ping(float delay, float x, float y)
 
 void draw_checkpoint_1(void)
 {
-
-	point_1.x = 1640;
-	point_1.y = 2225;
+	
+	point_1.pos.x = 1640;
+	point_1.pos.y = 2235;
+	point_1.pos = CP_Vector_Scale(point_1.pos, 2);
 	point_1.w = 50;
 	point_1.h = 50;
 
@@ -69,15 +70,17 @@ void draw_checkpoint_1(void)
 	if (debug == 1) {
 		CP_Settings_NoStroke();
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Graphics_DrawRect(WorldX + point_1.x, WorldY + point_1.y, point_1.w, point_1.h);
+		CP_Graphics_DrawRect(WorldX + point_1.pos.x, WorldY + point_1.pos.y, point_1.w, point_1.h);
 	}
 
-	draw_checkpoint_ping(150, point_1.x, point_1.y + 25);
+	draw_checkpoint_ping(150, point_1.pos.x, point_1.pos.y + 25);
 
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
 	cp1_gate.pos1 = CP_Vector_Set(1634,1903);
+	cp1_gate.pos1 = CP_Vector_Scale(cp1_gate.pos1, 2);
 	cp1_gate.pos2 = CP_Vector_Set(1634, 2017);
+	cp1_gate.pos2 = CP_Vector_Scale(cp1_gate.pos2, 2);
 	//CP_Graphics_DrawLine(WorldX+cp1_gate.pos1.x, WorldY+cp1_gate.pos1.y, WorldX+cp1_gate.pos2.x, WorldY+cp1_gate.pos2.y);
 
 }
@@ -85,8 +88,9 @@ void draw_checkpoint_1(void)
 void draw_checkpoint_2(void)
 {
 
-	point_2.x = 2960;
-	point_2.y = 1375;
+	point_2.pos.x = 2960;
+	point_2.pos.y = 1375;
+	point_2.pos = CP_Vector_Scale(point_2.pos, 2);
 	point_2.w = 50;
 	point_2.h = 50;
 
@@ -94,24 +98,26 @@ void draw_checkpoint_2(void)
 	//CP_Graphics_DrawRect(WorldX + point_2.x, WorldY + point_2.y, point_2.w, point_2.h);
 	if (debug == 1) {
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Graphics_DrawRect(WorldX + point_2.x, WorldY + point_2.y, point_2.w, point_2.h);
+		CP_Graphics_DrawRect(WorldX + point_2.pos.x, WorldY + point_2.pos.y, point_2.w, point_2.h);
 	}
 
-	draw_checkpoint_ping(150, point_2.x, point_2.y + 25);
+	draw_checkpoint_ping(150, point_2.pos.x, point_2.pos.y + 25);
 
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
 	cp2_gate.pos1 = CP_Vector_Set(2395, 1311);
+	cp2_gate.pos1 = CP_Vector_Scale(cp2_gate.pos1, 2);
 	cp2_gate.pos2 = CP_Vector_Set(2250, 1550);
+	cp2_gate.pos2 = CP_Vector_Scale(cp2_gate.pos2, 2);
 	//CP_Graphics_DrawLine(WorldX + cp2_gate.pos1.x, WorldY + cp2_gate.pos1.y, WorldX + cp2_gate.pos2.x, WorldY + cp2_gate.pos2.y);
 
 }
 
 void draw_checkpoint_3(void)
 {
-
-	point_3.x = 540;
-	point_3.y = 1190;
+	point_3.pos.x = 540;
+	point_3.pos.y = 1190;
+	point_3.pos = CP_Vector_Scale(point_3.pos, 2);
 	point_3.w = 50;
 	point_3.h = 50;
 
@@ -119,35 +125,37 @@ void draw_checkpoint_3(void)
 	//CP_Graphics_DrawRect(WorldX + point_3.x, WorldY + point_3.y, point_3.w, point_3.h);
 	if (debug == 1) {
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Graphics_DrawRect(WorldX + point_3.x, WorldY + point_3.y, point_3.w, point_3.h);
+		CP_Graphics_DrawRect(WorldX + point_3.pos.x, WorldY + point_3.pos.y, point_3.w, point_3.h);
 	}
 
-	draw_checkpoint_ping(150, point_3.x, point_3.y + 25);
+	draw_checkpoint_ping(150, point_3.pos.x, point_3.pos.y + 25);
 
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
 	cp3_gate.pos1 = CP_Vector_Set(1810, 890);
+	cp3_gate.pos1 = CP_Vector_Scale(cp3_gate.pos1, 2);
 	cp3_gate.pos2 = CP_Vector_Set(1850, 1030);
+	cp3_gate.pos2 = CP_Vector_Scale(cp3_gate.pos2, 2);
 	//CP_Graphics_DrawLine(WorldX + cp3_gate.pos1.x, WorldY + cp3_gate.pos1.y, WorldX + cp3_gate.pos2.x, WorldY + cp3_gate.pos2.y);
 
 }
 
 void draw_exit(void)
 {
-
-	point_exit.x = 2425;
-	point_exit.y = 247;
+	point_exit.pos = CP_Vector_Scale(point_exit.pos, 2);
+	point_exit.pos.x = 2425;
+	point_exit.pos.y = 247;
 	point_exit.w = 50;
 	point_exit.h = 50;
 
-	draw_checkpoint_ping(150, point_exit.x, point_exit.y + 25);
+	draw_checkpoint_ping(150, point_exit.pos.x, point_exit.pos.y + 25);
 
 	//CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	//CP_Graphics_DrawRect(WorldX + point_exit.x, WorldY + point_exit.y, point_exit.w, point_exit.h);
 
 	if (debug == 1) {
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Graphics_DrawRect(WorldX + point_exit.x, WorldY + point_exit.y, point_exit.w, point_exit.h);
+		CP_Graphics_DrawRect(WorldX + point_exit.pos.x, WorldY + point_exit.pos.y, point_exit.w, point_exit.h);
 	}
 }
 
@@ -169,7 +177,7 @@ void cp1_triggered(void)
 	float y1 = -WorldY + CP_System_GetWindowHeight() / 2;
 
 
-	if (CheckPointTrigger(point_1.x, point_1.y, point_1.w, point_1.h, x1, y1) == 1)
+	if (CheckPointTrigger(point_1.pos.x, point_1.pos.y, point_1.w, point_1.h, x1, y1) == 1)
 	{
 		CP_Settings_Fill(CP_Color_Create(120, 120, 120, 50));
 		CP_Settings_TextSize(65.0f);
@@ -195,7 +203,7 @@ void cp1_triggered(void)
 
 			for (int i = 0; i < 36; i++) {
 				CP_Vector v = AngleToVector(i * 10);
-				CreateRay(1645, 1960, 50, v.x, v.y, 0.5, color, false, 100,false);
+				CreateRay(1645, 1960, 50, v.x, v.y, 0.5, color, false, 100,false); // @TODO
 			}
 		}
 		/*CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
@@ -237,7 +245,7 @@ void cp2_triggered(void)
 {
 	float x1 = -WorldX + CP_System_GetWindowWidth() / 2;
 	float y1 = -WorldY + CP_System_GetWindowHeight() / 2;
-	if (CheckPointTrigger(point_2.x, point_2.y, point_2.w, point_2.h, x1, y1) == 1)
+	if (CheckPointTrigger(point_2.pos.x, point_2.pos.y, point_2.w, point_2.h, x1, y1) == 1)
 	{
 		CP_Settings_Fill(CP_Color_Create(120, 120, 120, 50));
 		CP_Settings_TextSize(65.0f);
@@ -263,7 +271,7 @@ void cp2_triggered(void)
 
 			for (int i = 0; i < 36; i++) {
 				CP_Vector v = AngleToVector(i * 10);
-				CreateRay(1645, 1960, 50, v.x, v.y, 0.5, color, false, 100,false);
+				CreateRay(1645, 1960, 50, v.x, v.y, 0.5, color, false, 100,false); //@TODO
 			}
 		}
 	}
@@ -305,7 +313,7 @@ void cp3_triggered(void)
 {
 	float x1 = -WorldX + CP_System_GetWindowWidth() / 2;
 	float y1 = -WorldY + CP_System_GetWindowHeight() / 2;
-	if (CheckPointTrigger(point_3.x, point_3.y, point_3.w, point_3.h, x1, y1) == 1)
+	if (CheckPointTrigger(point_3.pos.x, point_3.pos.y, point_3.w, point_3.h, x1, y1) == 1)
 
 	{
 		CP_Settings_Fill(CP_Color_Create(120, 120, 120, 50));
@@ -332,7 +340,7 @@ void cp3_triggered(void)
 
 			for (int i = 0; i < 36; i++) {
 				CP_Vector v = AngleToVector(i * 10);
-				CreateRay(1645, 1960, 50, v.x, v.y, 0.5, color, false, 100,false);
+				CreateRay(1645, 1960, 50, v.x, v.y, 0.5, color, false, 100,false); //@TODO
 			}
 		}
 	}
@@ -367,7 +375,7 @@ void exit_triggered(void)
 	float y1 = -WorldY + CP_System_GetWindowHeight() / 2;
 
 
-	if (CheckPointTrigger(point_exit.x, point_exit.y, point_exit.w, point_exit.h, x1, y1) == 1)
+	if (CheckPointTrigger(point_exit.pos.x, point_exit.pos.y, point_exit.w, point_exit.h, x1, y1) == 1)
 	{
 		CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
 		CP_Settings_TextSize(65.0f);
