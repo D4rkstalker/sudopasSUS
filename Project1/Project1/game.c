@@ -215,6 +215,7 @@ void subgame_init(void) {
 	enemy_place();
 	checkpoint_init();
 	dead = 0;
+	debug = 0;
 
 
 	WorldX = -285 + CP_System_GetWindowWidth() / 2;
@@ -315,7 +316,7 @@ void subgame_update(void) {
 		CP_Graphics_DrawCircle(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2, 25);
 	}
 	// movement function
-	if (tutorial_state >= 3)
+	if (tutorial_state >= 3 && dead == 0)
 	{
 		movement();
 	}

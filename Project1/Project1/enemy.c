@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include "enemy.h"
 #include "music.h"
+#include "subcontroller.h"
 
 float timer;
 float EPSI = 0.00000001;
@@ -25,6 +26,8 @@ void retry_game(int i) {
 	state = 0;
 	WorldX = -checkpoint[i].respawn_x + CP_System_GetWindowWidth() / 2;
 	WorldY = -checkpoint[i].respawn_y + CP_System_GetWindowHeight() / 2;
+	player1.velocity_x = 0;
+	player1.velocity_y = 0;
 	game_states = resume;
 	CP_Sound_PlayAdvanced(introsound, volume, 1.0, FALSE, 0);
 	CP_Sound_PlayMusic((bgm_submarine));

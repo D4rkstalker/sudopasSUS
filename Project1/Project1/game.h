@@ -9,6 +9,7 @@ typedef struct Wall {
 
 int debug;
 int energy;
+int dead;
 float WorldX;
 float WorldY;
 

@@ -142,9 +142,9 @@ void draw_checkpoint_3(void)
 
 void draw_exit(void)
 {
-	point_exit.pos = CP_Vector_Scale(point_exit.pos, 2);
 	point_exit.pos.x = 2425;
 	point_exit.pos.y = 247;
+	point_exit.pos = CP_Vector_Scale(point_exit.pos, 2);
 	point_exit.w = 50;
 	point_exit.h = 50;
 
