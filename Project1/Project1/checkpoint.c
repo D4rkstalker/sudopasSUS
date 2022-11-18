@@ -6,6 +6,7 @@
 #include "Utils.h"
 #include "walls.h"
 #include "music.h"
+#include "enemy.h"
 	
 CheckPoint point_1;
 CheckPoint point_2;
@@ -200,7 +201,7 @@ void cp1_triggered(void)
 			CP_Color color = CP_Color_Create(255, 255, 0, 50);
 			//CP_Vector v = AngleToVector(-90);
 			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
-
+			checkpoint[0].current_checkpoint = 3;
 			for (int i = 0; i < 36; i++) {
 				CP_Vector v = AngleToVector(i * 10);
 				CreateRay(3265, 3911, 50, v.x, v.y, 0, color, false, 100,false); // @TODO
@@ -268,7 +269,7 @@ void cp2_triggered(void)
 			CP_Color color = CP_Color_Create(255, 255, 0, 50);
 			//CP_Vector v = AngleToVector(-90);
 			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
-
+			checkpoint[0].current_checkpoint = 4;
 			for (int i = 0; i < 36; i++) {
 				CP_Vector v = AngleToVector(i * 10);
 				CreateRay(5028, 2820, 50, v.x, v.y, 0, color, false, 100,false); //@TODO
@@ -328,7 +329,7 @@ void cp3_triggered(void)
 		CP_Graphics_DrawRectAdvanced(1010, 700, 500.0f, 70.0f, 0, 10.0f);
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 20));
 		CP_Graphics_DrawRectAdvanced(1010, 710, 150.0f, 5.0f, 0, 0.0f);
-
+		checkpoint[0].current_checkpoint = 5;
 		if (CP_Input_KeyTriggered(KEY_SPACE))
 		{
 			CheckPoint_3_Triggered = 1;
