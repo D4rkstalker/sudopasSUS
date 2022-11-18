@@ -1,4 +1,5 @@
 #include "game.h"
+#include "checkpoint.h"
 
 /*
 Wall functions made by Nigel
@@ -32,3 +33,4 @@ void savewalls(void);
 int wallcollision(void);
 void createcpwalls(void);
 void cpfailsafe(void);
+void cpwallinit(Gate cp);
