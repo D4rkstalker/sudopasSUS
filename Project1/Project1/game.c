@@ -292,6 +292,13 @@ void subgame_update(void) {
 	if (enemy_touch(WorldX, WorldY) == 1 && dead != 1) {
 		//CP_Settings_TextSize(50.0f);
 		//CP_Font_DrawText("You are Dead", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 - 200);
+		CP_Color color = CP_Color_Create(255, 0, 0, 150);
+
+		for (int i = 0; i < 72; i++) {
+			CP_Vector v = AngleToVector(i * 5);
+			CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 2, color, false, 350, true);
+		}
+
 		dead = 1;
 		CP_Sound_PlayAdvanced(rip, volume, 1, FALSE, 0);
 		CP_Sound_StopGroup(CP_SOUND_GROUP_MUSIC);
