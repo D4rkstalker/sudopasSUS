@@ -361,7 +361,7 @@ void dodge()
 		CP_Settings_TextSize(100.0f);
 		CP_Font_DrawText("Now run here!", WorldX + (1330 * 2), WorldY - 1000);
 
-		if (CheckPointTrigger(3165, -900, 100, 100, x1, y1) == 1)
+		if (CheckPointTrigger(3165, -900, 75, 75, x1, y1) == 1)
 		{
 			tutorial_state = 4;
 		}
