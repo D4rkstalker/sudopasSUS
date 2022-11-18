@@ -320,13 +320,16 @@ void movement(void) {
 		}
 		if (debug == 0) {
 			if (wallcollision()) {
-				CP_Color color = CP_Color_Create(255, 255, 255, 150);
+				if (CP_Math_Distance(0, 0, player1.velocity_x, player1.velocity_y) > 2) {
+					CP_Sound_PlayAdvanced(bonk, volume, 1, FALSE, 0);
 
-				for (int i = 0; i < 18; i++) {
-					CP_Vector v = AngleToVector(i * 20);
-					CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 2, color, false, 150, true);
+					CP_Color color = CP_Color_Create(255, 255, 255, 150);
+
+					for (int i = 0; i < 18; i++) {
+						CP_Vector v = AngleToVector(i * 20);
+						CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 2, color, false, 150, true);
+					}
 				}
-
 				return;
 			}
 		}
