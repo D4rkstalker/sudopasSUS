@@ -268,6 +268,7 @@ void subgame_update(void) {
 		break;
 	case 5:
 		title_screen();
+		tut_exit();
 		break;
 	default:
 		;

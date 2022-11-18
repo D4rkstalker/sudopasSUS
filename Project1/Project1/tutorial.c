@@ -84,8 +84,8 @@ void wake_message(void)
 		if (CP_Input_KeyTriggered(KEY_SPACE))
 		{
 			CP_Color color = CP_Color_Create(255, 255, 255, 55);
-			for (int i = 0; i < 50; i++) {
-				CP_Vector v = AngleToVector(i * 7);
+			for (int i = 0; i < 36; i++) {
+				CP_Vector v = AngleToVector(i * 10);
 				CreateRay(player1.x - WorldX, player1.y - WorldY, 25, v.x , v.y , 0.2, color, false,50,false);
 			}
 			shutdown_state = 0;
@@ -138,22 +138,22 @@ void rmb_tut(void)
 		//TUTORIAL MESSAGE
 		CP_Settings_Fill(CP_Color_Create(120, 120, 120, rmb_alpha));
 		CP_Settings_TextSize(100.0f);
-		CP_Font_DrawText("RMB", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f));
+		CP_Font_DrawText("Try using your scanner...", (CP_System_GetWindowWidth() / 2.0f) - 500, (CP_System_GetWindowHeight() / 2.5f));
 
 
 		CP_Settings_Fill(CP_Color_Create(120, 120, 120, rmb_alpha));
 		CP_Settings_TextSize(65.0f);
-		CP_Font_DrawText("Press", 600, 725);
+		CP_Font_DrawText("Click", 600, 725);
 
 		CP_Color StartOutline = CP_Color_Create(150, 150, 150, rmb_alpha);
 		CP_Settings_Stroke(StartOutline);
 		CP_Settings_Fill(CP_Color_Create(25, 25, 25, rmb_alpha));
 		//space
 		CP_Settings_RectMode(CP_POSITION_CENTER);
-		CP_Graphics_DrawRectAdvanced(1010, 700, 500.0f, 70.0f, 0, 10.0f);
-		CP_Settings_Fill(CP_Color_Create(255, 255, 255, rmb_alpha * 0.7));
-		CP_Graphics_DrawRectAdvanced(1010, 710, 150.0f, 5.0f, 0, 0.0f);
-
+		CP_Graphics_DrawRectAdvanced(810, 700, 70.0f, 70.0f, 0, 10.0f);
+		CP_Settings_TextSize(25.0f);
+		CP_Settings_Fill(CP_Color_Create(120, 120, 120, rmb_alpha*1.5));
+		CP_Font_DrawText("MB2", 785, 700);
 
 
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_RIGHT))
@@ -180,21 +180,23 @@ void rmb_tut(void)
 
 		CP_Settings_Fill(CP_Color_Create(120, 120, 120, rmb_alpha));
 		CP_Settings_TextSize(100.0f);
-		CP_Font_DrawText("RMB", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f));
+		CP_Font_DrawText("Try using your scanner...", (CP_System_GetWindowWidth() / 2.0f) - 500, (CP_System_GetWindowHeight() / 2.5f));
 
 
 		CP_Settings_Fill(CP_Color_Create(120, 120, 120, rmb_alpha));
 		CP_Settings_TextSize(65.0f);
-		CP_Font_DrawText("Press", 600, 725);
+		CP_Font_DrawText("Click", 600, 725);
 
 		CP_Color StartOutline = CP_Color_Create(150, 150, 150, rmb_alpha);
 		CP_Settings_Stroke(StartOutline);
 		CP_Settings_Fill(CP_Color_Create(25, 25, 25, rmb_alpha));
 		//space
 		CP_Settings_RectMode(CP_POSITION_CENTER);
-		CP_Graphics_DrawRectAdvanced(1010, 700, 500.0f, 70.0f, 0, 10.0f);
-		CP_Settings_Fill(CP_Color_Create(255, 255, 255, rmb_alpha * 0.7));
-		CP_Graphics_DrawRectAdvanced(1010, 710, 150.0f, 5.0f, 0, 0.0f);
+		CP_Graphics_DrawRectAdvanced(810, 700, 70.0f, 70.0f, 0, 10.0f);
+		CP_Settings_TextSize(25.0f);
+		CP_Settings_Fill(CP_Color_Create(120, 120, 120, rmb_alpha*1.5));
+		CP_Font_DrawText("MB2", 785, 700);
+
 
 
 		if (rmb_alpha < 20)
@@ -298,7 +300,7 @@ void dodge()
 	float x1 = -WorldX + CP_System_GetWindowWidth() / 2;
 	float y1 = -WorldY + CP_System_GetWindowHeight() / 2;
 
-	if (CheckPointTrigger(500*2, -300*2, 10, 1000, x1, y1) == 1) // @TODO
+	if (CheckPointTrigger(500*2, -300*2, 20, 2000, x1, y1) == 1)
 	{
 		dodge_loop = 1;
 	}
@@ -306,29 +308,60 @@ void dodge()
 	if (dodge_loop == 1)
 	{
 		CP_Settings_Fill(CP_Color_Create(120, 120, 120, tutorial_alpha));
-		CP_Settings_TextSize(100.0f);
-		CP_Font_DrawText("ENEMY DODGE", 250.0f, (CP_System_GetWindowHeight() / (2.5f *2)));
+		CP_Settings_TextSize(50.0f);
+		CP_Font_DrawText("There's an enemy up ahead, let's go around it..", 250.0f, (CP_System_GetWindowHeight() / (2.5f *2))+200.0f);
 	}
 
-	if (CheckPointTrigger(1460*2, -300*2, 10, 1000, x1, y1) == 1)
+	if (CheckPointTrigger(1600, -300 * 2, 20, 2000, x1, y1) == 1)
+	{
+		dodge_loop = 0;
+	}
+
+	if (CheckPointTrigger(2700, -300 * 2, 20, 2000, x1, y1) == 1)
 	{
 		dodge_loop = 2;
 	}
+
 	if (dodge_loop == 2)
 	{
 		CP_Settings_Fill(CP_Color_Create(120, 120, 120, tutorial_alpha));
+		CP_Settings_TextSize(50.0f);
+		CP_Font_DrawText("That enemy is blocking our path, try distracting it!", 250.0f, (CP_System_GetWindowHeight() / (2.5f * 2)));
+	}
+
+
+	if (CheckPointTrigger(1480*2, -300*2, 20, 2000, x1, y1) == 1 && dodge_loop == 2)
+	{
+		dodge_loop = 3;
+	}
+	if (dodge_loop == 3)
+	{
+		CP_Settings_Fill(CP_Color_Create(120, 120, 120, tutorial_alpha));
 		CP_Settings_TextSize(100.0f);
-		CP_Font_DrawText("CLICK HERE", WorldX+(1630*2),WorldY-(500*2));
+		CP_Font_DrawText("CLICK HERE", WorldX+(1630*2),WorldY-(250*2));
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Graphics_DrawCircle(WorldX+(1585*2), WorldY - (465*2), 25);
+		CP_Graphics_DrawCircle(WorldX+(1585*2), WorldY - (265*2), 25);
 		//if LMB clicked update dodge_loop and  tutorialstate.
-		if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT)) //@TODO
+		if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT)) //@todo
 		{
 			CP_Color color = CP_Color_Create(255, 255, 0, 200);
 			for (int i = 0; i < 20; i++) {
 				CP_Vector v = AngleToVector(i * 18);
-				CreateRay(1990*2, -300*2, 10, v.x, v.y, 1, color, false,100,false); //@TODO
+				CreateRay(1990*2, -300*2, 10, v.x, v.y, 1, color, false,100,false); 
 			}
+			dodge_loop = 4;
+		}
+
+		
+	}
+	if (dodge_loop == 4)
+	{
+		CP_Settings_Fill(CP_Color_Create(120, 120, 120, tutorial_alpha));
+		CP_Settings_TextSize(100.0f);
+		CP_Font_DrawText("Now run here!", WorldX + (1330 * 2), WorldY - 1000);
+
+		if (CheckPointTrigger(3165, -900, 100, 100, x1, y1) == 1)
+		{
 			tutorial_state = 4;
 		}
 	}

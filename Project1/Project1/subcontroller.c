@@ -11,7 +11,7 @@
 #include "enemy.h"
 
 
-#define MAXSPEED 20
+#define MAXSPEED 3
 
 CP_Vector mouseMovement;
 int settings_alpha_1 = 0;
