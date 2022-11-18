@@ -119,9 +119,9 @@ void volumeControl(void) {
 	float screensizeX = CP_System_GetWindowWidth() / 2;
 	float screensizeY = CP_System_GetWindowHeight() / 2;
 
-	CP_Vector volumeMin = CP_Vector_Set(screenborderX + screensizeX / 4, screenborderY + screensizeY / 2);
+	CP_Vector volumeMin = CP_Vector_Set(screenborderX + screensizeX / 4, (screenborderY + screensizeY / 2) - 10);
 
-	CP_Vector volumeMax = CP_Vector_Set(screenborderX + screensizeX - (screensizeX / 4), screenborderY + screensizeY - (screensizeY / 2));
+	CP_Vector volumeMax = CP_Vector_Set(screenborderX + screensizeX - (screensizeX / 4), (screenborderY + (screensizeY / 2) - 10)); //screensizeY - 
 
 	CP_Graphics_DrawRect(screenborderX, screenborderY, screensizeX, screensizeY); // Drawing border
 	
