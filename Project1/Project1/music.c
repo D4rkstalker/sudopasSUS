@@ -28,7 +28,6 @@ void Sound_Init(void) {
 	creepyping = CP_Sound_Load("creepyping.wav");
 
 	bgm_submarine = CP_Sound_Load("bgm_submarine.wav");
-	bgm_theenemy = CP_Sound_Load("bgm_theenemy.wav");
 
 	//initialise BGM
 	CP_Sound_SetGroupVolume(CP_SOUND_GROUP_MUSIC, 0.1);
@@ -46,5 +45,4 @@ void Sound_Deload(void) {
 	CP_Sound_Free(&creepyping);
 
 	CP_Sound_Free(&bgm_submarine);
-	CP_Sound_Free(&bgm_theenemy);
 }
