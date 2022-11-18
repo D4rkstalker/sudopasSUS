@@ -13,8 +13,8 @@ int drawpoint = 0;
 /*
 Made by Nigel
 
-Triangle structures meant to function as walls in game
-Contains the x and y coordinates of all 3 points of the triangle
+CWall is current number of walls
+Array to save the walls
 */
 
 int CWall = 0;
@@ -88,6 +88,13 @@ void UndoWall(void) {
 	wall[CWall].pos2 = CP_Vector_Set(0, 0);
 }
 
+void DeleteWall(int i) {
+	for (int t = i; t < CWall - 1; t++) {
+		wall[t] = wall[t + 1];
+	}
+	CWall -= 1;
+}
+
 void loadwalls(void) {
 	int c;
 	int i = 0;
@@ -145,39 +152,13 @@ int wallcollision(void) {
 
 		if (uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1 || 
 			((- walldistance(i, x1, y1, 0, 0) < 2 || CP_Math_Distance(x1, y1, wall[i].pos1.x, wall[i].pos1.y) < 15 || CP_Math_Distance(x1, y1, wall[i].pos2.x, wall[i].pos2.y) < 15) && (walldistance(i, x1, y1, 0, 0) < walldistance(i, x1, y1, player1.velocity_x, player1.velocity_y)))) {
-			//int loop = 0;
-			//uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1 || 
-			//(- walldistance(i, x1, y1, 0, 0) < 4
-			//circlelinecollision(i, x1, y1) == 1 && 
-			//||
-			//(walldistance(i, x1, y1, 0, 0) < walldistance(i, x1, y1, player1.velocity_x, player1.velocity_y)
-
-			/*
-			while (-walldistance(i, x1, y1, 0, 0) > 3) {
-				if (loop++ > 1000) break;
-				WorldX -= player1.velocity_x / 1000;
-				WorldY -= player1.velocity_y / 1000;
-				x1 = -WorldX + CP_System_GetWindowWidth() / 2;
-				y1 = -WorldY + CP_System_GetWindowHeight() / 2;
-			}*/
+			
+			if (debug == 1) {
+				DeleteWall(i);
+			}
+			
 			player1.acceleration_x = 0;
 			player1.acceleration_y = 0;
-
-			/*
-			CP_Vector line = CP_Vector_Set(wall[i].pos1.x-wall[i].pos2.x, wall[i].pos1.y - wall[i].pos2.y);
-			if (line.x < 0) {
-				line.x = -line.x;
-			}
-			if (line.y < 0) {
-				line.y = -line.y;
-			}
-			CP_Vector_Scale(line, CP_Vector_Length(CP_Vector_Set(player1.velocity_x,player1.velocity_y))/CP_Vector_Length(line));
-			float distx = CP_Math_ClampFloat(player1.velocity_x * line.x,-1,1);
-			float disty = CP_Math_ClampFloat(player1.velocity_y * line.y,-1,1);
-			if (walldistance(i, x1, y1, 0, 0) < walldistance(i, x1, y1, distx, disty)) {
-				WorldX -= distx;
-				WorldY -= disty;
-			}*/
 			player1.velocity_x = -player1.velocity_x * 0.8;
 			player1.velocity_y = -player1.velocity_y * 0.8;
 			return 1;

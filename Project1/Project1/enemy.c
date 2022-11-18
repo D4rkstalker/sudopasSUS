@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include "enemy.h"
 #include "music.h"
-#include "subcontroller.h"
+#include "checkpoint.h"
 
 float timer;
 float EPSI = 0.00000001;
@@ -24,6 +24,9 @@ void retry_game(int i) {
 	enemy_place();
 	menu_alpha = 0;
 	state = 0;
+	if (i == 5 && -WorldX < 1000) {
+		CheckPoint_3_Triggered = 0;
+	}
 	WorldX = -checkpoint[i].respawn_x + CP_System_GetWindowWidth() / 2;
 	WorldY = -checkpoint[i].respawn_y + CP_System_GetWindowHeight() / 2;
 	player1.velocity_x = 0;

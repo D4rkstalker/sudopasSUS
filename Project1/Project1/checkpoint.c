@@ -328,6 +328,8 @@ void cp2_triggered(void)
 
 }
 
+int cp3wallcleared = 0;
+
 void cp3_triggered(void)
 {
 	float x1 = -WorldX + CP_System_GetWindowWidth() / 2;
@@ -351,7 +353,13 @@ void cp3_triggered(void)
 		if (CP_Input_KeyTriggered(KEY_SPACE))
 		{
 			CheckPoint_3_Triggered = 1;
-			UndoWall();
+
+			if (cp3wallcleared == 0) {
+				UndoWall();
+			}
+
+			cp3wallcleared = 1;
+
 			CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
 			CP_Color color = CP_Color_Create(255, 255, 0, 50);
 			//CP_Vector v = AngleToVector(-90);

@@ -318,7 +318,7 @@ void movement(void) {
 
 			}
 		}
-		if (debug == 0) {
+		if (debug == 0 || CP_Input_KeyDown(KEY_9)) {
 			if (wallcollision()) {
 				if (CP_Math_Distance(0, 0, player1.velocity_x, player1.velocity_y) > 2) {
 					CP_Sound_PlayAdvanced(bonk, volume, 1, FALSE, 0);
