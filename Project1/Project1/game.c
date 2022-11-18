@@ -103,14 +103,6 @@ void CheckControls(void) {
 	
 	*/
 
-	if (CP_Input_KeyTriggered(KEY_0)) {
-		if (debug == 0) {
-			debug = 1;
-		}
-		else {
-			debug = 0;
-		}
-	}
 	(CP_Input_KeyTriggered(KEY_1)) ? WorldX = -285 + CP_System_GetWindowWidth() / 2, WorldY = 485 + CP_System_GetWindowHeight() / 2 : 0;
 	(CP_Input_KeyTriggered(KEY_2)) ? WorldX = -370 + CP_System_GetWindowWidth() / 2, WorldY = -4465 + CP_System_GetWindowHeight() / 2 : 0;
 	(CP_Input_KeyTriggered(KEY_3)) ? WorldX = -3350 + CP_System_GetWindowWidth() / 2, WorldY = -4500 + CP_System_GetWindowHeight() / 2 : 0;
@@ -312,12 +304,21 @@ void subgame_update(void) {
 	
 	DrawEnergy();
 	
+	//turn on/off debug mode
+	if (CP_Input_KeyTriggered(KEY_0)) {
+		if (debug == 0) {
+			debug = 1;
+		}
+		else {
+			debug = 0;
+		}
+	}
 
-
-	//Check the controls pressed each frame
-
-	CheckControls();
-
+	//Check the debug controls pressed each frame
+	if (debug == 1) {
+		CheckControls();
+	}
+	
 	//Creating Player
 	if (game_states == resume && debug == 1) {
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
