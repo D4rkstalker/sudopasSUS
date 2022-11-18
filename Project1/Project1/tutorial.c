@@ -7,6 +7,7 @@
 #include "checkpoint.h"
 #include "music.h"
 #include "game.h"
+#include "enemy.h"
 
 //message tutorial, title, wake, rmb;
 
@@ -317,7 +318,7 @@ void dodge()
 		dodge_loop = 0;
 	}
 
-	if (CheckPointTrigger(2700, -300 * 2, 20, 2000, x1, y1) == 1)
+	if (CheckPointTrigger(2650, -300 * 2, 20, 2000, x1, y1) == 1)
 	{
 		dodge_loop = 2;
 	}
@@ -330,7 +331,7 @@ void dodge()
 	}
 
 
-	if (CheckPointTrigger(1480*2, -300*2, 20, 2000, x1, y1) == 1 && dodge_loop == 2)
+	if (CheckPointTrigger(2900, -300*2, 20, 2000, x1, y1) == 1 && dodge_loop == 2)
 	{
 		dodge_loop = 3;
 	}
@@ -453,20 +454,14 @@ void tut_exit(void)
 		CP_Color color = CP_Color_Create(255, 255, 0, 100);
 		for (int i = 0; i < 10; i++) {
 			CP_Vector v = AngleToVector(i * 36);
-			CreateRay(123, 2230, 100, v.x, v.y, 1, color, false, 100,false);
-		}
-		for (int i = 0; i < 20; i++) {
-			CP_Vector v = AngleToVector(i * 18);
-			CreateRay(500, 2230, 200, v.x, v.y, 1, color, false, 75, false);
-		}
-		for (int i = 0; i < 30; i++) {
-			CP_Vector v = AngleToVector(i * 12);
-			CreateRay(1000, 2230, 300, v.x, v.y, 1, color, false, 25, false);
+			CreateRay(369, 4464, 100, v.x, v.y, 1, color, false, 100,false);
 		}
 		//WorldX = 800; //@TODO
 		//WorldY = -1700*2.2; //@TODO
 		WorldX = -370 + CP_System_GetWindowWidth() / 2;
 		WorldY = -4465 + CP_System_GetWindowHeight() / 2;
+		checkpoint[0].current_checkpoint = 2;
+
 		tutorial_state = 5;
 
 		CP_Sound_PlayAdvanced(introsound, volume, 1.0, FALSE, 0);
