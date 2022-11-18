@@ -164,7 +164,6 @@ int CheckPointTrigger(float area_x, float area_y, float area_width, float area_h
 {
 	if (player_X > area_x && player_X < area_x+area_width && player_Y > area_y && player_Y < area_y+area_height)
 	{
-		return 1;
 	}
 	else
 	{
@@ -206,6 +205,15 @@ void cp1_triggered(void)
 				CP_Vector v = AngleToVector(i * 10);
 				CreateRay(3265, 3911, 50, v.x, v.y, 0, color, false, 100,false); // @TODO
 			}
+		 color = CP_Color_Create(0, 255, 255, 150);
+
+			for (int i = 0; i < 72; i++) {
+				CP_Vector v = AngleToVector(i * 5);
+				CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 2, color, false, 150, true);
+			}
+
+			return 1;
+
 		}
 		/*CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 		CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, cp1_progress, 25.0f);
@@ -274,6 +282,16 @@ void cp2_triggered(void)
 				CP_Vector v = AngleToVector(i * 10);
 				CreateRay(5028, 2820, 50, v.x, v.y, 0, color, false, 100,false); //@TODO
 			}
+
+			 color = CP_Color_Create(0, 255, 255, 150);
+
+			for (int i = 0; i < 72; i++) {
+				CP_Vector v = AngleToVector(i * 5);
+				CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 2, color, false, 150, true);
+			}
+
+			return 1;
+
 		}
 	}
 	/*
@@ -343,6 +361,16 @@ void cp3_triggered(void)
 				CP_Vector v = AngleToVector(i * 10);
 				CreateRay(1945, 2302, 50, v.x, v.y, 0, color, false, 100,false); //@TODO
 			}
+
+			 color = CP_Color_Create(0, 255, 255, 150);
+
+			for (int i = 0; i < 72; i++) {
+				CP_Vector v = AngleToVector(i * 5);
+				CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 1, color, false, 250, true);
+			}
+
+			return 1;
+
 		}
 	}
 	/*
