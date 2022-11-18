@@ -360,8 +360,11 @@ void dodge()
 		CP_Settings_Fill(CP_Color_Create(120, 120, 120, tutorial_alpha));
 		CP_Settings_TextSize(100.0f);
 		CP_Font_DrawText("Now run here!", WorldX + (1330 * 2), WorldY - 1000);
-		tutorial_state = 4;
 
+		if (CheckPointTrigger(3165, -900, 100, 100, x1, y1) == 1)
+		{
+			tutorial_state = 4;
+		}
 	}
 }
 
