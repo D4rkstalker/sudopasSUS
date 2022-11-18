@@ -248,12 +248,15 @@ void subgame_update(void) {
 		break;
 	case 1:
 		rmb_tut();
+		tut_exit();
 		break;
 	case 2:
 		tutorial_message();
+		tut_exit();
 		break;
 	case 3:
 		dodge();
+		tut_exit();
 		break;
 	case 4:
 		tut_exit();

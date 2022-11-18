@@ -107,8 +107,8 @@ void loadwalls(void) {
 		fscanf_s(in, "%f %f %f %f\n", &wall[i].pos1.x, &wall[i].pos1.y, &wall[i].pos2.x, &wall[i].pos2.y);\
 		CP_Vector wallEnd1 = CP_Vector_Set(wall[i].pos1.x, wall[i].pos1.y);
 		CP_Vector wallEnd2 = CP_Vector_Set(wall[i].pos2.x, wall[i].pos2.y);
-		wallEnd1 = CP_Vector_Scale(wallEnd1, 2);
-		wallEnd2 = CP_Vector_Scale(wallEnd2, 2);
+		//wallEnd1 = CP_Vector_Scale(wallEnd1, 2);
+		//wallEnd2 = CP_Vector_Scale(wallEnd2, 2);
 		wall[i].pos1.x = wallEnd1.x;
 		wall[i].pos1.y = wallEnd1.y;
 		wall[i].pos2.x = wallEnd2.x;
