@@ -10,6 +10,7 @@
 #include <math.h>
 #include "enemy.h"
 #include <stdlib.h>
+#include "credits.h"
 
 //debug wall flag
 int debug = 1;
@@ -179,6 +180,11 @@ void CheckControls(void) {
 	if (CP_Input_KeyTriggered(KEY_Q))
 	{
 		CP_Engine_Terminate();
+	}
+
+	if (CP_Input_KeyTriggered(KEY_E))
+	{
+		CP_Engine_SetNextGameState(credits_init, credits_update, credits_exit);
 	}
 
 
@@ -356,4 +362,5 @@ void subgame_update(void) {
 
 void subgame_exit(void) {
 	Sound_Deload();
+	CWall = 0;
 }

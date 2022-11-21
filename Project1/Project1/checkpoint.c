@@ -7,7 +7,8 @@
 #include "walls.h"
 #include "music.h"
 #include "enemy.h"
-	
+#include "credits.h"
+
 CheckPoint point_1;
 CheckPoint point_2;
 CheckPoint point_3;
@@ -406,9 +407,27 @@ void exit_triggered(void)
 
 	if (CheckPointTrigger(point_exit.pos.x, point_exit.pos.y, point_exit.w, point_exit.h, x1, y1) == 1)
 	{
+		CP_Settings_Fill(CP_Color_Create(120, 120, 120, 50));
+		CP_Settings_TextSize(65.0f);
+		CP_Font_DrawText("Press", 600, 725);
+
+		CP_Color StartOutline = CP_Color_Create(150, 150, 150, 50);
+		CP_Settings_Stroke(StartOutline);
+		CP_Settings_Fill(CP_Color_Create(25, 25, 25, 50));
+		//space
+		CP_Settings_RectMode(CP_POSITION_CENTER);
+		CP_Graphics_DrawRectAdvanced(1010, 700, 500.0f, 70.0f, 0, 10.0f);
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 20));
+		CP_Graphics_DrawRectAdvanced(1010, 710, 150.0f, 5.0f, 0, 0.0f);
+
+		if (CP_Input_KeyTriggered(KEY_SPACE)) {
+			CP_Engine_SetNextGameState(credits_init, credits_update, credits_exit);
+		}
+
+		/*
 		CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
 		CP_Settings_TextSize(65.0f);
-		CP_Font_DrawText("YOU WON!", CP_System_GetDisplayWidth()/2, CP_System_GetDisplayHeight() / 2);
+		CP_Font_DrawText("YOU WON!", CP_System_GetDisplayWidth()/2, CP_System_GetDisplayHeight() / 2);*/
 	}
 
 }
