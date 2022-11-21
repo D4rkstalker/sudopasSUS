@@ -26,6 +26,7 @@
     <ClInclude Include="menu.h" />
     <ClInclude Include="music.h" />
     <ClInclude Include="SoundCast.h" />
+    <ClInclude Include="splashscreen.h" />
     <ClInclude Include="subcontroller.h" />
     <ClInclude Include="tutorial.h" />
     <ClInclude Include="Utils.h" />
@@ -39,6 +40,7 @@
     <ClCompile Include="menu.c" />
     <ClCompile Include="music.c" />
     <ClCompile Include="SoundCast.c" />
+    <ClCompile Include="splashscreen.c" />
     <ClCompile Include="subcontroller.c" />
     <ClCompile Include="tutorial.c" />
     <ClCompile Include="Utils.c" />

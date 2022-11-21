@@ -48,6 +48,9 @@
     <ClInclude Include="tutorial.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="splashscreen.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -81,6 +84,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="tutorial.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="splashscreen.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

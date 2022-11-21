@@ -21,13 +21,13 @@ CP_Sound bgm_theenemy = NULL;
 
 void Sound_Init(void) {
 	//initialise sound
-	ping = CP_Sound_Load("ping.wav");
-	introsound = CP_Sound_Load("introsound.wav");
-	bonk = CP_Sound_Load("bonk.wav");
-	rip = CP_Sound_Load("rip.wav");
-	creepyping = CP_Sound_Load("creepyping.wav");
+	ping = CP_Sound_Load("../Assets/ping.wav");
+	introsound = CP_Sound_Load("../Assets/introsound.wav");
+	bonk = CP_Sound_Load("../Assets/bonk.wav");
+	rip = CP_Sound_Load("../Assets/rip.wav");
+	creepyping = CP_Sound_Load("../Assets/creepyping.wav");
 
-	bgm_submarine = CP_Sound_Load("bgm_submarine.wav");
+	bgm_submarine = CP_Sound_Load("../Assets/bgm_submarine.wav");
 
 	//initialise BGM
 	CP_Sound_SetGroupVolume(CP_SOUND_GROUP_MUSIC, 0.1);

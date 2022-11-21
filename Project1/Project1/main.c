@@ -10,6 +10,7 @@
 #include "utils.h"
 #include "subcontroller.h"
 #include "enemy.h"
+#include "splashscreen.h"
 
 CP_Image logo;
 
@@ -102,8 +103,8 @@ void game_exit(void)
 
 int main(void)
 {
-	//CP_Engine_SetNextGameState(splash_screen_init, splash_screen_update, splash_screen_exit);
-	CP_Engine_SetNextGameState(subgame_init, subgame_update, subgame_exit);
+	CP_Engine_SetNextGameState(splashscreen_init, splashscreen_update, splashscreen_exit);
+	//CP_Engine_SetNextGameState(subgame_init, subgame_update, subgame_exit);
 	CP_Engine_Run();
 	return 0;
 }
