@@ -98,9 +98,15 @@ void DeleteWall(int i) {
 void loadwalls(void) {
 	int c;
 	int i = 0;
-	FILE* in = _fsopen("Assets/walls.txt", "r", _SH_DENYNO);
-
+	FILE* in = _fsopen("../Assets/walls.txt", "r", _SH_DENYNO);
+	
+	if (in == NULL) { // this is assuming previous directories can't be read
+		in = _fsopen("Assets/walls.txt", "r", _SH_DENYNO);
+	}
+	
 	if (in == NULL) {
+
+
 		printf("walls.txt not found. Please reinstall and try again!");
 		CP_Engine_Terminate();
 		return;
