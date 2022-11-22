@@ -30,6 +30,11 @@ Gate cp1_gate;
 Gate cp2_gate;
 Gate cp3_gate;
 
+/*
+void credit_scene() {
+	CP_
+}
+*/
 
 
 void draw_checkpoint_ping(float delay, float x, float y)
@@ -427,7 +432,14 @@ void exit_triggered(void)
 		/*
 		CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
 		CP_Settings_TextSize(65.0f);
+
 		CP_Font_DrawText("YOU WON!", CP_System_GetDisplayWidth()/2, CP_System_GetDisplayHeight() / 2);*/
+
+		CP_Font_DrawText("YOU WON!", CP_System_GetDisplayWidth()/2, CP_System_GetDisplayHeight() / 2);
+
+
+		//replay_Menu();
+
 	}
 
 }

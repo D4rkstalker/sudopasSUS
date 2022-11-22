@@ -1,4 +1,5 @@
 #include <cprocessing.h>
+
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
@@ -50,12 +51,15 @@ void credits_ping(void) {
 }
 
 void credits_scroll(void) {
+	/*
 	if (CP_Input_KeyDown(KEY_UP)) {
 		CreditsY += 5;
 	}
 	if (CP_Input_KeyDown(KEY_DOWN)) {
 		CreditsY -= 5;
 	}
+	*/
+	CreditsY -= 10;
 }
 
 /*
@@ -83,6 +87,73 @@ void credits_init(void) {
 	CP_System_SetWindowSize(1920, 1080);
 }
 
+void credit_scene(void) {
+	//Draw the credits
+	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
+	draw_credits("GAME CLEAR!", 300, 700);
+
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+
+	draw_credits("Project", 300, 350);
+	draw_credits("SONAR", 500, 700);
+
+	draw_credits("Team Members", 125, 150);
+	draw_credits("HQ", 50, 100);
+	draw_credits("Nigel", 50, 100);
+	draw_credits("Kian Chew", 50, 100);
+	draw_credits("Ming Rui", 50, 100);
+	draw_credits("Jonathan", 50, 200);
+
+
+	// Faculty & Advisors
+	draw_credits("Faculty & Advisors", 125, 150);
+	draw_credits("CHENG DING XIANG", 50, 100);
+	draw_credits("GERALD WONG", 50, 200);
+
+	// Place of Creation
+	draw_credits("Created at", 100, 100);
+	draw_credits("DigiPen Institute of Technology Singapore", 100, 250);
+
+	// President
+	draw_credits("President", 125, 150);
+	draw_credits("CLAUDE COMAIR", 50, 250);
+
+	// Executives
+	draw_credits("Executives", 125, 150);
+	draw_credits("JASON CHU", 50, 100);
+	draw_credits("CHRISTOPHER COMAIR", 50, 100);
+	draw_credits("MICHAEL GATS", 50, 100);
+
+	draw_credits("MICHELE COMAIR", 50, 100);
+	draw_credits("RAYMOND YAN", 50, 100);
+	draw_credits("SAMIR ABOU SAMRA", 50, 100);
+
+	draw_credits("PRASANNA GHALI", 50, 100);
+	draw_credits("JOHN BAUER", 50, 100);
+	draw_credits("DR. ERIK MOHRMANN", 50, 100);
+
+	draw_credits("MELVIN GONSALVEZ", 50, 100);
+	draw_credits("ANGELA KUGLER", 50, 100);
+	draw_credits("Dr. Charles DUBA", 50, 100);
+
+	draw_credits("BEN ELLINGER", 50, 100);
+	draw_credits("JOHNNY DEEK", 50, 350);
+
+
+
+	draw_credits("WWW.DIGIPEN.EDU", 75, 100);
+	draw_credits("All Content 2022 DigiPen Institute of Technology Singapore.", 75, 100);
+	draw_credits("All Rights Reserved", 75, 100);
+}
+
+void control_keys(void) {
+	if (CP_Input_KeyTriggered(KEY_ANY)) {
+		/*
+		Game Clear, Play Again or Quit game scene, WIP
+		*/
+	}
+}
+
 void credits_update(void) {
 
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
@@ -95,23 +166,9 @@ void credits_update(void) {
 	if (credits_energy < 120) {
 		credits_energy += 2;
 	}
-
-	//Draw the credits
-	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
-	draw_credits("GAME CLEAR!", 300, 700);
-
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-
-	draw_credits("project", 200, 350);
-	draw_credits("SONAR",  500, 700);
-
-	draw_credits("Team Members", 150, 200);
-	draw_credits("HQ", 100, 100);
-	draw_credits("Nigel", 100, 100);
-	draw_credits("KC", 100, 100);
-	draw_credits("MR", 100, 100);
-	draw_credits("Johnathan", 100, 100);
-
+	credit_scene();
+	
+	//©
 	/*
 	TO ADD:
 	Buttons to restart or exit game
@@ -122,3 +179,6 @@ void credits_update(void) {
 void credits_exit(void) {
 	Sound_Deload();
 }
+
+
+

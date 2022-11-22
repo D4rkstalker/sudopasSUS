@@ -196,7 +196,7 @@ void rmb_tut(void)
 		CP_Graphics_DrawRectAdvanced(810, 700, 70.0f, 70.0f, 0, 10.0f);
 		CP_Settings_TextSize(25.0f);
 		CP_Settings_Fill(CP_Color_Create(120, 120, 120, rmb_alpha*1.5));
-		CP_Font_DrawText("MB2", 785, 700);
+		CP_Font_DrawText("RMB", 785, 700);
 
 
 

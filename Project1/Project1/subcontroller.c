@@ -381,6 +381,32 @@ void movement(void) {
 	
 }
 
+void replay_Menu(void){
+	CP_Color white = CP_Color_Create(255, 255, 255, 255);
+	CP_Color black = CP_Color_Create(0, 0, 0, 255);
+	//CP_Settings_Fill(white); // white
+	CP_Settings_Fill(black);
+	CP_Settings_Stroke(white);
+	CP_Vector border = CP_Vector_Set(CP_System_GetWindowWidth() / 4, CP_System_GetWindowHeight() / 4);
+	CP_Graphics_DrawRect(border.x,border.y, border.x *2, border.y *2 ); // border
+
+	 // black
+	CP_Graphics_DrawRect(border.x + 5, border.y + 5, (border.x-5)*2, (border.y-5)*2); // actual menu
+	CP_Font_DrawText("YOU WON!", CP_System_GetDisplayWidth() / 2, CP_System_GetDisplayHeight() / 2);
+	
+
+
+	CP_Settings_Fill(white); // white
+	//CP_Graphics_DrawRect(); // button border
+	//CP_Graphics_DrawRect(); // button border
+	CP_Settings_Fill(black); // Play Again
+	//CP_Graphics_DrawRect(); // Yes button
+	//CP_Graphics_DrawRect(); // Quit button
+	CP_Font_DrawText("Play Again", 0, 0);
+	CP_Font_DrawText("Quit Game", 0, 0);
+
+
+}
 
 
 void controller_init(void) {
