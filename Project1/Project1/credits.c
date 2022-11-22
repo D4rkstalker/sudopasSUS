@@ -65,14 +65,17 @@ void credits_scroll(void) {
 
 	if ((CP_Input_KeyDown(KEY_UP) || CP_Input_KeyDown(KEY_W))) {
 		if (CreditsY < 0) {
-			CreditsY += 10;
+			CreditsY += 20;
 		}
 	}
 	else if ((CP_Input_KeyDown(KEY_DOWN) || CP_Input_KeyDown(KEY_S)) && -CreditsY < CreditsBottom) {
 		CreditsY -= 10;
 	}
 
-	CreditsY -= 10;
+	if (-CreditsY < CreditsBottom) { // Auto scroll, remove if unwanted
+		CreditsY -= 10;
+	}
+	
 }
 
 void credits_button(int button, int *buttonalpha) {
@@ -181,15 +184,25 @@ void credit_scene(void) {
 
 	draw_credits("WWW.DIGIPEN.EDU", 75, 100);
 	draw_credits("All Content 2022 DigiPen Institute of Technology Singapore.", 75, 100);
-	draw_credits("All Rights Reserved", 75, 100);
-}
+	draw_credits("All Rights Reserved", 75, 300);
 
-void control_keys(void) {
-	if (CP_Input_KeyTriggered(KEY_ANY)) {
-		/*
-		Game Clear, Play Again or Quit game scene, WIP
-		*/
-	}
+	draw_credits("Thanks for playing!", 100, 300);
+
+	CP_Settings_Stroke(CP_Color_Create(220, 220, 220, 255));
+	CP_Settings_RectMode(CP_POSITION_CENTER);
+	credits_button(0, &restartbuttonalpha);
+	CP_Settings_Fill(CP_Color_Create(220, 220, 220, restartbuttonalpha));
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH, 700, 100);
+	draw_credits("Restart Game", 100, 200);
+
+	CP_Settings_Stroke(CP_Color_Create(220, 220, 220, 255));
+	CP_Settings_RectMode(CP_POSITION_CENTER);
+	credits_button(1, &exitbuttonalpha);
+	CP_Settings_Fill(CP_Color_Create(220, 220, 220, exitbuttonalpha));
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH, 700, 100);
+	draw_credits("Exit Game", 100, 100);
+
+	
 }
 
 void credits_update(void) {
@@ -207,34 +220,20 @@ void credits_update(void) {
 
 
 
-	credit_scene();
-	
+	credit_scene(); // Credit draw
+	CreditsH -= 500;
+	if (CreditsBottom < CreditsH) {
+		CreditsBottom = CreditsH;
+	}
 	//©
 	/*
 	TO ADD:
 	Buttons to restart or exit game
 	*/
 
-	draw_credits("Thanks for playing!", 100, 300);
 
-	CP_Settings_Stroke(CP_Color_Create(220, 220, 220, 255));
-	CP_Settings_RectMode(CP_POSITION_CENTER);
-	credits_button(0, &restartbuttonalpha);
-	CP_Settings_Fill(CP_Color_Create(220, 220, 220, restartbuttonalpha));
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH, 700, 100);
-	draw_credits("Restart Game", 100, 200);
-
-	CP_Settings_Stroke(CP_Color_Create(220, 220, 220, 255));
-	CP_Settings_RectMode(CP_POSITION_CENTER);
-	credits_button(1, &exitbuttonalpha);
-	CP_Settings_Fill(CP_Color_Create(220, 220, 220, exitbuttonalpha));
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH, 700, 100);
-	draw_credits("Exit Game", 100, 100);
 	
-	CreditsH -= 500;
-	if (CreditsBottom < CreditsH) {
-		CreditsBottom = CreditsH;
-	}
+	
 
 }
 

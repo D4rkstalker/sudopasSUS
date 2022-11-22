@@ -94,6 +94,7 @@ void settings_menu(void) {
 		settings_alpha_3 = 50;
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
 			retry_game(checkpoint[0].current_checkpoint);
+			
 			return 0;
 		}
 	}
@@ -105,6 +106,14 @@ void settings_menu(void) {
 		settings_alpha_4 = 50;
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
 			// For MR
+			// TO DO
+			// reset all checkpoints and enemies
+			if (checkpoint[0].current_checkpoint != 1) {
+				retry_game(checkpoint[0].current_checkpoint = 2);
+			}
+			else if (checkpoint[0].current_checkpoint == 1) {
+				retry_game(checkpoint[0].current_checkpoint = 1);
+			}
 			return 0;
 		}
 	}
