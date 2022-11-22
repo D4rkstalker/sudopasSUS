@@ -11,6 +11,7 @@
 #include "enemy.h"
 #include <stdlib.h>
 #include "credits.h"
+#include "NewTutorial.h"
 
 //debug wall flag
 int debug = 1;
@@ -360,7 +361,11 @@ void subgame_update(void) {
 		CP_Font_DrawText(buffer2, CP_Input_GetMouseX(), CP_Input_GetMouseY() - 20);
 	}
 
-		
+	if (CP_Input_KeyTriggered(KEY_V))
+	{
+		CP_Engine_SetNextGameState(newtutorial_init, newtutorial_update, newtutorial_exit);
+
+	}
 	
 }
 
