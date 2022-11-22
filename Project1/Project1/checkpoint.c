@@ -426,7 +426,7 @@ void exit_triggered(void)
 		CP_Graphics_DrawRectAdvanced(1010, 710, 150.0f, 5.0f, 0, 0.0f);
 
 		if (CP_Input_KeyTriggered(KEY_SPACE)) {
-			CP_Engine_SetNextGameState(credits_init, credits_update, credits_exit);
+			CP_Engine_SetNextGameStateForced(credits_init, credits_update, credits_exit);
 		}
 
 		/*

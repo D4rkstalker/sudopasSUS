@@ -19,8 +19,15 @@ int CreditsY = 0;
 //CreditsH used for easier spacing of credits elements
 float CreditsH = 0;
 
+//Bottom of the credits
+float CreditsBottom = 0;
+
 //energy for credits ping
 int credits_energy = 30;
+
+//alpha for buttons
+int restartbuttonalpha = 0;
+int exitbuttonalpha = 0;
 
 void credits_ping(void) {
 	if ((CP_Input_MouseTriggered(MOUSE_BUTTON_1) || CP_Input_MouseTriggered(MOUSE_BUTTON_2)) && credits_energy >= 30) {
@@ -45,21 +52,44 @@ void credits_ping(void) {
 
 
 		}
-		CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
+		CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
 		credits_energy = 0;
 	}
 }
 
 void credits_scroll(void) {
-	/*
-	if (CP_Input_KeyDown(KEY_UP)) {
-		CreditsY += 5;
+
+	if (CP_Input_KeyDown(KEY_ESCAPE)) {
+		CreditsY = -CreditsBottom;
 	}
-	if (CP_Input_KeyDown(KEY_DOWN)) {
-		CreditsY -= 5;
+
+	if ((CP_Input_KeyDown(KEY_UP) || CP_Input_KeyDown(KEY_W))) {
+		if (CreditsY < 0) {
+			CreditsY += 10;
+		}
 	}
-	*/
+	else if ((CP_Input_KeyDown(KEY_DOWN) || CP_Input_KeyDown(KEY_S)) && -CreditsY < CreditsBottom) {
+		CreditsY -= 10;
+	}
+
 	CreditsY -= 10;
+}
+
+void credits_button(int button, int *buttonalpha) {
+	if (CP_Input_GetMouseWorldX() >= CP_System_GetWindowWidth() / 2 - 350 && CP_Input_GetMouseWorldX() <= CP_System_GetWindowWidth() / 2 + 350 && CP_Input_GetMouseWorldY() >= 350.0f + CreditsY + CreditsH - 50 && CP_Input_GetMouseWorldY() <= 350.0f + CreditsY + CreditsH + 50) {
+		*buttonalpha = 50;
+		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
+			if (button == 0) {
+				CP_Engine_SetNextGameStateForced(subgame_init, subgame_update, subgame_exit);
+			}
+			else {
+				CP_Engine_Terminate();
+			}
+		}
+	}
+	else {
+		*buttonalpha = 0;
+	}
 }
 
 /*
@@ -69,6 +99,7 @@ size is the size of the text
 dist is the distance to the next credit element after this
 */
 void draw_credits(const char* str, float size, float dist) {
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Settings_TextSize(size);
 	CP_Font_DrawText(str, CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH);
 	CreditsH += dist;
@@ -78,6 +109,8 @@ void credits_init(void) {
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
 	CP_Settings_ImageWrapMode(CP_IMAGE_WRAP_CLAMP);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+
+	CreditsY = 0;
 
 	srand(time(NULL));
 	Sound_Init();
@@ -90,11 +123,11 @@ void credits_init(void) {
 void credit_scene(void) {
 	//Draw the credits
 	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
-	draw_credits("GAME CLEAR!", 300, 700);
+	CP_Settings_TextSize(300);
+	CP_Font_DrawText("GAME CLEAR!", CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH);
+	CreditsH += 700;
 
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-
-	draw_credits("Project", 300, 350);
+	draw_credits("project", 200, 350);
 	draw_credits("SONAR", 500, 700);
 
 	draw_credits("Team Members", 125, 150);
@@ -106,9 +139,14 @@ void credit_scene(void) {
 
 
 	// Faculty & Advisors
-	draw_credits("Faculty & Advisors", 125, 150);
-	draw_credits("CHENG DING XIANG", 50, 100);
-	draw_credits("GERALD WONG", 50, 200);
+	//draw_credits("Faculty & Advisors", 125, 150);
+	//draw_credits("CHENG DING XIANG", 50, 100);
+	//draw_credits("GERALD WONG", 50, 200);
+	draw_credits("Special Thanks", 150, 200);
+	draw_credits("Gerald", 100, 100);
+	draw_credits("DX", 100, 100);
+	draw_credits("Playtesters", 100, 400);
+
 
 	// Place of Creation
 	draw_credits("Created at", 100, 100);
@@ -166,6 +204,9 @@ void credits_update(void) {
 	if (credits_energy < 120) {
 		credits_energy += 2;
 	}
+
+
+
 	credit_scene();
 	
 	//©
@@ -173,6 +214,27 @@ void credits_update(void) {
 	TO ADD:
 	Buttons to restart or exit game
 	*/
+
+	draw_credits("Thanks for playing!", 100, 300);
+
+	CP_Settings_Stroke(CP_Color_Create(220, 220, 220, 255));
+	CP_Settings_RectMode(CP_POSITION_CENTER);
+	credits_button(0, &restartbuttonalpha);
+	CP_Settings_Fill(CP_Color_Create(220, 220, 220, restartbuttonalpha));
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH, 700, 100);
+	draw_credits("Restart Game", 100, 200);
+
+	CP_Settings_Stroke(CP_Color_Create(220, 220, 220, 255));
+	CP_Settings_RectMode(CP_POSITION_CENTER);
+	credits_button(1, &exitbuttonalpha);
+	CP_Settings_Fill(CP_Color_Create(220, 220, 220, exitbuttonalpha));
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH, 700, 100);
+	draw_credits("Exit Game", 100, 100);
+	
+	CreditsH -= 500;
+	if (CreditsBottom < CreditsH) {
+		CreditsBottom = CreditsH;
+	}
 
 }
 
