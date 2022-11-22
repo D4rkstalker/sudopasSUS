@@ -51,16 +51,23 @@ void credits_ping(void) {
 
 
 		}
-		CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
+		CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
 		credits_energy = 0;
 	}
 }
 
 void credits_scroll(void) {
-	if (CP_Input_KeyDown(KEY_UP) && CreditsY < 0) {
-		CreditsY += 10;
+
+	if (CP_Input_KeyDown(KEY_ESCAPE)) {
+		CreditsY = -CreditsBottom;
 	}
-	else if (CP_Input_KeyDown(KEY_DOWN) && -CreditsY < CreditsBottom) {
+
+	if ((CP_Input_KeyDown(KEY_UP) || CP_Input_KeyDown(KEY_W))) {
+		if (CreditsY < 0) {
+			CreditsY += 10;
+		}
+	}
+	else if ((CP_Input_KeyDown(KEY_DOWN) || CP_Input_KeyDown(KEY_S)) && -CreditsY < CreditsBottom) {
 		CreditsY -= 10;
 	}
 	else if (-CreditsY < CreditsBottom) {
