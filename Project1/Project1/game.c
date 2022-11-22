@@ -209,6 +209,11 @@ void subgame_init(void) {
 	createcpwalls();
 	// Player initialisation
 
+	CheckPoint_1_Triggered = 0;
+	CheckPoint_2_Triggered = 0;
+	CheckPoint_3_Triggered = 0;
+	exit_Triggered = 0;
+
 	// Enemy test Jon
 	enemy_place();
 	checkpoint_init();
