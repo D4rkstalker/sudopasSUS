@@ -179,22 +179,25 @@ void newtutorial_update(void)
 	{
 		CP_Settings_Fill(CP_Color_Create(120, 120, 120, 255));
 		CP_Settings_TextSize(50.0f);
-		CP_Font_DrawText("Yellow pings are checkpoints, go to it and, ", (CP_System_GetWindowWidth() / 2.0f) - 400, (CP_System_GetWindowHeight() / 2.5f));
-		CP_Font_DrawText("press", 622, 610);
-		CP_Font_DrawText("to use it", 1132, 610);
-		CP_Settings_Stroke(CP_Color_Create(150, 150, 150, 255));
-		CP_Settings_Fill(CP_Color_Create(25, 25, 25, 0));
-		CP_Settings_RectMode(CP_POSITION_CENTER);
-		CP_Graphics_DrawRectAdvanced(935, 608, 366.0f, 50.0f, 0, 10.0f);
-		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255 * 0.7));
-		CP_Graphics_DrawRectAdvanced(935, 623, 186.0f, 3.0f, 0, 0.0f);
+		CP_Font_DrawText("Yellow pings are checkpoints, go interact with it.", (CP_System_GetWindowWidth() / 2.0f) - 400, (CP_System_GetWindowHeight() / 2.5f));
+		if (player.x > 1100 - 25 && player.x < 1100 + 25 && player.y < 540 - 25 && player.y > 540 + 25) { //CP Position1100 540
+			CP_Font_DrawText("press", 622, 610);
+			CP_Font_DrawText("to use it", 1132, 610);
+			CP_Settings_Stroke(CP_Color_Create(150, 150, 150, 255));
+			CP_Settings_Fill(CP_Color_Create(25, 25, 25, 0));
+			CP_Settings_RectMode(CP_POSITION_CENTER);
+			CP_Graphics_DrawRectAdvanced(935, 608, 366.0f, 50.0f, 0, 10.0f);
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255 * 0.7));
+			CP_Graphics_DrawRectAdvanced(935, 623, 186.0f, 3.0f, 0, 0.0f);
 
 
-		if (CP_Input_KeyTriggered(KEY_SPACE)) // ADD Check if player is inside hitbox of checkpoint.
-		{
-			tut_stage = Enemy_Spawn;
+			if (CP_Input_KeyTriggered(KEY_SPACE)) // ADD Check if player is inside hitbox of checkpoint.
+			{
+				tut_stage = Enemy_Spawn;
 
+			}
 		}
+
 
 	}
 
