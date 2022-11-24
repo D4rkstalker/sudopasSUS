@@ -9,9 +9,10 @@
 #include "SoundCast.h"
 #include <math.h>
 #include "enemy.h"
+#include "NewTutorial.h"
 
 
-#define MAXSPEED 4
+#define MAXSPEED 1000
 
 CP_Vector mouseMovement;
 int settings_alpha_1 = 0;
@@ -22,6 +23,21 @@ int settings_alpha_5 = 0;
 
 int time = 0;
 
+void tutorialMovement(void) {
+	if (CP_Input_KeyDown(KEY_W)) {
+		player.y -= 1;
+	}
+	if (CP_Input_KeyDown(KEY_S)) {
+		player.y += 1;
+	}
+	if (CP_Input_KeyDown(KEY_D)) {
+		player.x += 1;
+	}
+	if (CP_Input_KeyDown(KEY_A)) {
+		player.x -= 1;
+	}
+
+}
 
 void checkMouse(CP_Vector volumeMin, CP_Vector volumeMax) {
 	CP_Vector distvect = CP_Vector_Subtract(volumeMax, volumeMin);
@@ -39,8 +55,7 @@ void checkMouse(CP_Vector volumeMin, CP_Vector volumeMax) {
 			if (mouseY >= volumeMin.y - 5 && mouseY <= volumeMin.y + 5) {
 
 						mouseMovement = CP_Vector_Set(mouseX, volumeMin.y);
-						volume = (mouseMovement.x - volumeMin.x) / distvect.x;
-						// (mouseMovement.x - volumeMin.x)/distvect.x = volume * distvect.x				
+						volume = (mouseMovement.x - volumeMin.x) / distvect.x;		
 			
 			}
 		}
@@ -110,9 +125,25 @@ void settings_menu(void) {
 			// reset all checkpoints and enemies
 			if (checkpoint[0].current_checkpoint != 1) {
 				retry_game(checkpoint[0].current_checkpoint = 2);
+				checkpoint_init();
+				checkpoint_reset();
+				checkpoint[0].current_checkpoint = 2;
+				draw_checkpoint();
+				enemy_place();
+				
+				
+				
 			}
 			else if (checkpoint[0].current_checkpoint == 1) {
 				retry_game(checkpoint[0].current_checkpoint = 1);
+				checkpoint_init();
+				checkpoint_reset();
+
+				checkpoint[0].current_checkpoint = 1;
+				draw_checkpoint();
+				enemy_place();
+				
+			
 			}
 			return 0;
 		}
@@ -212,6 +243,8 @@ void controlskeys(void) {
 		CP_Sound_PlayAdvanced(ping, volume, 1.0f, FALSE, CP_SOUND_GROUP_0);
 	}
 }
+
+
 
 void movement(void) {
 	controlskeys();
@@ -360,7 +393,7 @@ void movement(void) {
 			WorldY -= player1.velocity_y;
 			player1.velocity_y *= 0.9;
 			player1.velocity_x *= 0.9;
-
+			
 			time++;
 			if (time > 25) {
 				CP_Color color = CP_Color_Create(255, 255, 255, 150);
@@ -380,7 +413,6 @@ void movement(void) {
 	if (game_states == theMap) {
 		CP_Settings_Fill(CP_Color_Create(188, 158, 130, 255));
 		CP_Settings_RectMode(CP_POSITION_CORNER); // Line below draws a border
-
 
 
 		CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 4, CP_System_GetWindowHeight() / 4, (CP_System_GetWindowWidth()+50) / 2, (CP_System_GetWindowHeight() + 50) / 2);

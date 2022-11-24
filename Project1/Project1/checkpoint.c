@@ -471,5 +471,11 @@ void draw_checkpoint(void)
 	}
 }
 
+void checkpoint_reset(void) {
+	CheckPoint_1_Triggered = 0;
+	CheckPoint_2_Triggered = 0;
+	CheckPoint_3_Triggered = 0;
+	exit_Triggered = 0;
+}
 
 //430 to 440 mouse X, to click

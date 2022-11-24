@@ -130,7 +130,7 @@ void credit_scene(void) {
 	CP_Font_DrawText("GAME CLEAR!", CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH);
 	CreditsH += 700;
 
-	draw_credits("project", 200, 350);
+	draw_credits("Project", 200, 350);
 	draw_credits("SONAR", 500, 700);
 
 	draw_credits("Team Members", 125, 150);

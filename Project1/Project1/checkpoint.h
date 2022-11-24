@@ -42,4 +42,5 @@ Gate cp3_gate;
 
 
 void draw_checkpoint(void);
+void checkpoint_reset(void);
 
