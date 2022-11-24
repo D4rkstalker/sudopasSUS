@@ -23,6 +23,8 @@ typedef struct ENEMY {
 	int beam_threshold;
 } ENEMY;
 
+
+
 typedef struct CHECKPOINT {
 	int current_checkpoint;
 	float respawn_x;

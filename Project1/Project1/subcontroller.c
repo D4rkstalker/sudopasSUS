@@ -12,7 +12,8 @@
 #include "NewTutorial.h"
 
 
-#define MAXSPEED 1000
+#define MAXSPEED 4
+#define TutSpeed 2
 
 CP_Vector mouseMovement;
 int settings_alpha_1 = 0;
@@ -25,16 +26,53 @@ int time = 0;
 
 void tutorialMovement(void) {
 	if (CP_Input_KeyDown(KEY_W)) {
-		player.y -= 2;
+		player.y -= TutSpeed;
 	}
 	if (CP_Input_KeyDown(KEY_S)) {
-		player.y += 2;
+		player.y += TutSpeed;
 	}
 	if (CP_Input_KeyDown(KEY_D)) {
-		player.x += 2;
+		player.x += TutSpeed;
 	}
 	if (CP_Input_KeyDown(KEY_A)) {
-		player.x -= 2;
+		player.x -= TutSpeed;
+	}
+
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
+
+			float x = CP_System_GetWindowWidth() / 2;
+			float y = CP_System_GetWindowHeight() / 2;
+
+			CP_Color color = CP_Color_Create(255, 255, 255, 220);
+			CP_Vector outv = CP_Vector_Normalize(CP_Vector_Subtract(CP_Vector_Set(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY), CP_Vector_Set(x - WorldX, y - WorldY)));
+			float a = CP_Math_Degrees(atan2(outv.y, outv.x));
+			for (int i = -18; i < 18; i++) {
+				CP_Vector v = AngleToVector(a + i * 1);
+				CreateRay(player.x, player.y, 25, v.x, v.y, 4, color, true, 200, true);
+
+			}
+
+
+
+
+			CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
+			//CP_Sound_StopGroup(CP_SOUND_GROUP_MUSIC);
+			//CP_Sound_PlayMusic((bgm_submarine));
+
+
+	
+
+
+	}
+	else if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) {
+		CP_Color color = CP_Color_Create(255, 255, 255, 220);
+		for (int i = 0; i < 36; i++) {
+			CP_Vector v = AngleToVector(i * 10);
+			CreateRay(player.x, player.y, 50, v.x, v.y, 4, color, false, 130, true);
+
+		}
+		CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
+
 	}
 
 }

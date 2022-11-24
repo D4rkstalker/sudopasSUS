@@ -233,6 +233,7 @@ void subgame_update(void) {
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, 0);
 
 
+
 	//CONTROL SCHEME FOR TESTING
 	if (debug == 1) {
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));

@@ -39,6 +39,9 @@ typedef struct Gate {
 Gate cp1_gate;
 Gate cp2_gate;
 Gate cp3_gate;
+Gate cp1_close;
+Gate cp2_close;
+Gate cp3_close;
 
 
 void draw_checkpoint(void);

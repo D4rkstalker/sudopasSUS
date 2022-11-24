@@ -29,6 +29,9 @@ exit_Triggered = 0;
 Gate cp1_gate;
 Gate cp2_gate;
 Gate cp3_gate;
+Gate cp1_close;
+Gate cp2_close;
+Gate cp3_close;
 
 /*
 void credit_scene() {
@@ -217,6 +220,7 @@ void cp1_triggered(void)
 				CP_Vector v = AngleToVector(i * 5);
 				CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 2, color, false, 150, true);
 			}
+
 
 			return 1;
 

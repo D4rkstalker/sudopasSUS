@@ -61,8 +61,6 @@ void checkpoint_init(void) {
 }
 
 
-
-
 void enemy_place() {
 	for (int i = 0; i < ENEMY_COUNT; ++i) {
 		enemy[i].alpha = 255;
