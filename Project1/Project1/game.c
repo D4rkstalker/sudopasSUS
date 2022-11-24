@@ -38,14 +38,14 @@ All coordinates used by all game objects will need to be offset by the WorldX an
 //float WorldX = 0;
 //float WorldY = 0;
 
-float WorldX = -285 + 960;
+//float WorldX = -285 + 960;
 //float WorldX = -285 + CP_System_GetWindowWidth() / 2;
 //float WorldY = 485 + CP_System_GetWindowHeight() / 2
-float WorldY = 485 + 540;
+//float WorldY = 485 + 540;
 
 //Start point of the map
-//float WorldX = 800;
-//float WorldY = -1700;
+float WorldX = 800;
+float WorldY = -1700;
 
 //enemy - Jon
 int dead = 0;
@@ -222,8 +222,8 @@ void subgame_init(void) {
 	debug = 0;
 
 
-	WorldX = -285 + CP_System_GetWindowWidth() / 2;
-	WorldY = 485 + CP_System_GetWindowHeight() / 2;
+	WorldX = -370 + CP_System_GetWindowWidth() / 2;
+	WorldY = -4465 + CP_System_GetWindowHeight() / 2;
 
 }
 
@@ -254,7 +254,7 @@ void subgame_update(void) {
 		CP_Font_DrawText("[Q] Quit Game", 20, 380);
 	}
 
-	switch (tutorial_state) {
+	/*switch (tutorial_state) {
 	case 0:
 		wake_message();
 		break;
@@ -279,7 +279,7 @@ void subgame_update(void) {
 		break;
 	default:
 		;
-	}
+	} */
 	//2nd draw layer, the walls of the game
 	if (debug == 1) {
 		DrawWalls();
@@ -340,7 +340,7 @@ void subgame_update(void) {
 		CP_Graphics_DrawCircle(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2, 25);
 	}
 	// movement function
-	if (tutorial_state >= 3 && dead == 0)
+	if (dead == 0)
 	{
 		movement();
 	}

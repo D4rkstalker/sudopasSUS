@@ -21,7 +21,7 @@ void newtutorial_init(void)
 	sound_stage = 0;
 
 	int time = 0;
-	int delay = 0;
+	int delay = 45;
 
 	player.x = 960;
 	player.y = 540;
@@ -29,6 +29,15 @@ void newtutorial_init(void)
 
 void newtutorial_update(void)
 {
+	CP_Settings_Fill(CP_Color_Create(120, 120, 120, 255));
+	CP_Settings_TextSize(50.0f);
+	CP_Font_DrawText("PRESS T TO SKIP TUTORIAL.", 550, 100);
+	if (CP_Input_KeyTriggered(KEY_T))
+	{
+		CP_Engine_SetNextGameState(subgame_init, subgame_update, subgame_exit);
+
+	}
+
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, 0);
 	tutorialMovement();
@@ -36,7 +45,7 @@ void newtutorial_update(void)
 	//Draw Player
 	RayUpdate(0, 0);
 	time++;
-	if (time > 25) {
+	if (time > 20) {
 		CP_Color color = CP_Color_Create(255, 255, 255, 150);
 
 		for (int i = 0; i < 18; i++) {
@@ -133,7 +142,7 @@ void newtutorial_update(void)
 
 			for (int i = 0; i < 36; i++) {
 				CP_Vector v = AngleToVector(i * 10);
-				CreateRay(960, 540, 50, v.x, v.y, 2, color, false, 130, true);
+				CreateRay(player.x, player.y, 50, v.x, v.y, 2, color, false, 130, true);
 
 
 			}
@@ -169,7 +178,7 @@ void newtutorial_update(void)
 			float a = CP_Math_Degrees(atan2(outv.y, outv.x));
 			for (int i = -18; i < 18; i++) {
 				CP_Vector v = AngleToVector(a + i * 1);
-				CreateRay(960, 540, 25, v.x, v.y, 2, color, true, 200, true);
+				CreateRay(player.x, player.y, 25, v.x, v.y, 2, color, true, 200, true);
 			}
 			CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
 		}
@@ -181,7 +190,7 @@ void newtutorial_update(void)
 		CP_Settings_Fill(CP_Color_Create(120, 120, 120, 255));
 		CP_Settings_TextSize(50.0f);
 		CP_Font_DrawText("Yellow pings are checkpoints, go interact with it.", (CP_System_GetWindowWidth() / 2.0f) - 400, (CP_System_GetWindowHeight() / 2.5f));
-		if (player.x > 1100 - 25 && player.x < 1100 + 25 && player.y < 540 - 25 && player.y > 540 + 25) { //CP Position1100 540
+		if (player.x > 1100 - 25 && player.x < 1100 + 25 && player.y > 540 - 25 && player.y < 540 + 25) { //CP Position1100 540
 			CP_Font_DrawText("press", 622, 610);
 			CP_Font_DrawText("to use it", 1132, 610);
 			CP_Settings_Stroke(CP_Color_Create(150, 150, 150, 255));
@@ -196,6 +205,13 @@ void newtutorial_update(void)
 			{
 				tut_stage = Enemy_Spawn;
 
+				CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
+				CP_Color color = CP_Color_Create(0, 255, 255, 50);
+				for (int i = 0; i < 36; i++) {
+					CP_Vector v = AngleToVector(i * 10);
+					CreateRay(player.x, player.y, 50, v.x, v.y, 0, color, false, 100, false); // @TODO
+				}
+
 			}
 		}
 
@@ -206,8 +222,8 @@ void newtutorial_update(void)
 	if (tut_stage == Enemy_Spawn)
 	{
 		CP_Settings_Fill(CP_Color_Create(120, 120, 120, 255));
-		CP_Settings_TextSize(100.0f);
-		CP_Font_DrawText("Enemies dont die", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f));
+		CP_Settings_TextSize(50.0f);
+		CP_Font_DrawText("Red Pings are enemies, they can't be killed.", (CP_System_GetWindowWidth() / 2.0f) - 400, (CP_System_GetWindowHeight() / 2.5f));
 		CP_Font_DrawText("Draw 1 Enemy here", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f)+200.0f);
 
 		if (CP_Input_KeyTriggered(KEY_1))

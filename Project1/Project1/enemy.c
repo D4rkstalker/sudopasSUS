@@ -38,7 +38,7 @@ void retry_game(int i) {
 }
 
 void checkpoint_init(void) {
-	checkpoint[0].current_checkpoint = 0;
+	checkpoint[0].current_checkpoint = 2;
 
 	checkpoint[0].respawn_x = 285;
 	checkpoint[0].respawn_y = -485;
@@ -55,8 +55,8 @@ void checkpoint_init(void) {
 	checkpoint[4].respawn_x = 5950;
 	checkpoint[4].respawn_y = 2785;
 
-	checkpoint[5].respawn_x = 2200;
-	checkpoint[5].respawn_y = 2300;
+	checkpoint[5].respawn_x = 1100;
+	checkpoint[5].respawn_y = 2420;
 
 }
 
@@ -152,6 +152,10 @@ int dead_menu(void) {
 	CP_Settings_RectMode(CP_POSITION_CORNER);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, 0);
 	//Retry Button
+	if (CP_Input_KeyTriggered(KEY_SPACE)) {
+		retry_game(checkpoint[0].current_checkpoint);
+		return 0;
+	}
 	if (CP_Input_GetMouseWorldX() >= CP_System_GetWindowWidth() / 2 - 250 && CP_Input_GetMouseWorldX() <= CP_System_GetWindowWidth() / 2 + 250 && CP_Input_GetMouseWorldY() >= CP_System_GetWindowHeight() / 2 + 65 && CP_Input_GetMouseWorldY() <= CP_System_GetWindowHeight() / 2 + 115) {
 		retry_alpha = 50;
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {

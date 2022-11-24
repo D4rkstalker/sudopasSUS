@@ -168,7 +168,7 @@ void draw_exit(void)
 
 int CheckPointTrigger(float area_x, float area_y, float area_width, float area_height, float player_X, float player_Y)	
 {
-	if (player_X > area_x && player_X < area_x+area_width && player_Y > area_y && player_Y < area_y+area_height)
+	if (player_X > area_x-25 && player_X < area_x+area_width+25 && player_Y > area_y-25 && player_Y < area_y+area_height+25)
 	{
 	}
 	else

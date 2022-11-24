@@ -25,16 +25,16 @@ int time = 0;
 
 void tutorialMovement(void) {
 	if (CP_Input_KeyDown(KEY_W)) {
-		player.y -= 1;
+		player.y -= 2;
 	}
 	if (CP_Input_KeyDown(KEY_S)) {
-		player.y += 1;
+		player.y += 2;
 	}
 	if (CP_Input_KeyDown(KEY_D)) {
-		player.x += 1;
+		player.x += 2;
 	}
 	if (CP_Input_KeyDown(KEY_A)) {
-		player.x -= 1;
+		player.x -= 2;
 	}
 
 }

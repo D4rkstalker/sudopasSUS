@@ -1,6 +1,7 @@
 #include <cprocessing.h>
 #include <stdio.h>
 #include "game.h"
+#include "NewTutorial.h"
 
 /*
 Splashscreen done by Nigel
@@ -46,7 +47,7 @@ void splashscreen_update(void) {
 		}
 
 		if (titlealpha <= 0) {
-			CP_Engine_SetNextGameState(subgame_init, subgame_update, subgame_exit);
+			CP_Engine_SetNextGameState(newtutorial_init, newtutorial_update, newtutorial_exit);
 		}
 	}
 
@@ -55,7 +56,7 @@ void splashscreen_update(void) {
 	}
 
 	if (splashstate >= 2) {
-		CP_Engine_SetNextGameState(subgame_init, subgame_update, subgame_exit);
+		CP_Engine_SetNextGameState(newtutorial_init, newtutorial_update, newtutorial_exit);
 	}
 
 }
