@@ -104,7 +104,7 @@ void loadwalls(void) {
 		in = _fsopen("Assets/walls.txt", "r", _SH_DENYNO);
 	}
 	
-	if (in == NULL) {
+	if (in == NULL) { 
 
 
 		printf("walls.txt not found. Please reinstall and try again!");

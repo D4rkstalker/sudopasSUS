@@ -31,4 +31,5 @@ Menu features
 - Resume Game
 - Volume (Slider)
 - Retry from last checkpoint
+- Retry Game 
 - Exit Game
