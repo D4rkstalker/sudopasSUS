@@ -31,7 +31,7 @@ int exitbuttonalpha = 0;
 
 void credits_ping(void) {
 	if ((CP_Input_MouseTriggered(MOUSE_BUTTON_1) || CP_Input_MouseTriggered(MOUSE_BUTTON_2)) && credits_energy >= 30) {
-		CP_Color color = CP_Color_Create(rand()%255, rand()%255, rand()%255, 220);
+		CP_Color color = CP_Color_Create(rand() % 255, rand() % 255, rand() % 255, 220);
 
 		for (int i = 0; i < 36; i++) {
 			CP_Vector v = AngleToVector(i * 10);
@@ -75,10 +75,11 @@ void credits_scroll(void) {
 	if (-CreditsY < CreditsBottom) { // Auto scroll, remove if unwanted
 		CreditsY -= 10;
 	}
-	
+
+
 }
 
-void credits_button(int button, int *buttonalpha) {
+void credits_button(int button, int* buttonalpha) {
 	if (CP_Input_GetMouseWorldX() >= CP_System_GetWindowWidth() / 2 - 350 && CP_Input_GetMouseWorldX() <= CP_System_GetWindowWidth() / 2 + 350 && CP_Input_GetMouseWorldY() >= 350.0f + CreditsY + CreditsH - 50 && CP_Input_GetMouseWorldY() <= 350.0f + CreditsY + CreditsH + 50) {
 		*buttonalpha = 50;
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
@@ -202,7 +203,7 @@ void credit_scene(void) {
 	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH, 700, 100);
 	draw_credits("Exit Game", 100, 100);
 
-	
+
 }
 
 void credits_update(void) {
@@ -232,8 +233,8 @@ void credits_update(void) {
 	*/
 
 
-	
-	
+
+
 
 }
 

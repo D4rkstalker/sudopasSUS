@@ -36,7 +36,7 @@ void splashscreen_update(void) {
 	else {
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, titlealpha));
 		CP_Settings_TextSize(200.0f);
-		CP_Font_DrawText("project", 640.0f, 350.0f);
+		CP_Font_DrawText("Project", 640.0f, 350.0f);
 		CP_Settings_TextSize(500.0f);
 		CP_Font_DrawText("SONAR", 325.0f, 700.0f);
 

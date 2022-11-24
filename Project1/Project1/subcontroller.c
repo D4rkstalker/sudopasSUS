@@ -224,57 +224,31 @@ void volumeControl(void) {
 }
 
 void mapScale() { // Mini Map Scaling
-	int i;
+	
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));	
 
 
-	for (i = 0; i < CWall + 1; i++) {
+	for (int i = 0; i < CWall + 1; i++) {
 		CP_Settings_RectMode(CP_POSITION_CENTER);
 		CP_Graphics_DrawLine((wall[i].pos1.x/9) + 550, (wall[i].pos1.y/9) + 300, (wall[i].pos2.x/9) + 550, (wall[i].pos2.y/9) + 300);
 	
 	}
 	
-	/* For Way Point
-	CP_Graphics_DrawRect(point_1.x/1.78, point_1.y/2.78, point_1.w/4, point_1.h/4);
-	CP_Graphics_DrawRect(point_2.x / 2.44, point_2.y / 2.25, point_2.w / 4, point_2.h / 4);
-	CP_Graphics_DrawRect(point_3.x * 1.25, point_3.y / 2.1, point_3.w / 4, point_3.h / 4);
-	*/
+
 
 
 } 
 
 void controlskeys(void) {
 	if (CP_Input_KeyTriggered(KEY_BACKSPACE)) { // Sample of a Pause phase
-		if (game_states != paused) {
-			game_states = paused;
-		}
-		else {
-			game_states = resume;
-		}
+		game_states = game_states != paused ? paused : resume;
 	}
-	
-
 	if (CP_Input_KeyTriggered(KEY_ESCAPE)) {
-		if (game_states != theMenu) {
-			//game_states = volumeC;
-			game_states = theMenu;
-		}
-		else {
-			game_states = resume;
-
-		}
+		game_states = game_states != theMenu ? theMenu : resume;
 	}
 	if (CP_Input_KeyTriggered(KEY_M)) {
-		if (game_states != theMap) {
-			game_states = theMap;
-
-		}
-		else {
-			game_states = resume;
-		}
-
-
+		game_states = game_states != theMap ? theMap : resume;
 	}
 
 	if (CP_Input_KeyTriggered(KEY_T)) {
@@ -460,88 +434,10 @@ void movement(void) {
 	
 }
 
-void replay_Menu(void){
-	CP_Color white = CP_Color_Create(255, 255, 255, 255);
-	CP_Color black = CP_Color_Create(0, 0, 0, 255);
-	//CP_Settings_Fill(white); // white
-	CP_Settings_Fill(black);
-	CP_Settings_Stroke(white);
-	CP_Vector border = CP_Vector_Set(CP_System_GetWindowWidth() / 4, CP_System_GetWindowHeight() / 4);
-	CP_Graphics_DrawRect(border.x,border.y, border.x *2, border.y *2 ); // border
-
-	 // black
-	CP_Graphics_DrawRect(border.x + 5, border.y + 5, (border.x-5)*2, (border.y-5)*2); // actual menu
-	CP_Font_DrawText("YOU WON!", CP_System_GetDisplayWidth() / 2, CP_System_GetDisplayHeight() / 2);
-	
-
-
-	CP_Settings_Fill(white); // white
-	//CP_Graphics_DrawRect(); // button border
-	//CP_Graphics_DrawRect(); // button border
-	CP_Settings_Fill(black); // Play Again
-	//CP_Graphics_DrawRect(); // Yes button
-	//CP_Graphics_DrawRect(); // Quit button
-	CP_Font_DrawText("Play Again", 0, 0);
-	CP_Font_DrawText("Quit Game", 0, 0);
-
-
-}
 
 
 void controller_init(void) {
-	
-	//CP_System_SetWindowSize(1920, 1080);
-	//CP_Settings_EllipseMode(CP_POSITION_CENTER);
-
-	//player1.x = center_x;
-	//player1.y = center_y;
 	Sound_Init();
-
-	
 	volume = 0.1;
-
-	
 }
 
-void controller_update(void) {
-	
-	CP_Settings_BlendMode(CP_BLEND_ALPHA);
-	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
-
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	if (player1.x > (float)CP_System_GetWindowWidth()) {
-		player1.x = (float)CP_System_GetWindowWidth();
-	}
-	
-
-	if (player1.y > (float)CP_System_GetWindowHeight()) {
-		player1.y = (float)CP_System_GetWindowHeight();
-	}
-	else if (player1.y < 0) {
-		player1.y = 0;
-	}
-
-
-	CP_Graphics_DrawCircle(player1.x,player1.y, 10); // Draws the player circle on default 
-
-	movement();
-
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Settings_TextSize(20.0f);
-	CP_Font_DrawText("[L] RETURN TO GAME", 20, 20);
-	if (CP_Input_KeyTriggered(KEY_L))
-	{
-		CP_Engine_SetNextGameState(subgame_init, subgame_update, subgame_exit);
-
-	}
-
-	
-	return 0;
-
-
-
-}
-
-void controller_exit(void) {
-	return 0;
-}
