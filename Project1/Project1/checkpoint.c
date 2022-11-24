@@ -49,7 +49,7 @@ void draw_checkpoint_ping(float delay, float x, float y)
 
 		for (int i = 0; i < 16; i++) {
 			CP_Vector v = AngleToVector(i * 23);
-			CreateRay(x, y, 50, v.x, v.y , 0, color, false,100,false);
+			CreateRay(x, y, 50, v.x, v.y, 0, color, false, 100, false);
 		}
 
 		if (x + WorldX >= 0 && x + WorldX <= CP_System_GetWindowWidth() && y + WorldY >= 0 && y + WorldY <= CP_System_GetWindowHeight()) {
@@ -64,7 +64,7 @@ void draw_checkpoint_ping(float delay, float x, float y)
 
 void draw_checkpoint_1(void)
 {
-	
+
 	point_1.pos.x = 1640;
 	point_1.pos.y = 2235;
 	point_1.pos = CP_Vector_Scale(point_1.pos, 2);
@@ -84,7 +84,7 @@ void draw_checkpoint_1(void)
 
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
-	cp1_gate.pos1 = CP_Vector_Set(1634,1903);
+	cp1_gate.pos1 = CP_Vector_Set(1634, 1903);
 	cp1_gate.pos1 = CP_Vector_Scale(cp1_gate.pos1, 2);
 	cp1_gate.pos2 = CP_Vector_Set(1634, 2017);
 	cp1_gate.pos2 = CP_Vector_Scale(cp1_gate.pos2, 2);
@@ -166,14 +166,14 @@ void draw_exit(void)
 	}
 }
 
-int CheckPointTrigger(float area_x, float area_y, float area_width, float area_height, float player_X, float player_Y)	
+int CheckPointTrigger(float area_x, float area_y, float area_width, float area_height, float player_X, float player_Y)
 {
-	if (player_X > area_x-25 && player_X < area_x+area_width+25 && player_Y > area_y-25 && player_Y < area_y+area_height+25)
+	if (player_X > area_x && player_X < area_x+area_width && player_Y > area_y && player_Y < area_y+area_height)
 	{
 	}
 	else
 	{
-	return 0;
+		return 0;
 	}
 }
 
@@ -209,9 +209,9 @@ void cp1_triggered(void)
 			checkpoint[0].current_checkpoint = 3;
 			for (int i = 0; i < 36; i++) {
 				CP_Vector v = AngleToVector(i * 10);
-				CreateRay(3265, 3911, 50, v.x, v.y, 0, color, false, 100,false); // @TODO
+				CreateRay(3265, 3911, 50, v.x, v.y, 0, color, false, 100, false); // @TODO
 			}
-		 color = CP_Color_Create(0, 255, 255, 150);
+			color = CP_Color_Create(0, 255, 255, 150);
 
 			for (int i = 0; i < 72; i++) {
 				CP_Vector v = AngleToVector(i * 5);
@@ -286,10 +286,10 @@ void cp2_triggered(void)
 			checkpoint[0].current_checkpoint = 4;
 			for (int i = 0; i < 36; i++) {
 				CP_Vector v = AngleToVector(i * 10);
-				CreateRay(5028, 2820, 50, v.x, v.y, 0, color, false, 100,false); //@TODO
+				CreateRay(5028, 2820, 50, v.x, v.y, 0, color, false, 100, false); //@TODO
 			}
 
-			 color = CP_Color_Create(0, 255, 255, 150);
+			color = CP_Color_Create(0, 255, 255, 150);
 
 			for (int i = 0; i < 72; i++) {
 				CP_Vector v = AngleToVector(i * 5);
@@ -365,10 +365,10 @@ void cp3_triggered(void)
 
 			for (int i = 0; i < 36; i++) {
 				CP_Vector v = AngleToVector(i * 10);
-				CreateRay(1945, 2302, 50, v.x, v.y, 0, color, false, 100,false); //@TODO
+				CreateRay(1945, 2302, 50, v.x, v.y, 0, color, false, 100, false); //@TODO
 			}
 
-			 color = CP_Color_Create(0, 255, 255, 150);
+			color = CP_Color_Create(0, 255, 255, 150);
 
 			for (int i = 0; i < 72; i++) {
 				CP_Vector v = AngleToVector(i * 5);
@@ -435,7 +435,7 @@ void exit_triggered(void)
 
 		CP_Font_DrawText("YOU WON!", CP_System_GetDisplayWidth()/2, CP_System_GetDisplayHeight() / 2);*/
 
-		CP_Font_DrawText("YOU WON!", CP_System_GetDisplayWidth()/2, CP_System_GetDisplayHeight() / 2);
+		CP_Font_DrawText("YOU WON!", CP_System_GetDisplayWidth() / 2, CP_System_GetDisplayHeight() / 2);
 
 
 		//replay_Menu();
