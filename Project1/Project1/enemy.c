@@ -25,8 +25,10 @@ void retry_game(int i) {
 	menu_alpha = 0;
 	state = 0;
 	if (i == 5 && -WorldX < 1000) {
-		CheckPoint_3_Triggered = 0;
-		cpwallinit(cp3_gate);
+		if (CheckPoint_3_Triggered == 1) {
+			CheckPoint_3_Triggered = 0;
+			cpwallinit(cp3_gate);
+		}
 	}
 	WorldX = -checkpoint[i].respawn_x + CP_System_GetWindowWidth() / 2;
 	WorldY = -checkpoint[i].respawn_y + CP_System_GetWindowHeight() / 2;
