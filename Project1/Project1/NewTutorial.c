@@ -31,7 +31,7 @@ void newtutorial_update(void)
 {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, 0);
-	
+	tutorialMovement();
 	
 	//Draw Player
 	RayUpdate(0, 0);
@@ -45,6 +45,7 @@ void newtutorial_update(void)
 
 
 		}
+		
 		time = 0;
 	}
 	//Draw Tut Checkpoint
