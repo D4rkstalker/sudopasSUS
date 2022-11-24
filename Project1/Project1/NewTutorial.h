@@ -12,3 +12,12 @@ enum tutorial_stages {
 enum Enemy_sound_stages {
 	Sound_Attract, Sound_Distract, Sound_Trigger
 }sound_stage;
+
+void player_ping(void);
+int time;
+int delay;
+
+struct player {
+	float x;
+	float y;
+}player;
