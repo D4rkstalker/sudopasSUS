@@ -129,7 +129,7 @@ void settings_menu(void) {
 	//CP_Font_DrawText("Retry from Last Check Point", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 );
 	CP_Font_DrawText("Retry from Last Check Point", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 100);
 	CP_Font_DrawText("Retry Game", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 200);
-	CP_Font_DrawText("Quit to Menu", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 300);
+	CP_Font_DrawText("Return to Menu", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 300);
 
 	CP_Settings_Stroke(CP_Color_Create(220, 220, 220, 255));
 	CP_Settings_RectMode(CP_POSITION_CENTER);

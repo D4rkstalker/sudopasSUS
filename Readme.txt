@@ -32,4 +32,4 @@ Menu features
 - Volume (Slider)
 - Retry from last checkpoint
 - Retry Game 
-- Quit to Menu 
+- Return to Menu 

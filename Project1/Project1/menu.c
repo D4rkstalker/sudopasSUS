@@ -5,6 +5,9 @@
 #include "NewTutorial.h"
 
 /*
+All content © 2021 DigiPen Institute of Technology Singapore, all rights reserved.
+
+
 Main menu made by Nigel
 */
 

@@ -1,5 +1,8 @@
 /*
-Sound and music made by Nigel
+All content © 2021 DigiPen Institute of Technology Singapore, all rights reserved.
+
+
+Sound and BGM made by Nigel
 */
 
 #include <cprocessing.h>

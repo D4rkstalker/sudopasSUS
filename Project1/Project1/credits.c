@@ -1,3 +1,11 @@
+/*
+All content © 2021 DigiPen Institute of Technology Singapore, all rights reserved.
+
+
+Credits ping, scrolling, draw system and buttons made by Nigel
+Credits scene made by Ming Rui
+*/
+
 #include <cprocessing.h>
 #include <stdio.h>
 #include <time.h>
@@ -9,10 +17,6 @@
 #include "music.h"
 #include "checkpoint.h"
 #include "menu.h"
-
-/*
-Credits done by Nigel and Ming Rui
-*/
 
 //CreditsY for scrolling
 int CreditsY = 0;
@@ -165,7 +169,7 @@ void credit_scene(void) {
 
 
 	// Faculty & Advisors
-	draw_credits("Faculty & Advisors", 125, 150);
+	draw_credits("Instructors", 125, 150);
 	draw_credits("CHENG DING XIANG", 50, 100);
 	draw_credits("GERALD WONG", 50, 200);
 	//draw_credits("Special Thanks", 150, 200);
