@@ -287,18 +287,18 @@ void cp2_triggered(void)
 			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
 			checkpoint[0].current_checkpoint = 4;
 			for (int i = 0; i < 36; i++) {
-				CP_Vector v = AngleToVector(i * 10);
+				CP_Vector v = AngleToVector(i * 10.f);
 				CreateRay(5028, 2820, 50, v.x, v.y, 0, color, false, 100, false); //@TODO
 			}
 
 			color = CP_Color_Create(0, 255, 255, 150);
 
 			for (int i = 0; i < 72; i++) {
-				CP_Vector v = AngleToVector(i * 5);
+				CP_Vector v = AngleToVector(i * 5.f);
 				CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 2, color, false, 150, true);
 			}
 
-			return 1;
+			return;
 
 		}
 	}
@@ -366,18 +366,18 @@ void cp3_triggered(void)
 			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
 
 			for (int i = 0; i < 36; i++) {
-				CP_Vector v = AngleToVector(i * 10);
+				CP_Vector v = AngleToVector(i * 10.f);
 				CreateRay(1945, 2302, 50, v.x, v.y, 0, color, false, 100, false); //@TODO
 			}
 
 			color = CP_Color_Create(0, 255, 255, 150);
 
 			for (int i = 0; i < 72; i++) {
-				CP_Vector v = AngleToVector(i * 5);
+				CP_Vector v = AngleToVector(i * 5.f);
 				CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 1, color, false, 250, true);
 			}
 
-			return 1;
+			return;
 
 		}
 	}
@@ -437,7 +437,7 @@ void exit_triggered(void)
 
 		CP_Font_DrawText("YOU WON!", CP_System_GetDisplayWidth()/2, CP_System_GetDisplayHeight() / 2);*/
 
-		CP_Font_DrawText("YOU WON!", CP_System_GetDisplayWidth() / 2, CP_System_GetDisplayHeight() / 2);
+		CP_Font_DrawText("YOU WON!", CP_System_GetDisplayWidth() / 2.f, CP_System_GetDisplayHeight() / 2.f);
 
 
 		//replay_Menu();
