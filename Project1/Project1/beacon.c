@@ -16,6 +16,9 @@ void DrawBeacon(float x, float y) {
 }
 
 void BeaconNext(CP_Vector pos) {
+    x = 1;
+    alpha = 250;
+
     size = 2000;
     target = pos;
 
@@ -59,8 +62,6 @@ void UpdateBeacon() {
 }
 void InitBeacon(CP_Vector pos) {
     BeaconNext(pos);
-    x = 1;
-    alpha = 250;
 	beacon = CP_Vector_Set(0, 0);
 }
 

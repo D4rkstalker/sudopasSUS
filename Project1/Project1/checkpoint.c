@@ -8,6 +8,7 @@
 #include "music.h"
 #include "enemy.h"
 #include "credits.h"
+#include "beacon.h"
 
 CheckPoint point_1;
 CheckPoint point_2;
@@ -221,7 +222,7 @@ void cp1_triggered(void)
 				CP_Vector v = AngleToVector(i * (float)5);
 				CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 2, color, false, 150, true);
 			}
-
+			BeaconNext(point_2.pos);
 		}
 		/*CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 		CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, cp1_progress, 25.0f);
@@ -298,7 +299,7 @@ void cp2_triggered(void)
 				CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 2, color, false, 150, true);
 			}
 
-
+			BeaconNext(point_3.pos);
 		}
 	}
 	/*
@@ -375,7 +376,7 @@ void cp3_triggered(void)
 				CP_Vector v = AngleToVector(i * (float)5);
 				CreateRay((float)player1.x - (float)WorldX, (float)player1.y - (float)WorldY, 30, v.x, v.y, 1, color, false, 250, true);
 			}
-
+			BeaconNext(point_exit.pos);
 		}
 	}
 	/*
@@ -457,16 +458,20 @@ void draw_checkpoint(void)
 	{
 		draw_checkpoint_2();
 		cp2_triggered();
+		
+
 	}
 	if (CheckPoint_2_Triggered == 1 && CheckPoint_3_Triggered == 0)
 	{
 		draw_checkpoint_3();
 		cp3_triggered();
+
 	}
 	if (CheckPoint_3_Triggered == 1 && exit_Triggered == 0)
 	{
 		draw_exit();
 		exit_triggered();
+
 	}
 }
 
