@@ -47,7 +47,7 @@ void DrawWalls(void) {
 	//draw wall markers
 
 	for (int i = 0; i < drawpoint; i++) {
-		CP_Graphics_DrawCircle(WorldX + drawx[i], WorldY + drawy[i], 20);
+		CP_Graphics_DrawCircle(WorldX + drawx[i], WorldY + drawy[i], 20.f);
 	}
 }
 
@@ -56,7 +56,7 @@ Made by Nigel
 
 After creating 3 draw points, wall_init creates a triangle wall in the world.
 */
-void Wall_Init(double x, double y) {
+void Wall_Init(float x, float y) {
 
 	
 
@@ -103,7 +103,7 @@ void DeleteWall(int i) {
 }
 
 void loadwalls(void) {
-	int c;
+
 	int i = 0;
 	FILE* in = _fsopen("../Assets/walls.txt", "r", _SH_DENYNO);
 	
@@ -179,8 +179,8 @@ int wallcollision(void) {
 			
 			player1.acceleration_x = 0;
 			player1.acceleration_y = 0;
-			player1.velocity_x = -player1.velocity_x * 0.8;
-			player1.velocity_y = -player1.velocity_y * 0.8;
+			player1.velocity_x = -player1.velocity_x * 0.8f;
+			player1.velocity_y = -player1.velocity_y * 0.8f;
 			return 1;
 		}
 

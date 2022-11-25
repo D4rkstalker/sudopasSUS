@@ -66,5 +66,5 @@ void splashscreen_update(void) {
 }
 
 void splashscreen_exit(void) {
-	CP_Image_Free(logo);
+	CP_Image_Free(&logo);
 }
