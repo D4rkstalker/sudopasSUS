@@ -34,8 +34,7 @@ bool clicked = false;
 CP_Vector click1;
 
 
-tutorial_state = 0;
-shutdown_state = 1;
+
 
 /*
 WorldX and WorldY functions as the offset for the camera system.
@@ -59,10 +58,10 @@ int dead = 0;
 void DrawEnergy(void) {
 
 	CP_Settings_RectMode(CP_POSITION_CORNER);
-	float barx = 1850;
-	float bary = 1.5 * (CP_System_GetWindowHeight() / 2);
-	float barw = 15;
-	float barh = -CP_System_GetWindowHeight() / 2;
+	float barx = (float)1850;
+	float bary = (float)(1.5 * (CP_System_GetWindowHeight() / 2));
+	float barw = (float)15;
+	float barh = (float)(-CP_System_GetWindowHeight() / 2);
 
 	if (energy >= 100 && bar_alpha >= 0 ) {
 		bar_timer += 1;
@@ -111,11 +110,11 @@ void CheckControls(void) {
 	
 	*/
 
-	(CP_Input_KeyTriggered(KEY_1)) ? WorldX = -285 + CP_System_GetWindowWidth() / 2, WorldY = 485 + CP_System_GetWindowHeight() / 2 : 0;
-	(CP_Input_KeyTriggered(KEY_2)) ? WorldX = -370 + CP_System_GetWindowWidth() / 2, WorldY = -4465 + CP_System_GetWindowHeight() / 2 : 0;
-	(CP_Input_KeyTriggered(KEY_3)) ? WorldX = -3350 + CP_System_GetWindowWidth() / 2, WorldY = -4500 + CP_System_GetWindowHeight() / 2 : 0;
-	(CP_Input_KeyTriggered(KEY_4)) ? WorldX = -5950 + CP_System_GetWindowWidth() / 2, WorldY = -2785 + CP_System_GetWindowHeight() / 2 : 0;
-	(CP_Input_KeyTriggered(KEY_5)) ? WorldX = -2200 + CP_System_GetWindowWidth() / 2, WorldY = -2300 + CP_System_GetWindowHeight() / 2 : 0;
+	(CP_Input_KeyTriggered(KEY_1)) ? WorldX = (float)(-285 + CP_System_GetWindowWidth() / 2), WorldY = (float)(485 + CP_System_GetWindowHeight() / 2) : 0;
+	(CP_Input_KeyTriggered(KEY_2)) ? WorldX = (float)(-370 + CP_System_GetWindowWidth() / 2), WorldY = (float)(-4465 + CP_System_GetWindowHeight() / 2) : 0;
+	(CP_Input_KeyTriggered(KEY_3)) ? WorldX = (float)(-3350 + CP_System_GetWindowWidth() / 2), WorldY = (float)(-4500 + CP_System_GetWindowHeight() / 2) : 0;
+	(CP_Input_KeyTriggered(KEY_4)) ? WorldX = (float)(-5950 + CP_System_GetWindowWidth() / 2), WorldY = (float)(-2785 + CP_System_GetWindowHeight() / 2) : 0;
+	(CP_Input_KeyTriggered(KEY_5)) ? WorldX = (float)(-2200 + CP_System_GetWindowWidth() / 2), WorldY = (float)(-2300 + CP_System_GetWindowHeight() / 2) : 0;
 
 
 
@@ -204,6 +203,9 @@ void CheckControls(void) {
 
 
 void subgame_init(void) {
+
+	tutorial_state = 0;
+	shutdown_state = 1;
 	CP_System_SetWindowSize(1920, 1080);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_BlendMode(CP_BLEND_ALPHA);
@@ -211,8 +213,8 @@ void subgame_init(void) {
 	game_states = resume;
 	Sound_Init();
 	CP_Sound_PlayAdvanced(introsound, volume, 1.0, FALSE, 0);
-	center_x = CP_System_GetWindowWidth() / 2;
-	center_y = CP_System_GetWindowHeight() / 2;
+	center_x = (float)(CP_System_GetWindowWidth() / 2);
+	center_y = (float)(CP_System_GetWindowHeight() / 2);
 	player1.x = center_x;
 	player1.y = center_y;
 	//set up sound cast system
@@ -232,8 +234,8 @@ void subgame_init(void) {
 	debug = 0;
 
 
-	WorldX = -370 + CP_System_GetWindowWidth() / 2;
-	WorldY = -4465 + CP_System_GetWindowHeight() / 2;
+	WorldX = (float)(-370 + CP_System_GetWindowWidth() / 2);
+	WorldY = (float)(-4465 + CP_System_GetWindowHeight() / 2);
 	InitBeacon(point_1.pos);
 }
 
@@ -313,7 +315,7 @@ void subgame_update(void) {
 		CP_Color color = CP_Color_Create(255, 0, 0, 150);
 
 		for (int i = 0; i < 72; i++) {
-			CP_Vector v = AngleToVector(i * 5);
+			CP_Vector v = AngleToVector((float)(i * 5));
 			CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 2, color, false, 350, true);
 		}
 
@@ -348,7 +350,7 @@ void subgame_update(void) {
 	//Creating Player
 	if (game_states == resume && debug == 1) {
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Graphics_DrawCircle(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2, 25);
+		CP_Graphics_DrawCircle((float)(CP_System_GetWindowWidth() / 2), (float)(CP_System_GetWindowHeight() / 2), 25);
 	}
 	// movement function
 	if (dead == 0)

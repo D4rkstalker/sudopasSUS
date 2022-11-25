@@ -39,7 +39,7 @@ void credits_ping(void) {
 		CP_Color color = CP_Color_Create(rand() % 255, rand() % 255, rand() % 255, 220);
 
 		for (int i = 0; i < 36; i++) {
-			CP_Vector v = AngleToVector(i * 10);
+			CP_Vector v = AngleToVector((float)(i * 10));
 			CreateRay(CP_Input_GetMouseX(), CP_Input_GetMouseY() - CreditsY, 50, v.x, v.y, 2, color, false, 130, true);
 
 
@@ -52,7 +52,7 @@ void credits_ping(void) {
 		CP_Color color = CP_Color_Create(rand() % 255, rand() % 255, rand() % 255, 220);
 
 		for (int i = 0; i < 36; i++) {
-			CP_Vector v = AngleToVector(i * 10);
+			CP_Vector v = AngleToVector((float)(i * 10));
 			CreateRay(CP_Input_GetMouseX(), CP_Input_GetMouseY() - CreditsY, 50, v.x, v.y, 2, color, false, 130, true);
 
 
@@ -69,7 +69,7 @@ void credits_scroll(void) {
 	}
 
 	if (CP_Input_KeyDown(KEY_ESCAPE)) {
-		CreditsY = -CreditsBottom;
+		CreditsY = (int) ( - CreditsBottom);
 	}
 
 	if ((CP_Input_KeyDown(KEY_UP) || CP_Input_KeyDown(KEY_W))) {
@@ -112,7 +112,7 @@ dist is the distance to the next credit element after this
 void draw_credits(const char* str, float size, float dist) {
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Settings_TextSize(size);
-	CP_Font_DrawText(str, CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH);
+	CP_Font_DrawText(str, (float)(CP_System_GetWindowWidth() / 2), 350.0f + CreditsY + CreditsH);
 	CreditsH += dist;
 }
 void draw_copyrightSymbol(float size, float dist) {
@@ -120,9 +120,9 @@ void draw_copyrightSymbol(float size, float dist) {
 	CP_Settings_TextSize(size);
 	CP_Settings_NoFill();
 	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
-	CP_Graphics_DrawCircle((CP_System_GetWindowWidth() / 2) + 200, 350.0f + CreditsY + CreditsH - 95, 65);
+	CP_Graphics_DrawCircle((float)((CP_System_GetWindowWidth() / 2) + 200), (float)(350.0f + CreditsY + CreditsH - 95), 65);
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Font_DrawText("C", (CP_System_GetWindowWidth() / 2) + 200, 350.0f + CreditsY + CreditsH - 100);
+	CP_Font_DrawText("C", (float)((CP_System_GetWindowWidth() / 2) + 200), (float)(350.0f + CreditsY + CreditsH - 100));
 }
 
 
@@ -131,9 +131,9 @@ void credits_init(void) {
 	CP_Settings_ImageWrapMode(CP_IMAGE_WRAP_CLAMP);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 
-	CreditsY = 0;
+	CreditsY = (int)0;
 
-	srand(time(NULL));
+	srand((int)time(NULL));
 	Sound_Init();
 	CP_Sound_Free(&creepyping);
 	CP_Sound_PlayAdvanced(introsound, volume, 1.0, FALSE, 0);
@@ -146,7 +146,7 @@ void credit_scene(void) {
 	if (CheckPoint_3_Triggered == 1) {
 		CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
 		CP_Settings_TextSize(300);
-		CP_Font_DrawText("GAME CLEAR!", CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH);
+		CP_Font_DrawText("GAME CLEAR!", (float)(CP_System_GetWindowWidth() / 2), (float)(350.0f + CreditsY + CreditsH));
 		CreditsH += 700;
 	}
 
@@ -217,14 +217,14 @@ void credit_scene(void) {
 	CP_Settings_RectMode(CP_POSITION_CENTER);
 	credits_button(0, &restartbuttonalpha);
 	CP_Settings_Fill(CP_Color_Create(220, 220, 220, restartbuttonalpha));
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH, 900, 100);
+	CP_Graphics_DrawRect((float)(CP_System_GetWindowWidth() / 2), (float)(350.0f + CreditsY + CreditsH), (float)900, (float)100);
 	draw_credits("Return to main menu", 100, 200);
 
 	CP_Settings_Stroke(CP_Color_Create(220, 220, 220, 255));
 	CP_Settings_RectMode(CP_POSITION_CENTER);
 	credits_button(1, &exitbuttonalpha);
 	CP_Settings_Fill(CP_Color_Create(220, 220, 220, exitbuttonalpha));
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH, 900, 100);
+	CP_Graphics_DrawRect((float)(CP_System_GetWindowWidth() / 2), (float)(350.0f + CreditsY + CreditsH), (float)900, (float)100);
 	draw_credits("Exit Game", 100, 100);
 
 
@@ -237,7 +237,7 @@ void credits_update(void) {
 
 	credits_scroll();
 	credits_ping();
-	RayUpdate(0, CreditsY);
+	RayUpdate((float)0, (float)CreditsY);
 
 	if (credits_energy < 120) {
 		credits_energy += 2;
