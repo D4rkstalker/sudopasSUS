@@ -1,3 +1,3 @@
-void mainmenu_init();
-void mainmenu_update();
-void mainmenu_exit();
+void mainmenu_init(void);
+void mainmenu_update(void);
+void mainmenu_exit(void);
