@@ -1,13 +1,3 @@
-/*
-All content � 2021 DigiPen Institute of Technology Singapore, all rights reserved.
-
-Checkpoint System made by Kian Chew
-Level design and map layout created by Kian Chew
-
-Checkpoint trigger system, hitbox detection for checkpoints
-Gate unlocks when checkpoints are triggered
-*/
-
 #include "game.h"
 #include "menu.h"
 #include "subcontroller.h"
@@ -44,7 +34,13 @@ Gate cp1_close;
 Gate cp2_close;
 Gate cp3_close;
 
-//Pings the checkpoint location
+/*
+void credit_scene() {
+	CP_
+}
+*/
+
+
 void draw_checkpoint_ping(float delay, float x, float y)
 {
 
@@ -52,8 +48,11 @@ void draw_checkpoint_ping(float delay, float x, float y)
 	if (cp_pingtimer == delay) //Ping every 300 frames
 	{
 		CP_Color color = CP_Color_Create(255, 255, 0, 150);
+		//CP_Vector v = AngleToVector(-90);
+		//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+
 		for (int i = 0; i < 16; i++) {
-			CP_Vector v = AngleToVector(i * 23.f);
+			CP_Vector v = AngleToVector(i * (float)23);
 			CreateRay(x, y, 50, v.x, v.y, 0, color, false, 100, false);
 		}
 
@@ -66,7 +65,7 @@ void draw_checkpoint_ping(float delay, float x, float y)
 	}
 }
 
-//Checkpoint 1 position
+
 void draw_checkpoint_1(void)
 {
 
@@ -76,7 +75,9 @@ void draw_checkpoint_1(void)
 	point_1.w = 50;
 	point_1.h = 50;
 
-
+	//CP_Settings_NoStroke();
+	//CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	//CP_Graphics_DrawRect(WorldX + point_1.x, WorldY + point_1.y, point_1.w, point_1.h);
 	if (debug == 1) {
 		CP_Settings_NoStroke();
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
@@ -91,10 +92,10 @@ void draw_checkpoint_1(void)
 	cp1_gate.pos1 = CP_Vector_Scale(cp1_gate.pos1, 2);
 	cp1_gate.pos2 = CP_Vector_Set(1634, 2017);
 	cp1_gate.pos2 = CP_Vector_Scale(cp1_gate.pos2, 2);
+	//CP_Graphics_DrawLine(WorldX+cp1_gate.pos1.x, WorldY+cp1_gate.pos1.y, WorldX+cp1_gate.pos2.x, WorldY+cp1_gate.pos2.y);
 
 }
 
-//checkpoint 2 position
 void draw_checkpoint_2(void)
 {
 
@@ -104,6 +105,8 @@ void draw_checkpoint_2(void)
 	point_2.w = 50;
 	point_2.h = 50;
 
+	//CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	//CP_Graphics_DrawRect(WorldX + point_2.x, WorldY + point_2.y, point_2.w, point_2.h);
 	if (debug == 1) {
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 		CP_Graphics_DrawRect(WorldX + point_2.pos.x, WorldY + point_2.pos.y, point_2.w, point_2.h);
@@ -117,10 +120,10 @@ void draw_checkpoint_2(void)
 	cp2_gate.pos1 = CP_Vector_Scale(cp2_gate.pos1, 2);
 	cp2_gate.pos2 = CP_Vector_Set(2250, 1550);
 	cp2_gate.pos2 = CP_Vector_Scale(cp2_gate.pos2, 2);
-
+	//CP_Graphics_DrawLine(WorldX + cp2_gate.pos1.x, WorldY + cp2_gate.pos1.y, WorldX + cp2_gate.pos2.x, WorldY + cp2_gate.pos2.y);
 
 }
-//checkpoint 3 position
+
 void draw_checkpoint_3(void)
 {
 	point_3.pos.x = 540;
@@ -129,6 +132,8 @@ void draw_checkpoint_3(void)
 	point_3.w = 50;
 	point_3.h = 50;
 
+	//CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	//CP_Graphics_DrawRect(WorldX + point_3.x, WorldY + point_3.y, point_3.w, point_3.h);
 	if (debug == 1) {
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 		CP_Graphics_DrawRect(WorldX + point_3.pos.x, WorldY + point_3.pos.y, point_3.w, point_3.h);
@@ -142,10 +147,10 @@ void draw_checkpoint_3(void)
 	cp3_gate.pos1 = CP_Vector_Scale(cp3_gate.pos1, 2);
 	cp3_gate.pos2 = CP_Vector_Set(1850, 1030);
 	cp3_gate.pos2 = CP_Vector_Scale(cp3_gate.pos2, 2);
+	//CP_Graphics_DrawLine(WorldX + cp3_gate.pos1.x, WorldY + cp3_gate.pos1.y, WorldX + cp3_gate.pos2.x, WorldY + cp3_gate.pos2.y);
 
 }
 
-//exit position
 void draw_exit(void)
 {
 	point_exit.pos.x = 2425;
@@ -156,6 +161,8 @@ void draw_exit(void)
 
 	draw_checkpoint_ping(150, point_exit.pos.x, point_exit.pos.y + 25);
 
+	//CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	//CP_Graphics_DrawRect(WorldX + point_exit.x, WorldY + point_exit.y, point_exit.w, point_exit.h);
 
 	if (debug == 1) {
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
@@ -163,7 +170,6 @@ void draw_exit(void)
 	}
 }
 
-//Hitbox collision
 int CheckPointTrigger(float area_x, float area_y, float area_width, float area_height, float player_X, float player_Y)
 {
 	if (player_X > area_x && player_X < area_x+area_width && player_Y > area_y && player_Y < area_y+area_height)
@@ -176,7 +182,6 @@ int CheckPointTrigger(float area_x, float area_y, float area_width, float area_h
 	}
 }
 
-//CP1 Action, pings, undowall to remove gate, updates death checkpoint to current spot
 void cp1_triggered(void)
 {
 	float x1 = -WorldX + CP_System_GetWindowWidth() / 2;
@@ -204,26 +209,27 @@ void cp1_triggered(void)
 			UndoWall();
 			CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
 			CP_Color color = CP_Color_Create(255, 255, 0, 50);
-
+			//CP_Vector v = AngleToVector(-90);
+			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
 			checkpoint[0].current_checkpoint = 3;
 			for (int i = 0; i < 36; i++) {
-				CP_Vector v = AngleToVector(i * 10.f);
+				CP_Vector v = AngleToVector(i * (float)10);
 				CreateRay(3265, 3911, 50, v.x, v.y, 0, color, false, 100, false); // @TODO
 			}
 			color = CP_Color_Create(0, 255, 255, 150);
 
 			for (int i = 0; i < 72; i++) {
-				CP_Vector v = AngleToVector(i * 5.f);
+				CP_Vector v = AngleToVector(i * (float)5);
 				CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 2, color, false, 150, true);
 			}
-			BeaconNext(point_2.pos);
+
 
 		}
 		
 	}
 
 }
-//CP2 Action, pings, undowall to remove gate, updates death checkpoint to current spot
+
 void cp2_triggered(void)
 {
 	float x1 = -WorldX + CP_System_GetWindowWidth() / 2;
@@ -249,10 +255,12 @@ void cp2_triggered(void)
 			UndoWall();
 			CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
 			CP_Color color = CP_Color_Create(255, 255, 0, 50);
+			//CP_Vector v = AngleToVector(-90);
+			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
 			checkpoint[0].current_checkpoint = 4;
 			for (int i = 0; i < 36; i++) {
 				CP_Vector v = AngleToVector(i * (float)10);
-				CreateRay(5028, 2820, 50, v.x, v.y, 0, color, false, 100, false);
+				CreateRay(5028, 2820, 50, v.x, v.y, 0, color, false, 100, false); //@TODO
 			}
 
 			color = CP_Color_Create(0, 255, 255, 150);
@@ -261,14 +269,20 @@ void cp2_triggered(void)
 				CP_Vector v = AngleToVector(i * (float)5);
 				CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 2, color, false, 150, true);
 			}
-			BeaconNext(point_3.pos);
 
+			return 1;
 
+			}
 		}
-	}
+		if (CheckPoint_2_Triggered == 1)
+		{
+			cp2_progress = 100;
+		}
+
+	}*/
 
 }
-//CP3 Action, pings, undowall to remove gate, updates death checkpoint to current spot
+
 void cp3_triggered(void)
 {
 	float x1 = -WorldX + CP_System_GetWindowWidth() / 2;
@@ -295,26 +309,25 @@ void cp3_triggered(void)
 			UndoWall();
 			CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
 			CP_Color color = CP_Color_Create(255, 255, 0, 50);
-			
+			//CP_Vector v = AngleToVector(-90);
+			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
+
 			for (int i = 0; i < 36; i++) {
 				CP_Vector v = AngleToVector(i * (float)10);
-				CreateRay(1945, 2302, 50, (float)v.x, (float)v.y, 0, color, false, 100, false); 
+				CreateRay(1945, 2302, 50, (float)v.x, (float)v.y, 0, color, false, 100, false); //@TODO
 			}
 
 			color = CP_Color_Create(0, 255, 255, 150);
 
 			for (int i = 0; i < 72; i++) {
-				CP_Vector v = AngleToVector(i * (float)5);
+				CP_Vector v = AngleToVector(i * 5);
 				CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 1, color, false, 250, true);
 			}
-			BeaconNext(point_exit.pos);
 
-
-		}
-	}
+			return 1;
 
 }
-//Exit Action, pings, undowall to remove gate, updates death checkpoint to current spot
+
 void exit_triggered(void)
 {
 	float x1 = -WorldX + CP_System_GetWindowWidth() / 2;
@@ -340,15 +353,23 @@ void exit_triggered(void)
 			CP_Engine_SetNextGameStateForced(credits_init, credits_update, credits_exit);
 		}
 
+		/*
+		CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
+		CP_Settings_TextSize(65.0f);
+
+		CP_Font_DrawText("YOU WON!", CP_System_GetDisplayWidth()/2, CP_System_GetDisplayHeight() / 2);*/
+
 		CP_Font_DrawText("YOU WON!", CP_System_GetDisplayWidth() / (float)2, CP_System_GetDisplayHeight() / (float)2);
 
+
+		//replay_Menu();
 
 	}
 
 }
 
 
-//Constantly draw current active checkpoint
+
 void draw_checkpoint(void)
 {
 	if (CheckPoint_1_Triggered == 0)
@@ -361,23 +382,28 @@ void draw_checkpoint(void)
 	{
 		draw_checkpoint_2();
 		cp2_triggered();
+		
+
 	}
 	if (CheckPoint_2_Triggered == 1 && CheckPoint_3_Triggered == 0)
 	{
 		draw_checkpoint_3();
 		cp3_triggered();
+
 	}
 	if (CheckPoint_3_Triggered == 1 && exit_Triggered == 0)
 	{
 		draw_exit();
 		exit_triggered();
+
 	}
 }
 
-//Resets checkpoint state
 void checkpoint_reset(void) {
 	CheckPoint_1_Triggered = 0;
 	CheckPoint_2_Triggered = 0;
 	CheckPoint_3_Triggered = 0;
 	exit_Triggered = 0;
 }
+
+//430 to 440 mouse X, to click

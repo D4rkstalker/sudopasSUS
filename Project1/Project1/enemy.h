@@ -54,3 +54,4 @@ void retry_game(int i);
 void enemy_move(ENEMY* enemy, int i);
 void enemy_beam(float x, float y);
 int enemy_place_tut();
+int enemy_ray_trigger(Ray* ray, int i);
