@@ -1,12 +1,15 @@
+/*
+All content © 2021 DigiPen Institute of Technology Singapore, all rights reserved.
+
+
+Splash screen made by Nigel
+*/
+
 #include <cprocessing.h>
 #include <stdio.h>
 #include "game.h"
 #include "NewTutorial.h"
 #include "menu.h"
-
-/*
-Splashscreen done by Nigel
-*/
 
 CP_Image logo;
 int logoalpha = 255;
