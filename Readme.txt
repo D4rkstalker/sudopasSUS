@@ -1,11 +1,11 @@
 Project S.O.N.A.R
 
 by SudoPasSus - CSD1401
-    Han Qing            Hanqing.Liu@digipen.edu
-    Jonathan            x.ho@digipen.edu
-    Kian Chew           KianChew.Tan@digipen.edu
-    Nigel               p.foong@digipen.edu
-    Ming Rui            l.mingrui@digipen.edu
+    Liu Han Qing            Hanqing.Liu@digipen.edu
+    Jonathan Ho            x.ho@digipen.edu
+    Tan Kian Chew           KianChew.Tan@digipen.edu
+    Nigel Foong               p.foong@digipen.edu
+    Liong Ming Rui            l.mingrui@digipen.edu
 
 ==================================================================
 Controls
@@ -32,4 +32,4 @@ Menu features
 - Volume (Slider)
 - Retry from last checkpoint
 - Retry Game 
-- Exit Game
+- Quit to Menu 
