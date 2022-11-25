@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="beacon.h" />
     <ClInclude Include="checkpoint.h" />
     <ClInclude Include="credits.h" />
     <ClInclude Include="enemy.h" />
@@ -35,6 +36,7 @@
     <ClInclude Include="walls.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="beacon.c" />
     <ClCompile Include="checkpoint.c" />
     <ClCompile Include="credits.c" />
     <ClCompile Include="enemy.c" />

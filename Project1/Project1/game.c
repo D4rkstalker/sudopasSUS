@@ -1,5 +1,5 @@
 /*
-All content © 2021 DigiPen Institute of Technology Singapore, all rights reserved.
+All content ï¿½ 2021 DigiPen Institute of Technology Singapore, all rights reserved.
 */
 
 #include "cprocessing.h"
@@ -16,6 +16,7 @@ All content © 2021 DigiPen Institute of Technology Singapore, all rights reserve
 #include <stdlib.h>
 #include "credits.h"
 #include "NewTutorial.h"
+#include "beacon.h"
 #include "menu.h"
 
 //debug wall flag
@@ -233,7 +234,7 @@ void subgame_init(void) {
 
 	WorldX = -370 + CP_System_GetWindowWidth() / 2;
 	WorldY = -4465 + CP_System_GetWindowHeight() / 2;
-
+	InitBeacon(point_1.pos);
 }
 
 void subgame_update(void) {
@@ -361,6 +362,7 @@ void subgame_update(void) {
 
 	//tutorial_message();
 
+	UpdateBeacon();
 
 	// World coords on mouse
 	if (debug == 1) {
