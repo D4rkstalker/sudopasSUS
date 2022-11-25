@@ -167,6 +167,7 @@ int CheckPointTrigger(float area_x, float area_y, float area_width, float area_h
 {
 	if (player_X > area_x && player_X < area_x+area_width && player_Y > area_y && player_Y < area_y+area_height)
 	{
+		return 1;
 	}
 	else
 	{
@@ -256,11 +257,10 @@ void cp2_triggered(void)
 			color = CP_Color_Create(0, 255, 255, 150);
 
 			for (int i = 0; i < 72; i++) {
-				CP_Vector v = AngleToVector(i * 5);
+				CP_Vector v = AngleToVector(i * (float)5);
 				CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 2, color, false, 150, true);
 			}
 
-			return 1;
 
 		}
 	}
@@ -302,11 +302,10 @@ void cp3_triggered(void)
 			color = CP_Color_Create(0, 255, 255, 150);
 
 			for (int i = 0; i < 72; i++) {
-				CP_Vector v = AngleToVector(i * 5);
+				CP_Vector v = AngleToVector(i * (float)5);
 				CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 1, color, false, 250, true);
 			}
 
-			return 1;
 
 		}
 	}

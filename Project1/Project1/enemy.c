@@ -78,6 +78,8 @@ int enemy_place_tut() {
 	enemy[0].alpha = 0;
 	enemy[0].pos.x = 710;
 	enemy[0].pos.y = 510;
+
+	return 1;
 }
 
 void enemy_place() {

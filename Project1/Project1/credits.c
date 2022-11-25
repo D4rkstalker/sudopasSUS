@@ -39,7 +39,7 @@ void credits_ping(void) {
 		CP_Color color = CP_Color_Create(rand() % 255, rand() % 255, rand() % 255, 220);
 
 		for (int i = 0; i < 36; i++) {
-			CP_Vector v = AngleToVector(i * 10);
+			CP_Vector v = AngleToVector(i * (float)10);
 			CreateRay(CP_Input_GetMouseX(), CP_Input_GetMouseY() - CreditsY, 50, v.x, v.y, 2, color, false, 130, true);
 
 
