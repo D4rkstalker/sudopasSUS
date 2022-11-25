@@ -62,7 +62,7 @@ void checkpoint_init(void) {
 
 }
 
-void enemy_place_tut() {
+int enemy_place_tut() {
 	for (int i = 0; i < ENEMY_COUNT; ++i) {
 		enemy[i].pos.x = -2000;
 		enemy[i].pos.y = -2000;

@@ -53,3 +53,4 @@ int dead_menu(void);
 void retry_game(int i);
 void enemy_move(ENEMY* enemy, int i);
 void enemy_beam(float x, float y);
+int enemy_place_tut();
