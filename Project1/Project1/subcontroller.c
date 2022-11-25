@@ -12,7 +12,7 @@
 #include "NewTutorial.h"
 
 
-#define MAXSPEED 4
+#define MAXSPEED 40
 #define TutSpeed 2
 
 CP_Vector mouseMovement;

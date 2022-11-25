@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include "credits.h"
 #include "NewTutorial.h"
+#include "beacon.h"
 
 //debug wall flag
 int debug = 1;
@@ -224,7 +225,7 @@ void subgame_init(void) {
 
 	WorldX = -370 + CP_System_GetWindowWidth() / 2;
 	WorldY = -4465 + CP_System_GetWindowHeight() / 2;
-
+	InitBeacon(point_1.pos);
 }
 
 void subgame_update(void) {
@@ -352,6 +353,7 @@ void subgame_update(void) {
 
 	//tutorial_message();
 
+	UpdateBeacon();
 
 	// World coords on mouse
 	if (debug == 1) {
