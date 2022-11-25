@@ -2,7 +2,7 @@ Project S.O.N.A.R
 
 by SudoPasSus - CSD1401
     Liu Han Qing            Hanqing.Liu@digipen.edu
-    Jonathan Ho            x.ho@digipen.edu
+    Jonathan Ho Xu Kai           x.ho@digipen.edu
     Tan Kian Chew           KianChew.Tan@digipen.edu
     Nigel Foong               p.foong@digipen.edu
     Liong Ming Rui            l.mingrui@digipen.edu
