@@ -15,7 +15,7 @@ void menu_button(int button, int* buttonalpha, float y) {
 			else if (button == 1) {
 				CP_Engine_Terminate();
 			}
-			else if (button == 2) {
+			else if (button == 2) { 
 				CP_Engine_SetNextGameStateForced(credits_init, credits_update, credits_exit);
 			}
 		}
