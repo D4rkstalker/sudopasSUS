@@ -44,7 +44,7 @@ Particle CreateParticle(float x, float y, float velx, float vely, CP_Color color
 	return part;
 }
 
-void AddMidpoint(Ray* ray, float posx, float posy) {
+void AddMidpoint(Ray* ray, int posx, int posy) {
 	Particle part = CreateParticle(posx, posy, ray->head.vel.x, ray->head.vel.y, ray->color, true, false, false);
 	ray->midpoints[ray->mids] = part;
 	ray->mids++;
@@ -64,7 +64,7 @@ void RemoveMidpoint(Ray* ray) {
 
 }
 
-void CreateRay(float x, float y, int length, float velx, float vely, int fade, CP_Color color, bool trackToSource, float velMult, bool isPlayer) {
+void CreateRay(float x, float y, int length, float velx, float vely, int fade, CP_Color color, bool trackToSource, int velMult, bool isPlayer) {
 	Ray ray = {0};
 	ray.color = color;
 	velx *= velMult;
@@ -90,14 +90,14 @@ void CreateRay(float x, float y, int length, float velx, float vely, int fade, C
 }
 
 
-void ParticleDisplay(Particle* part, float size)
+void ParticleDisplay(Particle* part, int size)
 {
 	CP_Graphics_DrawEllipse(part->pos.x + wx, part->pos.y + wy, size, size);
 }
 
 void CheckEnemies(Ray* ray, Particle* part) {
 	for (int i = 0; i < ENEMY_COUNT; i++) {
-		if (abs((int)(enemy[i].pos.x - part->pos.x)) < 25 && abs((int)(enemy[i].pos.y - part->pos.y)) < 25) {
+		if (abs(enemy[i].pos.x - part->pos.x) < 25 && abs(enemy[i].pos.y - part->pos.y) < 25) {
 			enemy_ray_trigger(ray, i);
 		}
 	}

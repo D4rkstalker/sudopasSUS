@@ -19,7 +19,7 @@ Credits scene made by Ming Rui
 #include "menu.h"
 
 //CreditsY for scrolling
-float CreditsY = 0;
+int CreditsY = 0;
 
 //CreditsH used for easier spacing of credits elements
 float CreditsH = 0;
@@ -39,7 +39,7 @@ void credits_ping(void) {
 		CP_Color color = CP_Color_Create(rand() % 255, rand() % 255, rand() % 255, 220);
 
 		for (int i = 0; i < 36; i++) {
-			CP_Vector v = AngleToVector(i * 10.f);
+			CP_Vector v = AngleToVector(i * 10);
 			CreateRay(CP_Input_GetMouseX(), CP_Input_GetMouseY() - CreditsY, 50, v.x, v.y, 2, color, false, 130, true);
 
 
@@ -52,7 +52,7 @@ void credits_ping(void) {
 		CP_Color color = CP_Color_Create(rand() % 255, rand() % 255, rand() % 255, 220);
 
 		for (int i = 0; i < 36; i++) {
-			CP_Vector v = AngleToVector(i * 10.f);
+			CP_Vector v = AngleToVector(i * 10);
 			CreateRay(CP_Input_GetMouseX(), CP_Input_GetMouseY() - CreditsY, 50, v.x, v.y, 2, color, false, 130, true);
 
 
@@ -112,7 +112,7 @@ dist is the distance to the next credit element after this
 void draw_credits(const char* str, float size, float dist) {
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Settings_TextSize(size);
-	CP_Font_DrawText(str, CP_System_GetWindowWidth() / 2.f, 350.0f + CreditsY + CreditsH);
+	CP_Font_DrawText(str, CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH);
 	CreditsH += dist;
 }
 void draw_copyrightSymbol(float size, float dist) {
@@ -120,9 +120,9 @@ void draw_copyrightSymbol(float size, float dist) {
 	CP_Settings_TextSize(size);
 	CP_Settings_NoFill();
 	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
-	CP_Graphics_DrawCircle((CP_System_GetWindowWidth() / 2.f) + 200, 350.0f + CreditsY + CreditsH - 95, 65);
+	CP_Graphics_DrawCircle((CP_System_GetWindowWidth() / 2) + 200, 350.0f + CreditsY + CreditsH - 95, 65);
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Font_DrawText("C", (CP_System_GetWindowWidth() / 2.f) + 200, 350.0f + CreditsY + CreditsH - 100);
+	CP_Font_DrawText("C", (CP_System_GetWindowWidth() / 2) + 200, 350.0f + CreditsY + CreditsH - 100);
 	CreditsH += dist;
 }
 
@@ -134,7 +134,7 @@ void credits_init(void) {
 
 	CreditsY = 0;
 
-	srand((unsigned int) time(NULL));
+	srand(time(NULL));
 	Sound_Init();
 	CP_Sound_Free(&creepyping);
 	CP_Sound_PlayAdvanced(introsound, volume, 1.0, FALSE, 0);
@@ -147,7 +147,7 @@ void credit_scene(void) {
 	if (CheckPoint_3_Triggered == 1) {
 		CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
 		CP_Settings_TextSize(300);
-		CP_Font_DrawText("GAME CLEAR!", CP_System_GetWindowWidth() / 2.f, 350.0f + CreditsY + CreditsH);
+		CP_Font_DrawText("GAME CLEAR!", CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH);
 		CreditsH += 700;
 	}
 
@@ -218,14 +218,14 @@ void credit_scene(void) {
 	CP_Settings_RectMode(CP_POSITION_CENTER);
 	credits_button(0, &restartbuttonalpha);
 	CP_Settings_Fill(CP_Color_Create(220, 220, 220, restartbuttonalpha));
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2.f, 350.0f + CreditsY + CreditsH, 900, 100);
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH, 900, 100);
 	draw_credits("Return to main menu", 100, 200);
 
 	CP_Settings_Stroke(CP_Color_Create(220, 220, 220, 255));
 	CP_Settings_RectMode(CP_POSITION_CENTER);
 	credits_button(1, &exitbuttonalpha);
 	CP_Settings_Fill(CP_Color_Create(220, 220, 220, exitbuttonalpha));
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2.f, 350.0f + CreditsY + CreditsH, 900, 100);
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH, 900, 100);
 	draw_credits("Exit Game", 100, 100);
 
 
@@ -238,7 +238,7 @@ void credits_update(void) {
 
 	credits_scroll();
 	credits_ping();
-	RayUpdate(0.f, CreditsY);
+	RayUpdate(0, CreditsY);
 
 	if (credits_energy < 120) {
 		credits_energy += 2;
