@@ -1,3 +1,11 @@
+/*
+All content � 2021 DigiPen Institute of Technology Singapore, all rights reserved.
+
+Tutorial section made by Kian Chew
+Tutorial messages pop up after certain timing,
+scripted enemy sequence to demonstrate game mechanics.
+*/
+
 #include "cprocessing.h"
 #pragma once
 #include "tutorial.h"
@@ -36,9 +44,32 @@ void newtutorial_init(void)
 
 void newtutorial_update(void)
 {	
+	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, 0);
+
 	enemy[0].alpha = 0;
 
-	CP_Settings_Fill(CP_Color_Create(120, 120, 120, 255));
+	//Bound player to windowsize
+	if (player.x < 0)
+	{
+		player.x = 0;
+	}
+	if (player.y < 0)
+	{
+		player.y = 0;
+	}
+	if (player.x > 1920)
+	{
+		player.x = 1920;
+	}
+	if (player.y > 1080)
+	{
+		player.y = 1080;
+	}
+
+
+	//Tutorial Skip button
+	CP_Settings_Fill(CP_Color_Create(120, 120, 120, 50));
 	CP_Settings_TextSize(50.0f);
 	CP_Font_DrawText("PRESS T TO SKIP TUTORIAL", 550, 100);
 	if (CP_Input_KeyTriggered(KEY_T))
@@ -47,12 +78,21 @@ void newtutorial_update(void)
 
 	}
 
-	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
-	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, 0);
-	tutorialMovement(isplayer);
-	
-	//Constant counting
+	//Player movement lock
+	if (can_move == 1)
+	{
+		tutorialMovement(isplayer);
+	}
+	if (can_move == 0)
+	{
+		CP_Settings_Fill(CP_Color_Create(120, 120, 120, 150));
+		CP_Settings_TextSize(20.0f);
+		CP_Font_DrawText("Movement Locked", player.x -50, player.y -40);
+	}
+
+	//Constant counting, this affects all the "animation" timings
 	countdown += 5;
+
 	//Draw Player
 	RayUpdate(0, 0);
 	time++;
@@ -190,7 +230,7 @@ void newtutorial_update(void)
 			CP_Settings_Fill(CP_Color_Create(25, 25, 25, 0));
 			CP_Settings_RectMode(CP_POSITION_CENTER);
 			CP_Graphics_DrawRectAdvanced(935, 608, 366.0f, 50.0f, 0, 10.0f);
-			CP_Settings_Fill(CP_Color_Create(255, 255, 255, (int) (255 * 0.7)));
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, (int)(255 * 0.7)));
 			CP_Graphics_DrawRectAdvanced(935, 623, 186.0f, 3.0f, 0, 0.0f);
 
 
@@ -202,8 +242,8 @@ void newtutorial_update(void)
 				CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
 				CP_Color color = CP_Color_Create(0, 255, 255, 50);
 				for (int i = 0; i < 36; i++) {
-					CP_Vector v = AngleToVector(i * 10.f);
-					CreateRay(player.x, player.y, 50, v.x, v.y, 0, color, false, 100, false); // @TODO
+					CP_Vector v = AngleToVector(i * (float)10);
+					CreateRay(player.x, player.y, 100, v.x, v.y, 1, color, false, 100, false); // @TODO
 				}
 
 			}
@@ -261,9 +301,16 @@ void newtutorial_update(void)
 			CP_Font_DrawText("Watch", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f) + 200.0f);
 
 
-			//create a CP ping ping.
-			//enemy walk to the BLUE ping. 
-			if (CP_Input_KeyTriggered(KEY_2))
+				CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
+				CP_Color color = CP_Color_Create(0, 255, 255, 220);
+				for (int i = 0; i < 36; i++) {
+					CP_Vector v = AngleToVector(i * (float)10);
+					CreateRay(860, 650, 50, v.x, v.y, 3, color, true, 100, true);
+				}
+				isplayer = 1;
+			}
+
+			if (countdown == 600)
 			{
 				sound_stage = Sound_Distract;
 				countdown = 0;
@@ -316,7 +363,28 @@ void newtutorial_update(void)
 		CP_Font_DrawText("Good luck out there", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f));
 		CP_Font_DrawText("Try and make it out alive", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f) + 200.0f);
 
-		if (CP_Input_KeyTriggered(KEY_1))
+		if (countdown > 1000)
+		{
+			tut_stage = Enemy_Leave;
+			countdown = 0;
+
+		}
+	}
+	if (tut_stage == Enemy_Leave)
+	{
+		CP_Settings_Fill(CP_Color_Create(120, 120, 120, countdown));
+		CP_Settings_TextSize(50.0f);
+		CP_Font_DrawText("press", 502, 610);
+		CP_Font_DrawText("to enter the real cave", 1012, 610);
+		CP_Settings_Stroke(CP_Color_Create(150, 150, 150, countdown));
+		CP_Settings_Fill(CP_Color_Create(25, 25, 25, 0));
+		CP_Settings_RectMode(CP_POSITION_CENTER);
+		CP_Graphics_DrawRectAdvanced(815, 608, 366.0f, 50.0f, 0, 10.0f);
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, (int)(countdown * 0.7)));
+		CP_Graphics_DrawRectAdvanced(815, 623, 186.0f, 3.0f, 0, 0.0f);
+
+
+		if (CP_Input_KeyTriggered(KEY_SPACE)) 
 		{
 			CP_Engine_SetNextGameState(subgame_init, subgame_update, subgame_exit);
 

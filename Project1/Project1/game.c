@@ -33,6 +33,8 @@ int bar_alpha = 255;
 bool clicked = false;
 CP_Vector click1;
 
+shutdown_state = 1;
+
 /*
 WorldX and WorldY functions as the offset for the camera system.
 All coordinates used by all game objects will need to be offset by the WorldX and WorldY coordinates.
@@ -262,32 +264,7 @@ void subgame_update(void) {
 		CP_Font_DrawText("[Q] Quit Game", 20, 380);
 	}
 
-	/*switch (tutorial_state) {
-	case 0:
-		wake_message();
-		break;
-	case 1:
-		rmb_tut();
-		tut_exit();
-		break;
-	case 2:
-		tutorial_message();
-		tut_exit();
-		break;
-	case 3:
-		dodge();
-		tut_exit();
-		break;
-	case 4:
-		tut_exit();
-		break;
-	case 5:
-		title_screen();
-		tut_exit();
-		break;
-	default:
-		;
-	} */
+
 	//2nd draw layer, the walls of the game
 	if (debug == 1) {
 		DrawWalls();
@@ -352,12 +329,6 @@ void subgame_update(void) {
 	{
 		movement();
 	}
-
-	double title_alpha = -100;
-	double tutorial_alpha = 0;
-	int loop = 0;
-
-	//tutorial_message();
 
 	UpdateBeacon();
 
