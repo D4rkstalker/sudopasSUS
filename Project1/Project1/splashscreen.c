@@ -30,7 +30,7 @@ void splashscreen_update(void) {
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 
 	if (splashstate == 0) {
-		CP_Image_Draw(logo, CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2, 1525, 445, logoalpha);
+		CP_Image_Draw(logo, (float) CP_System_GetWindowWidth() / 2, (float) CP_System_GetWindowHeight() / 2, 1525, 445, logoalpha);
 
 		logoalpha -= 3;
 		if (logoalpha <= 0) {
@@ -66,5 +66,5 @@ void splashscreen_update(void) {
 }
 
 void splashscreen_exit(void) {
-	CP_Image_Free(logo);
+	CP_Image_Free(&logo);
 }

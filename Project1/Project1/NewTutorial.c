@@ -60,7 +60,7 @@ void newtutorial_update(void)
 		CP_Color color = CP_Color_Create(255, 255, 255, 150);
 
 		for (int i = 0; i < 18; i++) {
-			CP_Vector v = AngleToVector(i * 20);
+			CP_Vector v = AngleToVector(i * 20.f);
 			CreateRay(player.x,player.y, 20, v.x, v.y, 4, color, false, 50, true);
 
 
@@ -75,7 +75,7 @@ void newtutorial_update(void)
 		{
 			CP_Color color = CP_Color_Create(255, 255, 0, 50);
 			for (int i = 0; i < 20; i++) {
-				CP_Vector v = AngleToVector(i * 18);
+				CP_Vector v = AngleToVector(i * 18.f);
 				CreateRay(1100, 540, 10, v.x, v.y, 1, color, false, 100, false);
 			}
 			delay = 0;
@@ -190,7 +190,7 @@ void newtutorial_update(void)
 			CP_Settings_Fill(CP_Color_Create(25, 25, 25, 0));
 			CP_Settings_RectMode(CP_POSITION_CENTER);
 			CP_Graphics_DrawRectAdvanced(935, 608, 366.0f, 50.0f, 0, 10.0f);
-			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255 * 0.7));
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, (int) (255 * 0.7)));
 			CP_Graphics_DrawRectAdvanced(935, 623, 186.0f, 3.0f, 0, 0.0f);
 
 
@@ -202,7 +202,7 @@ void newtutorial_update(void)
 				CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
 				CP_Color color = CP_Color_Create(0, 255, 255, 50);
 				for (int i = 0; i < 36; i++) {
-					CP_Vector v = AngleToVector(i * 10);
+					CP_Vector v = AngleToVector(i * 10.f);
 					CreateRay(player.x, player.y, 50, v.x, v.y, 0, color, false, 100, false); // @TODO
 				}
 

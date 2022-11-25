@@ -51,7 +51,7 @@ void draw_checkpoint_ping(float delay, float x, float y)
 		//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
 
 		for (int i = 0; i < 16; i++) {
-			CP_Vector v = AngleToVector(i * 23);
+			CP_Vector v = AngleToVector(i * 23.f);
 			CreateRay(x, y, 50, v.x, v.y, 0, color, false, 100, false);
 		}
 
@@ -211,18 +211,16 @@ void cp1_triggered(void)
 			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
 			checkpoint[0].current_checkpoint = 3;
 			for (int i = 0; i < 36; i++) {
-				CP_Vector v = AngleToVector(i * 10);
+				CP_Vector v = AngleToVector(i * 10.f);
 				CreateRay(3265, 3911, 50, v.x, v.y, 0, color, false, 100, false); // @TODO
 			}
 			color = CP_Color_Create(0, 255, 255, 150);
 
 			for (int i = 0; i < 72; i++) {
-				CP_Vector v = AngleToVector(i * 5);
+				CP_Vector v = AngleToVector(i * 5.f);
 				CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 2, color, false, 150, true);
 			}
 
-
-			return 1;
 
 		}
 		/*CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
