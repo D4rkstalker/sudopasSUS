@@ -9,7 +9,7 @@ Sound and BGM made by Nigel
 
 //sound variables
 
-float volume = 0.3;
+float volume = 0.3f;
 
 CP_Sound ping = NULL;
 CP_Sound introsound = NULL;
@@ -33,7 +33,7 @@ void Sound_Init(void) {
 	bgm_submarine = CP_Sound_Load("../Assets/bgm_submarine.wav") != NULL ? CP_Sound_Load("../Assets/bgm_submarine.wav") : CP_Sound_Load("Assets/bgm_submarine.wav");
 
 	//initialise BGM
-	CP_Sound_SetGroupVolume(CP_SOUND_GROUP_MUSIC, 0.1);
+	CP_Sound_SetGroupVolume(CP_SOUND_GROUP_MUSIC, 0.1f);
 	CP_Sound_PlayMusic((bgm_submarine));
 	//CP_Sound_PlayMusic((bgm_theenemy));
 	//CP_Sound_PlayAdvanced(creepyping, volume, 1, FALSE, 0);
