@@ -24,7 +24,7 @@ int settings_alpha_5 = 0;
 
 int time = 0;
 
-void tutorialMovement(void) {
+void tutorialMovement(int isplayer) {
 	if (CP_Input_KeyDown(KEY_W)) {
 		player.y -= TutSpeed;
 	}
@@ -48,7 +48,7 @@ void tutorialMovement(void) {
 			float a = CP_Math_Degrees(atan2(outv.y, outv.x));
 			for (int i = -18; i < 18; i++) {
 				CP_Vector v = AngleToVector(a + i * 1);
-				CreateRay(player.x, player.y, 25, v.x, v.y, 4, color, true, 200, true);
+				CreateRay(player.x, player.y, 25, v.x, v.y, 4, color, true, 200, isplayer);
 
 			}
 
@@ -68,7 +68,7 @@ void tutorialMovement(void) {
 		CP_Color color = CP_Color_Create(255, 255, 255, 220);
 		for (int i = 0; i < 36; i++) {
 			CP_Vector v = AngleToVector(i * 10);
-			CreateRay(player.x, player.y, 50, v.x, v.y, 4, color, false, 130, true);
+			CreateRay(player.x, player.y, 50, v.x, v.y, 4, color, false, 130, isplayer);
 
 		}
 		CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
