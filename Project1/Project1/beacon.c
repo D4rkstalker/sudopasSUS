@@ -6,7 +6,7 @@
 #include "subcontroller.h"
 CP_Vector beacon ;
 CP_Vector target;
-int size;
+float size;
 int alpha;
 int x;
 void DrawBeacon(float x, float y) {
