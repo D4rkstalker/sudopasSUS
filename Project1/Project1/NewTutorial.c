@@ -89,7 +89,7 @@ void newtutorial_update(void)
 		CP_Color color = CP_Color_Create(255, 255, 255, 150);
 
 		for (int i = 0; i < 18; i++) {
-			CP_Vector v = AngleToVector(i * 20);
+			CP_Vector v = AngleToVector(i * (float)20);
 			CreateRay(player.x,player.y, 20, v.x, v.y, 4, color, false, 50, true);
 
 
@@ -104,7 +104,7 @@ void newtutorial_update(void)
 		{
 			CP_Color color = CP_Color_Create(255, 255, 0, 50);
 			for (int i = 0; i < 20; i++) {
-				CP_Vector v = AngleToVector(i * 18);
+				CP_Vector v = AngleToVector(i * (float)18);
 				CreateRay(1100, 540, 10, v.x, v.y, 1, color, false, 100, false);
 			}
 			delay = 0;
