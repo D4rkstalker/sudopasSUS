@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "game.h"
 #include "NewTutorial.h"
+#include "menu.h"
 
 /*
 Splashscreen done by Nigel
@@ -10,7 +11,7 @@ Splashscreen done by Nigel
 CP_Image logo;
 int logoalpha = 255;
 int titlealpha = 1;
-int titledirection = 4;
+int titledirection = 3;
 int splashstate = 0;
 
 void splashscreen_init(void) {
@@ -28,7 +29,7 @@ void splashscreen_update(void) {
 	if (splashstate == 0) {
 		CP_Image_Draw(logo, CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2, 1525, 445, logoalpha);
 
-		logoalpha -= 4;
+		logoalpha -= 3;
 		if (logoalpha <= 0) {
 			splashstate = 1;
 		}
@@ -47,7 +48,7 @@ void splashscreen_update(void) {
 		}
 
 		if (titlealpha <= 0) {
-			CP_Engine_SetNextGameState(newtutorial_init, newtutorial_update, newtutorial_exit);
+			CP_Engine_SetNextGameState(mainmenu_init, mainmenu_update, mainmenu_exit);
 		}
 	}
 
@@ -56,7 +57,7 @@ void splashscreen_update(void) {
 	}
 
 	if (splashstate >= 2) {
-		CP_Engine_SetNextGameState(newtutorial_init, newtutorial_update, newtutorial_exit);
+		CP_Engine_SetNextGameState(mainmenu_init, mainmenu_update, mainmenu_exit);
 	}
 
 }

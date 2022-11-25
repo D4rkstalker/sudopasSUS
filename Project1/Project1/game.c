@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include "credits.h"
 #include "NewTutorial.h"
+#include "menu.h"
 
 //debug wall flag
 int debug = 1;
@@ -188,6 +189,10 @@ void CheckControls(void) {
 		CP_Engine_SetNextGameState(credits_init, credits_update, credits_exit);
 	}
 
+	if (CP_Input_KeyTriggered(KEY_K))
+	{
+		CP_Engine_SetNextGameState(mainmenu_init, mainmenu_update, mainmenu_exit);
+	}
 
 }
 
