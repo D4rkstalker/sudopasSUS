@@ -15,8 +15,8 @@ void menu_button(int button, int* buttonalpha, float y) {
 	if (CP_Input_GetMouseWorldX() >= CP_System_GetWindowWidth() / 2 - y && CP_Input_GetMouseWorldX() <= CP_System_GetWindowWidth() / 2 + 350 && CP_Input_GetMouseWorldY() >= y - 50 && CP_Input_GetMouseWorldY() <= y + 50) {
 		*buttonalpha = 50;
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
+			CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
 			if (button == 0) {
-				CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
 				CP_Engine_SetNextGameStateForced(newtutorial_init, newtutorial_update, newtutorial_exit);
 			}
 			else if (button == 1) {

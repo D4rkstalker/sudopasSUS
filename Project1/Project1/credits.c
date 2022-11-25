@@ -48,18 +48,33 @@ void credits_ping(void) {
 		credits_energy = 0;
 	}
 
-	if (credits_energy >= 120) {
-		CP_Color color = CP_Color_Create(rand() % 255, rand() % 255, rand() % 255, 220);
+	if (CheckPoint_3_Triggered == 1) {
+		if (credits_energy >= 5) {
+			CP_Color color = CP_Color_Create(rand() % 255, rand() % 255, rand() % 255, 220);
 
-		for (int i = 0; i < 36; i++) {
-			CP_Vector v = AngleToVector(i * 10.f);
-			CreateRay(CP_Input_GetMouseX(), CP_Input_GetMouseY() - CreditsY, 50, v.x, v.y, 2, color, false, 130, true);
-
-
+			float x = (float)(rand() % CP_System_GetWindowWidth());
+			float y = (float)(rand() % CP_System_GetWindowHeight());
+			for (int i = 0; i < 36; i++) {
+				CP_Vector v = AngleToVector(i * 10.f);
+				CreateRay(x, y - CreditsY, 50, v.x, v.y, 2, color, false, 130, true);
+			}
+			credits_energy = 0;
 		}
-		CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
-		credits_energy = 0;
 	}
+	else {
+		if (credits_energy >= 120) {
+			CP_Color color = CP_Color_Create(rand() % 255, rand() % 255, rand() % 255, 220);
+
+			for (int i = 0; i < 36; i++) {
+				CP_Vector v = AngleToVector(i * 10.f);
+				CreateRay(CP_Input_GetMouseX(), CP_Input_GetMouseY() - CreditsY, 50, v.x, v.y, 2, color, false, 130, true);
+			}
+			CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
+			credits_energy = 0;
+		}
+	}
+
+	
 }
 
 void credits_scroll(void) {
