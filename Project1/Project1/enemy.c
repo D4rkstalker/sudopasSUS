@@ -12,6 +12,8 @@
 #include "music.h"
 #include "checkpoint.h"
 
+//enemy.c done by Jonathan Ho
+
 float timer;
 float EPSI = 0.00000001f;
 int state = 0;
