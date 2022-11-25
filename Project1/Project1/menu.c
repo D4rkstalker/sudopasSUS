@@ -4,6 +4,10 @@
 #include "music.h"
 #include "NewTutorial.h"
 
+/*
+Main menu made by Nigel
+*/
+
 void menu_button(int button, int* buttonalpha, float y) {
 	if (CP_Input_GetMouseWorldX() >= CP_System_GetWindowWidth() / 2 - y && CP_Input_GetMouseWorldX() <= CP_System_GetWindowWidth() / 2 + 350 && CP_Input_GetMouseWorldY() >= y - 50 && CP_Input_GetMouseWorldY() <= y + 50) {
 		*buttonalpha = 50;
