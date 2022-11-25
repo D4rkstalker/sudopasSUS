@@ -1,15 +1,15 @@
-#include "cprocessing.h"
-#include "game.h"
-#include "credits.h"
-#include "music.h"
-#include "NewTutorial.h"
-
 /*
 All content © 2021 DigiPen Institute of Technology Singapore, all rights reserved.
 
 
 Main menu made by Nigel
 */
+
+#include "cprocessing.h"
+#include "game.h"
+#include "credits.h"
+#include "music.h"
+#include "NewTutorial.h"
 
 void menu_button(int button, int* buttonalpha, float y) {
 	if (CP_Input_GetMouseWorldX() >= CP_System_GetWindowWidth() / 2 - y && CP_Input_GetMouseWorldX() <= CP_System_GetWindowWidth() / 2 + 350 && CP_Input_GetMouseWorldY() >= y - 50 && CP_Input_GetMouseWorldY() <= y + 50) {

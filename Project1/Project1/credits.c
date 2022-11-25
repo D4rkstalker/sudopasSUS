@@ -87,7 +87,7 @@ void credits_scroll(void) {
 }
 
 void credits_button(int button, int* buttonalpha) {
-	if (CP_Input_GetMouseWorldX() >= CP_System_GetWindowWidth() / 2 - 350 && CP_Input_GetMouseWorldX() <= CP_System_GetWindowWidth() / 2 + 350 && CP_Input_GetMouseWorldY() >= 350.0f + CreditsY + CreditsH - 50 && CP_Input_GetMouseWorldY() <= 350.0f + CreditsY + CreditsH + 50) {
+	if (CP_Input_GetMouseWorldX() >= CP_System_GetWindowWidth() / 2 - 450 && CP_Input_GetMouseWorldX() <= CP_System_GetWindowWidth() / 2 + 450 && CP_Input_GetMouseWorldY() >= 350.0f + CreditsY + CreditsH - 50 && CP_Input_GetMouseWorldY() <= 350.0f + CreditsY + CreditsH + 50) {
 		*buttonalpha = 50;
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
 			if (button == 0) {
@@ -203,14 +203,14 @@ void credit_scene(void) {
 	CP_Settings_RectMode(CP_POSITION_CENTER);
 	credits_button(0, &restartbuttonalpha);
 	CP_Settings_Fill(CP_Color_Create(220, 220, 220, restartbuttonalpha));
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH, 700, 100);
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH, 900, 100);
 	draw_credits("Return to main menu", 100, 200);
 
 	CP_Settings_Stroke(CP_Color_Create(220, 220, 220, 255));
 	CP_Settings_RectMode(CP_POSITION_CENTER);
 	credits_button(1, &exitbuttonalpha);
 	CP_Settings_Fill(CP_Color_Create(220, 220, 220, exitbuttonalpha));
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH, 700, 100);
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH, 900, 100);
 	draw_credits("Exit Game", 100, 100);
 
 
