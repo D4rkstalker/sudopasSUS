@@ -123,7 +123,6 @@ void draw_copyrightSymbol(float size, float dist) {
 	CP_Graphics_DrawCircle((CP_System_GetWindowWidth() / 2) + 200, 350.0f + CreditsY + CreditsH - 95, 65);
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Font_DrawText("C", (CP_System_GetWindowWidth() / 2) + 200, 350.0f + CreditsY + CreditsH - 100);
-	CreditsH += dist;
 }
 
 
