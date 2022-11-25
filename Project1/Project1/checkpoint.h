@@ -46,4 +46,4 @@ Gate cp3_close;
 
 void draw_checkpoint(void);
 void checkpoint_reset(void);
-
+void gate_checkpoint_init(void);
