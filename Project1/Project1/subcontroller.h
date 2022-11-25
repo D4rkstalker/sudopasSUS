@@ -24,4 +24,4 @@ void theVolume(void);
 void energyConsumption(void);
 void movement(void);
 void controller_init(void);
-void tutorialMovement(int isPlayer);
+void tutorialMovement(int player);
