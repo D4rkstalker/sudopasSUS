@@ -10,11 +10,14 @@
 #include "enemy.h"
 #include <stdlib.h>
 #include "NewTutorial.h"
+int isplayer = 0;
 
 void newtutorial_init(void)
 {
 	CP_System_SetWindowSize(1920, 1080);
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
+
+	enemy_place_tut();
 
 	totalElapsedTime = 0;
 	tut_stage = 0;
@@ -23,6 +26,7 @@ void newtutorial_init(void)
 	int time = 0;
 	int delay = 45;
 	int countdown = 0;
+	
 
 	player.x = 960;
 	player.y = 540;
@@ -32,9 +36,11 @@ void newtutorial_init(void)
 
 void newtutorial_update(void)
 {	
+	enemy[0].alpha = 0;
+
 	CP_Settings_Fill(CP_Color_Create(120, 120, 120, 255));
 	CP_Settings_TextSize(50.0f);
-	CP_Font_DrawText("PRESS T TO SKIP TUTORIAL.", 550, 100);
+	CP_Font_DrawText("PRESS T TO SKIP TUTORIAL", 550, 100);
 	if (CP_Input_KeyTriggered(KEY_T))
 	{
 		CP_Engine_SetNextGameState(subgame_init, subgame_update, subgame_exit);
@@ -43,7 +49,7 @@ void newtutorial_update(void)
 
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, 0);
-	tutorialMovement();
+	tutorialMovement(isplayer);
 	
 	//Constant counting
 	countdown += 5;
@@ -85,7 +91,7 @@ void newtutorial_update(void)
 		{
 			CP_Settings_Fill(CP_Color_Create(120, 120, 120, countdown));
 			CP_Settings_TextSize(50.0f);
-			CP_Font_DrawText("Welcome Captain, this is your current position on our radar.", 345, 435);
+			CP_Font_DrawText("Welcome Captain, this is your current position on our radar", 345, 435);
 			CP_Settings_RectMode(CP_POSITION_CENTER);
 			CP_Settings_Stroke(CP_Color_Create(150, 150, 150, 255));
 			CP_Settings_Fill(CP_Color_Create(25, 25, 25, 0));
@@ -154,7 +160,7 @@ void newtutorial_update(void)
 	{
 		CP_Settings_Fill(CP_Color_Create(120, 120, 120, countdown));
 		CP_Settings_TextSize(50.0f);
-		CP_Font_DrawText("And a directed sound cannon.",647, 462);
+		CP_Font_DrawText("And a directed sound cannon",647, 462);
 		CP_Font_DrawText("Left Click to Use it", 782, 615);
 		CP_Settings_TextSize(20.0f);
 		CP_Font_DrawText("LMB", 725, 612);
@@ -176,7 +182,7 @@ void newtutorial_update(void)
 	{
 		CP_Settings_Fill(CP_Color_Create(120, 120, 120, countdown));
 		CP_Settings_TextSize(50.0f);
-		CP_Font_DrawText("Yellow pings are checkpoints, go interact with it.", (CP_System_GetWindowWidth() / 2.0f) - 400, (CP_System_GetWindowHeight() / 2.5f));
+		CP_Font_DrawText("Yellow pings are checkpoints, go interact with it", (CP_System_GetWindowWidth() / 2.0f) - 400, (CP_System_GetWindowHeight() / 2.5f));
 		if (player.x > 1100 - 25 && player.x < 1100 + 25 && player.y > 540 - 25 && player.y < 540 + 25) { //CP Position1100 540
 			CP_Font_DrawText("press", 622, 610);
 			CP_Font_DrawText("to use it", 1132, 610);
@@ -207,17 +213,18 @@ void newtutorial_update(void)
 	}
 	if (tut_stage >= Enemy_Spawn)
 	{
-		enemy_place();
 		enemy_draw();
-		enemy_beam(player.x - WorldX, player.y - WorldY);
+		enemy_beam(WorldX, WorldY);
 	}
 	//Introduce players to enemy
+	
 	if (tut_stage == Enemy_Spawn)
 	{	
 		CP_Settings_Fill(CP_Color_Create(120, 120, 120, countdown));
 		CP_Settings_TextSize(50.0f);
-		CP_Font_DrawText("Red Pings are enemies, they can't be killed.", (CP_System_GetWindowWidth() / 2.0f) - 400, (CP_System_GetWindowHeight() / 2.5f));
-		CP_Font_DrawText("Draw 1 Enemy here", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f)+200.0f);
+		CP_Font_DrawText("Red Pings are enemies, they can't be killed", (CP_System_GetWindowWidth() / 2.0f) - 400, (CP_System_GetWindowHeight() / 2.5f));
+		CP_Font_DrawText("Press 1", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f)+200.0f);
+		
 
 		if (CP_Input_KeyTriggered(KEY_1))
 		{
@@ -232,8 +239,8 @@ void newtutorial_update(void)
 	{
 		CP_Settings_Fill(CP_Color_Create(120, 120, 120, countdown));
 		CP_Settings_TextSize(50.0f);
-		CP_Font_DrawText("We can move around the enemy without them noticing", (CP_System_GetWindowWidth() / 2.0f) - 400, (CP_System_GetWindowHeight() / 2.5f));
-		CP_Font_DrawText("press 2", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f) + 200.0f);
+		CP_Font_DrawText("Touching an enemy will KILL YOU", (CP_System_GetWindowWidth() / 2.0f) - 400, (CP_System_GetWindowHeight() / 2.5f));
+		CP_Font_DrawText("Press 2", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f) + 200.0f);
 
 		if (CP_Input_KeyTriggered(KEY_2))
 		{
@@ -250,7 +257,7 @@ void newtutorial_update(void)
 
 			CP_Settings_Fill(CP_Color_Create(120, 120, 120, countdown));
 			CP_Settings_TextSize(50.0f);
-			CP_Font_DrawText("Enemies follow sound", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f));
+			CP_Font_DrawText("Enemies follow your sound", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f));
 			CP_Font_DrawText("Watch", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f) + 200.0f);
 
 
@@ -265,11 +272,11 @@ void newtutorial_update(void)
 		}
 		// Enemy follow ping made by player
 		if (sound_stage == Sound_Distract) {
-
+			isplayer = 1;
 			CP_Settings_Fill(CP_Color_Create(120, 120, 120, countdown));
 			CP_Settings_TextSize(50.0f);
-			CP_Font_DrawText("Try using ur focused ping to distract them", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f));
-			CP_Font_DrawText("Left Click!", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f) + 200.0f);
+			CP_Font_DrawText("Your beams will attract enemies", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f));
+			CP_Font_DrawText("Use this to your advantage...", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f) + 200.0f);
 
 
 			if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT))
@@ -307,7 +314,7 @@ void newtutorial_update(void)
 		CP_Settings_Fill(CP_Color_Create(120, 120, 120, countdown));
 		CP_Settings_TextSize(50.0f);
 		CP_Font_DrawText("Good luck out there", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f));
-		CP_Font_DrawText("Try and make it out alive.", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f) + 200.0f);
+		CP_Font_DrawText("Try and make it out alive", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f) + 200.0f);
 
 		if (CP_Input_KeyTriggered(KEY_1))
 		{

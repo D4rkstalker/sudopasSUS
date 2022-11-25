@@ -1,3 +1,7 @@
+/*
+All content © 2021 DigiPen Institute of Technology Singapore, all rights reserved.
+*/
+
 #include <cprocessing.h>
 #include <math.h>
 #include <stdio.h>

@@ -1,5 +1,12 @@
-#include <cprocessing.h>
+/*
+All content © 2021 DigiPen Institute of Technology Singapore, all rights reserved.
 
+
+Credits ping, scrolling, draw system and buttons made by Nigel
+Credits scene made by Ming Rui
+*/
+
+#include <cprocessing.h>
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
@@ -8,10 +15,8 @@
 #include "Utils.h"
 #include "subcontroller.h"
 #include "music.h"
-
-/*
-Credits done by Nigel and Ming Rui
-*/
+#include "checkpoint.h"
+#include "menu.h"
 
 //CreditsY for scrolling
 int CreditsY = 0;
@@ -59,32 +64,34 @@ void credits_ping(void) {
 
 void credits_scroll(void) {
 
+	if (-CreditsY < CreditsBottom) { // Auto scroll, remove if unwanted
+		CreditsY -= 10;
+	}
+
 	if (CP_Input_KeyDown(KEY_ESCAPE)) {
 		CreditsY = -CreditsBottom;
 	}
 
 	if ((CP_Input_KeyDown(KEY_UP) || CP_Input_KeyDown(KEY_W))) {
 		if (CreditsY < 0) {
-			CreditsY += 20;
+			CreditsY += 10;
+		}
+		if (CreditsY < 0) {
+			CreditsY += 10;
 		}
 	}
 	else if ((CP_Input_KeyDown(KEY_DOWN) || CP_Input_KeyDown(KEY_S)) && -CreditsY < CreditsBottom) {
 		CreditsY -= 10;
 	}
 
-	if (-CreditsY < CreditsBottom) { // Auto scroll, remove if unwanted
-		CreditsY -= 10;
-	}
-
-
 }
 
 void credits_button(int button, int* buttonalpha) {
-	if (CP_Input_GetMouseWorldX() >= CP_System_GetWindowWidth() / 2 - 350 && CP_Input_GetMouseWorldX() <= CP_System_GetWindowWidth() / 2 + 350 && CP_Input_GetMouseWorldY() >= 350.0f + CreditsY + CreditsH - 50 && CP_Input_GetMouseWorldY() <= 350.0f + CreditsY + CreditsH + 50) {
+	if (CP_Input_GetMouseWorldX() >= CP_System_GetWindowWidth() / 2 - 450 && CP_Input_GetMouseWorldX() <= CP_System_GetWindowWidth() / 2 + 450 && CP_Input_GetMouseWorldY() >= 350.0f + CreditsY + CreditsH - 50 && CP_Input_GetMouseWorldY() <= 350.0f + CreditsY + CreditsH + 50) {
 		*buttonalpha = 50;
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
 			if (button == 0) {
-				CP_Engine_SetNextGameStateForced(subgame_init, subgame_update, subgame_exit);
+				CP_Engine_SetNextGameStateForced(mainmenu_init, mainmenu_update, mainmenu_exit);
 			}
 			else {
 				CP_Engine_Terminate();
@@ -108,6 +115,17 @@ void draw_credits(const char* str, float size, float dist) {
 	CP_Font_DrawText(str, CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH);
 	CreditsH += dist;
 }
+void draw_copyrightSymbol(float size, float dist) {
+	
+	CP_Settings_TextSize(size);
+	CP_Settings_NoFill();
+	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
+	CP_Graphics_DrawCircle((CP_System_GetWindowWidth() / 2) + 200, 350.0f + CreditsY + CreditsH - 95, 65);
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	CP_Font_DrawText("C", (CP_System_GetWindowWidth() / 2) + 200, 350.0f + CreditsY + CreditsH - 100);
+	CreditsH += dist;
+}
+
 
 void credits_init(void) {
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
@@ -126,30 +144,38 @@ void credits_init(void) {
 
 void credit_scene(void) {
 	//Draw the credits
-	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
-	CP_Settings_TextSize(300);
-	CP_Font_DrawText("GAME CLEAR!", CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH);
-	CreditsH += 700;
+	if (CheckPoint_3_Triggered == 1) {
+		CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
+		CP_Settings_TextSize(300);
+		CP_Font_DrawText("GAME CLEAR!", CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH);
+		CreditsH += 700;
+	}
 
 	draw_credits("Project", 200, 350);
 	draw_credits("SONAR", 500, 700);
 
+	draw_credits("WWW.DIGIPEN.EDU", 75, 100);
+	draw_credits("All Content ", 75, 100);
+	draw_copyrightSymbol(75, 0);
+	draw_credits("2022 DigiPen Institute of Technology Singapore.", 75, 100);
+	draw_credits("All Rights Reserved", 75, 300);
+
 	draw_credits("Team Members", 125, 150);
-	draw_credits("HQ", 50, 100);
-	draw_credits("Nigel", 50, 100);
-	draw_credits("Kian Chew", 50, 100);
-	draw_credits("Ming Rui", 50, 100);
-	draw_credits("Jonathan", 50, 200);
+	draw_credits("LIU HAN QING", 50, 100);
+	draw_credits("NIGEL FOONG", 50, 100);
+	draw_credits("TAN KIAN CHEW", 50, 100);
+	draw_credits("LIONG MING RUI", 50, 100);
+	draw_credits("JONATHAN HO", 50, 200);
 
 
 	// Faculty & Advisors
-	//draw_credits("Faculty & Advisors", 125, 150);
-	//draw_credits("CHENG DING XIANG", 50, 100);
-	//draw_credits("GERALD WONG", 50, 200);
-	draw_credits("Special Thanks", 150, 200);
-	draw_credits("Gerald", 100, 100);
-	draw_credits("DX", 100, 100);
-	draw_credits("Playtesters", 100, 400);
+	draw_credits("Instructors", 125, 150);
+	draw_credits("CHENG DING XIANG", 50, 100);
+	draw_credits("GERALD WONG", 50, 200);
+	//draw_credits("Special Thanks", 150, 200);
+	//draw_credits("Gerald", 100, 100);
+	//draw_credits("Ding Xiang", 100, 100);
+	//draw_credits("Playtesters", 100, 400);
 
 
 	// Place of Creation
@@ -183,9 +209,8 @@ void credit_scene(void) {
 
 
 
-	draw_credits("WWW.DIGIPEN.EDU", 75, 100);
-	draw_credits("All Content 2022 DigiPen Institute of Technology Singapore.", 75, 100);
-	draw_credits("All Rights Reserved", 75, 300);
+	
+	//©
 
 	draw_credits("Thanks for playing!", 100, 300);
 
@@ -193,14 +218,14 @@ void credit_scene(void) {
 	CP_Settings_RectMode(CP_POSITION_CENTER);
 	credits_button(0, &restartbuttonalpha);
 	CP_Settings_Fill(CP_Color_Create(220, 220, 220, restartbuttonalpha));
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH, 700, 100);
-	draw_credits("Restart Game", 100, 200);
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH, 900, 100);
+	draw_credits("Return to main menu", 100, 200);
 
 	CP_Settings_Stroke(CP_Color_Create(220, 220, 220, 255));
 	CP_Settings_RectMode(CP_POSITION_CENTER);
 	credits_button(1, &exitbuttonalpha);
 	CP_Settings_Fill(CP_Color_Create(220, 220, 220, exitbuttonalpha));
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH, 700, 100);
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH, 900, 100);
 	draw_credits("Exit Game", 100, 100);
 
 

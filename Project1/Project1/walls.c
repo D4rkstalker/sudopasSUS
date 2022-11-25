@@ -1,3 +1,10 @@
+/*
+All content © 2021 DigiPen Institute of Technology Singapore, all rights reserved.
+
+
+Walls and player collision made by Nigel
+*/
+
 #include <cprocessing.h>
 #include <Share.h>
 #include <stdio.h>

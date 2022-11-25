@@ -62,6 +62,23 @@ void checkpoint_init(void) {
 
 }
 
+void enemy_place_tut() {
+	for (int i = 0; i < ENEMY_COUNT; ++i) {
+		enemy[i].pos.x = -2000;
+		enemy[i].pos.y = -2000;
+		enemy[i].alpha = 0;
+		enemy[i].vel.x = 0;
+		enemy[i].vel.y = 0;
+		enemy[i].acceleration_x = 0;
+		enemy[i].acceleration_y = 0;
+		enemy[i].moving = 0;
+
+	}
+	// Settings of enemy world cords
+	enemy[0].alpha = 0;
+	enemy[0].pos.x = 710;
+	enemy[0].pos.y = 510;
+}
 
 void enemy_place() {
 	for (int i = 0; i < ENEMY_COUNT; ++i) {

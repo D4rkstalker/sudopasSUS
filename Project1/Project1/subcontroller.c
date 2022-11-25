@@ -10,6 +10,7 @@
 #include <math.h>
 #include "enemy.h"
 #include "NewTutorial.h"
+#include "menu.h"
 
 
 #define MAXSPEED 40
@@ -24,7 +25,7 @@ int settings_alpha_5 = 0;
 
 int time = 0;
 
-void tutorialMovement(void) {
+void tutorialMovement(int isplayer) {
 	if (CP_Input_KeyDown(KEY_W)) {
 		player.y -= TutSpeed;
 	}
@@ -48,7 +49,7 @@ void tutorialMovement(void) {
 			float a = CP_Math_Degrees(atan2(outv.y, outv.x));
 			for (int i = -18; i < 18; i++) {
 				CP_Vector v = AngleToVector(a + i * 1);
-				CreateRay(player.x, player.y, 25, v.x, v.y, 4, color, true, 200, true);
+				CreateRay(player.x, player.y, 25, v.x, v.y, 4, color, true, 200, isplayer);
 
 			}
 
@@ -68,7 +69,7 @@ void tutorialMovement(void) {
 		CP_Color color = CP_Color_Create(255, 255, 255, 220);
 		for (int i = 0; i < 36; i++) {
 			CP_Vector v = AngleToVector(i * 10);
-			CreateRay(player.x, player.y, 50, v.x, v.y, 4, color, false, 130, true);
+			CreateRay(player.x, player.y, 50, v.x, v.y, 4, color, false, 130, isplayer);
 
 		}
 		CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
@@ -128,7 +129,7 @@ void settings_menu(void) {
 	//CP_Font_DrawText("Retry from Last Check Point", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 );
 	CP_Font_DrawText("Retry from Last Check Point", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 100);
 	CP_Font_DrawText("Retry Game", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 200);
-	CP_Font_DrawText("Exit Game", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 300);
+	CP_Font_DrawText("Return to Menu", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 300);
 
 	CP_Settings_Stroke(CP_Color_Create(220, 220, 220, 255));
 	CP_Settings_RectMode(CP_POSITION_CENTER);
@@ -200,7 +201,7 @@ void settings_menu(void) {
 	if (CP_Input_GetMouseWorldX() >= CP_System_GetWindowWidth() / 2 - 250 && CP_Input_GetMouseWorldX() <= CP_System_GetWindowWidth() / 2 + 250 && CP_Input_GetMouseWorldY() >= CP_System_GetWindowHeight() / 2 + 265 && CP_Input_GetMouseWorldY() <= CP_System_GetWindowHeight() / 2 + 315) {
 		settings_alpha_5 = 50;
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
-			CP_Engine_Terminate();
+			CP_Engine_SetNextGameState(mainmenu_init, mainmenu_update, mainmenu_exit);
 			return 0;
 		}
 	}
@@ -312,32 +313,6 @@ void movement(void) {
 			energy -= 60;
 
 		}
-		//else if (CP_Input_MouseTriggered(MOUSE_BUTTON_3)) {
-		//	CP_Color color = CP_Color_Create(50, 50, 255, 255);
-		//	for (int i = 0; i < 36; i++) {
-		//		CP_Vector v = AngleToVector(i * 10);
-		//		CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x * 200, v.y * 200, 5, color, false);
-
-
-		//	}
-
-		//}
-
-		//if (CP_Input_KeyTriggered(KEY_N)) {
-		//	if (energy > 30) {
-		//		CP_Color color = CP_Color_Create(0, 255, 0, 255);
-
-		//		for (int i = 0; i < 36; i++) {
-		//			CP_Vector v = AngleToVector(i * 10);
-		//			CreateRay(-WorldX + CP_System_GetWindowWidth() / 2, -WorldY + CP_System_GetWindowHeight() / 2, 50, v.x * 200, v.y * 200, 1, color, false);
-
-
-		//		}
-
-		//		energy -= 30;
-		//		CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
-		//	}
-		//}
 
 		if (CP_Input_KeyDown(KEY_W) && CP_Input_KeyDown(KEY_S)) {
 			player1.acceleration_y = 0;
