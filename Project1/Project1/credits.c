@@ -182,15 +182,13 @@ void credit_scene(void) {
 	draw_credits("LIONG MING RUI", 50, 100);
 	draw_credits("JONATHAN HO", 50, 200);
 
+	draw_credits("Sound Effects", 100, 100);
+	draw_credits("from Soundly", 50, 200);
 
 	// Faculty & Advisors
 	draw_credits("Instructors", 125, 150);
 	draw_credits("CHENG DING XIANG", 50, 100);
 	draw_credits("GERALD WONG", 50, 200);
-	//draw_credits("Special Thanks", 150, 200);
-	//draw_credits("Gerald", 100, 100);
-	//draw_credits("Ding Xiang", 100, 100);
-	//draw_credits("Playtesters", 100, 400);
 
 
 	// Place of Creation
@@ -227,7 +225,13 @@ void credit_scene(void) {
 	
 	//©
 
-	draw_credits("Thanks for playing!", 100, 300);
+	if (CheckPoint_3_Triggered == 1) {
+		draw_credits("Thanks for playing!", 100, 300);
+	}
+	else {
+		draw_credits("Have fun playing!", 100, 300);
+	}
+	
 
 	CP_Settings_Stroke(CP_Color_Create(220, 220, 220, 255));
 	CP_Settings_RectMode(CP_POSITION_CENTER);
@@ -267,10 +271,6 @@ void credits_update(void) {
 		CreditsBottom = CreditsH;
 	}
 	//©
-	/*
-	TO ADD:
-	Buttons to restart or exit game
-	*/
 
 
 
