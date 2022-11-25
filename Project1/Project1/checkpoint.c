@@ -1,5 +1,5 @@
 /*
-All content © 2021 DigiPen Institute of Technology Singapore, all rights reserved.
+All content ï¿½ 2021 DigiPen Institute of Technology Singapore, all rights reserved.
 
 Checkpoint System made by Kian Chew
 Level design and map layout created by Kian Chew
@@ -52,7 +52,7 @@ void draw_checkpoint_ping(float delay, float x, float y)
 	{
 		CP_Color color = CP_Color_Create(255, 255, 0, 150);
 		for (int i = 0; i < 16; i++) {
-			CP_Vector v = AngleToVector(i * (float)23);
+			CP_Vector v = AngleToVector(i * 23.f);
 			CreateRay(x, y, 50, v.x, v.y, 0, color, false, 100, false);
 		}
 
@@ -167,7 +167,6 @@ int CheckPointTrigger(float area_x, float area_y, float area_width, float area_h
 {
 	if (player_X > area_x && player_X < area_x+area_width && player_Y > area_y && player_Y < area_y+area_height)
 	{
-		return 1;
 	}
 	else
 	{
@@ -206,15 +205,16 @@ void cp1_triggered(void)
 
 			checkpoint[0].current_checkpoint = 3;
 			for (int i = 0; i < 36; i++) {
-				CP_Vector v = AngleToVector(i * (float)10);
+				CP_Vector v = AngleToVector(i * 10.f);
 				CreateRay(3265, 3911, 50, v.x, v.y, 0, color, false, 100, false); // @TODO
 			}
 			color = CP_Color_Create(0, 255, 255, 150);
 
 			for (int i = 0; i < 72; i++) {
-				CP_Vector v = AngleToVector(i * (float)5);
+				CP_Vector v = AngleToVector(i * 5.f);
 				CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 2, color, false, 150, true);
 			}
+
 
 		}
 		
@@ -256,10 +256,11 @@ void cp2_triggered(void)
 			color = CP_Color_Create(0, 255, 255, 150);
 
 			for (int i = 0; i < 72; i++) {
-				CP_Vector v = AngleToVector(i * (float)5);
+				CP_Vector v = AngleToVector(i * 5);
 				CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 2, color, false, 150, true);
 			}
 
+			return 1;
 
 		}
 	}
@@ -301,9 +302,11 @@ void cp3_triggered(void)
 			color = CP_Color_Create(0, 255, 255, 150);
 
 			for (int i = 0; i < 72; i++) {
-				CP_Vector v = AngleToVector(i * (float)5);
-				CreateRay((float)player1.x - (float)WorldX, (float)player1.y - (float)WorldY, 30, v.x, v.y, 1, color, false, 250, true);
+				CP_Vector v = AngleToVector(i * 5);
+				CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 1, color, false, 250, true);
 			}
+
+			return 1;
 
 		}
 	}
