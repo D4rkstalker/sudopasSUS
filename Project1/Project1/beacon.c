@@ -6,21 +6,15 @@
 #include "subcontroller.h"
 CP_Vector beacon ;
 CP_Vector target;
-int size;
+float size;
 int alpha;
 int x;
 void DrawBeacon(float x, float y) {
-    CP_Settings_NoFill();
-	CP_Settings_Stroke(CP_Color_Create(255,255,0,alpha));
-	CP_Graphics_DrawCircle(x, y, size);
+	CP_Settings_Fill(CP_Color_Create(255,255,0,255));
+	CP_Graphics_DrawCircle(x, y, 25);
 }
 
-void BeaconNext(CP_Vector pos) {
-    x = 1;
-    alpha = 250;
-
-    size = 2000;
-    target = pos;
+void BeaconNext() {
 
 }
 
@@ -47,21 +41,13 @@ void lineRect(float x1, float y1, float x2, float y2, float rx, float ry, float 
 
 void UpdateBeacon() {
 	//float d = CP_Math_Degrees(atan2(v.y, v.x));
-    if (size > 21) {
-        size-= 100;
-    }
-    else {
-        size = 20;
-        if (alpha >= 250 || alpha <= 10) {
-            x *= -1;
-        }
-        alpha += x * 10;
-    }
+    float x = player1.x - WorldX;
+    float y = player1.y - WorldY;
     lineRect(1920/2, 1080/2 + 20,target.x + WorldX,target.y + WorldY,0,0,1920,1020);
 
 }
 void InitBeacon(CP_Vector pos) {
-    BeaconNext(pos);
+	target = pos;
 	beacon = CP_Vector_Set(0, 0);
 }
 

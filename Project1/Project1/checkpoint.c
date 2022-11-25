@@ -222,39 +222,10 @@ void cp1_triggered(void)
 				CP_Vector v = AngleToVector(i * (float)5);
 				CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 2, color, false, 150, true);
 			}
-			BeaconNext(point_2.pos);
-		}
-		/*CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, cp1_progress, 25.0f);
-		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 10));
-		CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, 100.0f, 25.0f);
-		if (debug == 1) {
-			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-			CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, cp1_progress, 25.0f);
-			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 10));
-			CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, 100.0f, 25.0f);
-		}
-		cp1_progress++;
-		if (cp1_progress == 100)
-		{
-			CheckPoint_1_Triggered = 1;
-			UndoWall();
-			CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
-			CP_Color color = CP_Color_Create(255, 255, 0, 50);
-			//CP_Vector v = AngleToVector(-90);
-			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
 
-			for (int i = 0; i < 36; i++) {
-				CP_Vector v = AngleToVector(i * 10);
-				CreateRay(1645, 1960, 50, v.x, v.y, 0.5, color, false,100);
 
-			}
 		}
-		if (CheckPoint_1_Triggered == 1)
-		{
-			cp1_progress = 100;
-		}
-		*/
+		
 	}
 
 }
@@ -299,31 +270,7 @@ void cp2_triggered(void)
 				CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 2, color, false, 150, true);
 			}
 
-			BeaconNext(point_3.pos);
-		}
-	}
-	/*
-	if (CheckPointTrigger(point_2.x, point_2.y, point_2.w, point_2.h, x1, y1) == 1)
-	{
-		if (debug == 1) {
-			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-			CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, cp2_progress, 25.0f);
-			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 10));
-			CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, 100.0f, 25.0f);
-		}
-		cp2_progress++;
-		if (cp2_progress == 100)
-		{
-			CheckPoint_2_Triggered = 1;
-			UndoWall();
-			CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
-			CP_Color color = CP_Color_Create(255, 255, 0, 50);
-			//CP_Vector v = AngleToVector(-90);
-			//CreateRay(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY, 50, v.x * 200, v.y * 200, color);
-
-			for (int i = 0; i < 36; i++) {
-				CP_Vector v = AngleToVector(i * 10);
-				CreateRay(2395, 1420, 50, v.x, v.y, 0.5, color, false,100);
+			return 1;
 
 			}
 		}
@@ -373,34 +320,11 @@ void cp3_triggered(void)
 			color = CP_Color_Create(0, 255, 255, 150);
 
 			for (int i = 0; i < 72; i++) {
-				CP_Vector v = AngleToVector(i * (float)5);
-				CreateRay((float)player1.x - (float)WorldX, (float)player1.y - (float)WorldY, 30, v.x, v.y, 1, color, false, 250, true);
+				CP_Vector v = AngleToVector(i * 5);
+				CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 1, color, false, 250, true);
 			}
-			BeaconNext(point_exit.pos);
-		}
-	}
-	/*
-	if (CheckPointTrigger(point_3.x, point_3.y, point_3.w, point_3.h, x1, y1) == 1)
-	{
-		if (debug == 1) {
-			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-			CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, cp3_progress, 25.0f);
-			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 10));
-			CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2 - 50.0f, CP_System_GetWindowHeight() / 2 + 20.0f, 100.0f, 25.0f);
-		}
-		cp3_progress++;
-		if (cp3_progress == 100)
-		{
-			CheckPoint_3_Triggered = 1;
-			UndoWall();
-			CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
-		}
-		if (CheckPoint_3_Triggered == 1)
-		{
-			cp3_progress = 100;
-		}
 
-	}*/
+			return 1;
 
 }
 
