@@ -15,18 +15,18 @@ Variables to save the location of the circles that show up as you are drawing a 
 Variable drawpoint is the number of points currently drawn
 */
 int drawpoint;
-float drawx1;
-float drawy1;
-float drawx2;
-float drawy2;
-float drawx3;
-float drawy3;
+double drawx1;
+double drawy1;
+double drawx2;
+double drawy2;
+double drawx3;
+double drawy3;
 
-float drawx[9999];
-float drawy[9999];
+double drawx[9999];
+double drawy[9999];
 
 void DrawWalls(void);
-void Wall_Init(float x, float y);
+void Wall_Init(double x, double y);
 void UndoWall(void);
 void loadwalls(void);
 void savewalls(void);

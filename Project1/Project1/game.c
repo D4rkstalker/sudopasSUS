@@ -33,6 +33,8 @@ int bar_alpha = 255;
 bool clicked = false;
 CP_Vector click1;
 
+shutdown_state = 1;
+
 /*
 WorldX and WorldY functions as the offset for the camera system.
 All coordinates used by all game objects will need to be offset by the WorldX and WorldY coordinates.
@@ -56,9 +58,9 @@ void DrawEnergy(void) {
 
 	CP_Settings_RectMode(CP_POSITION_CORNER);
 	float barx = 1850;
-	float bary = 1.5f * (CP_System_GetWindowHeight() / 2);
+	float bary = 1.5 * (CP_System_GetWindowHeight() / 2);
 	float barw = 15;
-	float barh = -CP_System_GetWindowHeight() / 2.f;
+	float barh = -CP_System_GetWindowHeight() / 2;
 
 	if (energy >= 100 && bar_alpha >= 0 ) {
 		bar_timer += 1;
@@ -107,11 +109,11 @@ void CheckControls(void) {
 	
 	*/
 
-	(CP_Input_KeyTriggered(KEY_1)) ? WorldX = -285.f + CP_System_GetWindowWidth() / 2, WorldY = 485.f + CP_System_GetWindowHeight() / 2 : 0;
-	(CP_Input_KeyTriggered(KEY_2)) ? WorldX = -370.f + CP_System_GetWindowWidth() / 2, WorldY = -4465.f + CP_System_GetWindowHeight() / 2 : 0;
-	(CP_Input_KeyTriggered(KEY_3)) ? WorldX = -3350.f + CP_System_GetWindowWidth() / 2, WorldY = -4500.f + CP_System_GetWindowHeight() / 2 : 0;
-	(CP_Input_KeyTriggered(KEY_4)) ? WorldX = -5950.f + CP_System_GetWindowWidth() / 2, WorldY = -2785.f + CP_System_GetWindowHeight() / 2 : 0;
-	(CP_Input_KeyTriggered(KEY_5)) ? WorldX = -2200.f + CP_System_GetWindowWidth() / 2, WorldY = -2300.f + CP_System_GetWindowHeight() / 2 : 0;
+	(CP_Input_KeyTriggered(KEY_1)) ? WorldX = -285 + CP_System_GetWindowWidth() / 2, WorldY = 485 + CP_System_GetWindowHeight() / 2 : 0;
+	(CP_Input_KeyTriggered(KEY_2)) ? WorldX = -370 + CP_System_GetWindowWidth() / 2, WorldY = -4465 + CP_System_GetWindowHeight() / 2 : 0;
+	(CP_Input_KeyTriggered(KEY_3)) ? WorldX = -3350 + CP_System_GetWindowWidth() / 2, WorldY = -4500 + CP_System_GetWindowHeight() / 2 : 0;
+	(CP_Input_KeyTriggered(KEY_4)) ? WorldX = -5950 + CP_System_GetWindowWidth() / 2, WorldY = -2785 + CP_System_GetWindowHeight() / 2 : 0;
+	(CP_Input_KeyTriggered(KEY_5)) ? WorldX = -2200 + CP_System_GetWindowWidth() / 2, WorldY = -2300 + CP_System_GetWindowHeight() / 2 : 0;
 
 
 
@@ -207,8 +209,8 @@ void subgame_init(void) {
 	game_states = resume;
 	Sound_Init();
 	CP_Sound_PlayAdvanced(introsound, volume, 1.0, FALSE, 0);
-	center_x = CP_System_GetWindowWidth() / 2.f;
-	center_y = CP_System_GetWindowHeight() / 2.f;
+	center_x = CP_System_GetWindowWidth() / 2;
+	center_y = CP_System_GetWindowHeight() / 2;
 	player1.x = center_x;
 	player1.y = center_y;
 	//set up sound cast system
@@ -216,8 +218,6 @@ void subgame_init(void) {
 	createcpwalls();
 	// Player initialisation
 
-	tutorial_state = 0;
-	shutdown_state = 1;
 	CheckPoint_1_Triggered = 0;
 	CheckPoint_2_Triggered = 0;
 	CheckPoint_3_Triggered = 0;
@@ -229,8 +229,9 @@ void subgame_init(void) {
 	dead = 0;
 	debug = 0;
 
-	WorldX = -370.f + CP_System_GetWindowWidth() / 2;
-	WorldY = -4465.f + CP_System_GetWindowHeight() / 2;
+
+	WorldX = -370 + CP_System_GetWindowWidth() / 2;
+	WorldY = -4465 + CP_System_GetWindowHeight() / 2;
 	InitBeacon(point_1.pos);
 }
 
@@ -262,32 +263,7 @@ void subgame_update(void) {
 		CP_Font_DrawText("[Q] Quit Game", 20, 380);
 	}
 
-	/*switch (tutorial_state) {
-	case 0:
-		wake_message();
-		break;
-	case 1:
-		rmb_tut();
-		tut_exit();
-		break;
-	case 2:
-		tutorial_message();
-		tut_exit();
-		break;
-	case 3:
-		dodge();
-		tut_exit();
-		break;
-	case 4:
-		tut_exit();
-		break;
-	case 5:
-		title_screen();
-		tut_exit();
-		break;
-	default:
-		;
-	} */
+
 	//2nd draw layer, the walls of the game
 	if (debug == 1) {
 		DrawWalls();
@@ -310,7 +286,7 @@ void subgame_update(void) {
 		CP_Color color = CP_Color_Create(255, 0, 0, 150);
 
 		for (int i = 0; i < 72; i++) {
-			CP_Vector v = AngleToVector(i * 5.f);
+			CP_Vector v = AngleToVector(i * 5);
 			CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 2, color, false, 350, true);
 		}
 
@@ -345,19 +321,13 @@ void subgame_update(void) {
 	//Creating Player
 	if (game_states == resume && debug == 1) {
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Graphics_DrawCircle(CP_System_GetWindowWidth() / 2.f, CP_System_GetWindowHeight() / 2.f, 25);
+		CP_Graphics_DrawCircle(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2, 25);
 	}
 	// movement function
 	if (dead == 0)
 	{
 		movement();
 	}
-
-	double title_alpha = -100;
-	double tutorial_alpha = 0;
-	int loop = 0;
-
-	//tutorial_message();
 
 	UpdateBeacon();
 
