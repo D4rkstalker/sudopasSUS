@@ -49,7 +49,7 @@ void tutorialMovement(int isplayer) {
 			float a = CP_Math_Degrees(atan2(outv.y, outv.x));
 			for (int i = -18; i < 18; i++) {
 				CP_Vector v = AngleToVector(a + i * 1);
-				CreateRay(player.x, player.y, 25, v.x, v.y, 4, color, true, 200, isplayer);
+				CreateRay(player.x, player.y, 50, v.x, v.y, 4, color, true, 200, isplayer);
 
 			}
 
