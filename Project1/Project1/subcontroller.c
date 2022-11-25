@@ -13,7 +13,7 @@
 #include "menu.h"
 
 
-#define MAXSPEED 40
+#define MAXSPEED 4
 #define TutSpeed 2
 
 CP_Vector mouseMovement;
@@ -41,12 +41,12 @@ void tutorialMovement(int isplayer) {
 
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
 
-			float x = CP_System_GetWindowWidth() / 2;
-			float y = CP_System_GetWindowHeight() / 2;
+			float x = (float)(CP_System_GetWindowWidth() / 2);
+			float y = (float)(CP_System_GetWindowHeight() / 2);
 
 			CP_Color color = CP_Color_Create(255, 255, 255, 220);
 			CP_Vector outv = CP_Vector_Normalize(CP_Vector_Subtract(CP_Vector_Set(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY), CP_Vector_Set(x - WorldX, y - WorldY)));
-			float a = CP_Math_Degrees(atan2(outv.y, outv.x));
+			float a = CP_Math_Degrees((float)(atan2(outv.y, outv.x)));
 			for (int i = -18; i < 18; i++) {
 				CP_Vector v = AngleToVector(a + i * 1);
 				CreateRay(player.x, player.y, 50, v.x, v.y, 4, color, true, 200, isplayer);
@@ -68,7 +68,7 @@ void tutorialMovement(int isplayer) {
 	else if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) {
 		CP_Color color = CP_Color_Create(255, 255, 255, 220);
 		for (int i = 0; i < 36; i++) {
-			CP_Vector v = AngleToVector(i * 10);
+			CP_Vector v = AngleToVector((float)(i * 10));
 			CreateRay(player.x, player.y, 50, v.x, v.y, 4, color, false, 130, isplayer);
 
 		}
@@ -91,7 +91,7 @@ void tutorialMovement(int isplayer) {
 
 void checkMouse(CP_Vector volumeMin, CP_Vector volumeMax) {
 	CP_Vector distvect = CP_Vector_Subtract(volumeMax, volumeMin);
-	CP_Vector dirvect = CP_Vector_Normalize(distvect);
+	//CP_Vector dirvect = CP_Vector_Normalize(distvect);
 
 	mouseMovement.x = (volumeMin.x + volume * distvect.x);
 	mouseMovement.y = volumeMin.y;
@@ -121,31 +121,31 @@ void settings_menu(void) {
 	CP_Settings_Fill(CP_Color_Create(220, 220, 220, 255));
 	CP_Settings_TextSize(150.0f);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, 0);
-	CP_Font_DrawText("Pause Menu", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 - 200);
+	CP_Font_DrawText("Pause Menu", (float)(CP_System_GetWindowWidth() / 2), (float)(CP_System_GetWindowHeight() / 2 - 200));
 
 	CP_Settings_TextSize(40.0f);
 	CP_Settings_Fill(CP_Color_Create(220, 220, 220, 255));
-	CP_Font_DrawText("Resume Game", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 - 100);
+	CP_Font_DrawText("Resume Game", (float)(CP_System_GetWindowWidth() / 2), (float)(CP_System_GetWindowHeight() / 2 - 100));
 	//CP_Font_DrawText("Retry from Last Check Point", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 );
-	CP_Font_DrawText("Retry from Last Check Point", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 100);
-	CP_Font_DrawText("Retry Game", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 200);
-	CP_Font_DrawText("Return to Menu", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 300);
+	CP_Font_DrawText("Retry from Last Check Point", (float)(CP_System_GetWindowWidth() / 2), (float)(CP_System_GetWindowHeight() / 2 + 100));
+	CP_Font_DrawText("Retry Game", (float)(CP_System_GetWindowWidth() / 2), (float)(CP_System_GetWindowHeight() / 2 + 200));
+	CP_Font_DrawText("Return to Menu", (float)(CP_System_GetWindowWidth() / 2), (float)(CP_System_GetWindowHeight() / 2 + 300));
 
 	CP_Settings_Stroke(CP_Color_Create(220, 220, 220, 255));
 	CP_Settings_RectMode(CP_POSITION_CENTER);
 	CP_Settings_Fill(CP_Color_Create(220, 220, 220, settings_alpha_1));
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 - 110, 500, 50);
+	CP_Graphics_DrawRect((float)(CP_System_GetWindowWidth() / 2), (float)(CP_System_GetWindowHeight() / 2 - 110), 500, 50);
 	CP_Settings_Fill(CP_Color_Create(220, 220, 220, settings_alpha_2));
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 - 10, 500, 50);
+	CP_Graphics_DrawRect((float)(CP_System_GetWindowWidth() / 2), (float)(CP_System_GetWindowHeight() / 2 - 10), 500, 50);
 	CP_Settings_Fill(CP_Color_Create(220, 220, 220, settings_alpha_3));
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 90, 500, 50);
+	CP_Graphics_DrawRect((float)(CP_System_GetWindowWidth() / 2), (float)(CP_System_GetWindowHeight() / 2 + 90), 500, 50);
 	CP_Settings_Fill(CP_Color_Create(220, 220, 220, settings_alpha_4));
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 190, 500, 50);
+	CP_Graphics_DrawRect((float)(CP_System_GetWindowWidth() / 2), (float)(CP_System_GetWindowHeight() / 2 + 190), 500, 50);
 	CP_Settings_Fill(CP_Color_Create(220, 220, 220, settings_alpha_5));
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 290, 500, 50);
+	CP_Graphics_DrawRect((float)(CP_System_GetWindowWidth() / 2), (float)(CP_System_GetWindowHeight() / 2 + 290), 500, 50);
 
 
-	if (CP_Input_GetMouseWorldX() >= CP_System_GetWindowWidth() / 2 - 250 && CP_Input_GetMouseWorldX() <= CP_System_GetWindowWidth() / 2 + 250 && CP_Input_GetMouseWorldY() >= CP_System_GetWindowHeight() / 2 - 145 && CP_Input_GetMouseWorldY() <= CP_System_GetWindowHeight() / 2 - 85) {
+	if (CP_Input_GetMouseWorldX() >= (float)(CP_System_GetWindowWidth() / 2 - 250) && CP_Input_GetMouseWorldX() <= (float)(CP_System_GetWindowWidth() / 2 + 250) && CP_Input_GetMouseWorldY() >= (float)(CP_System_GetWindowHeight() / 2 - 145) && CP_Input_GetMouseWorldY() <= (float)(CP_System_GetWindowHeight() / 2 - 85)) {
 		settings_alpha_1 = 50;
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
 			game_states = resume;
@@ -155,19 +155,19 @@ void settings_menu(void) {
 		settings_alpha_1 = 0;
 	}
 	//Check for retry game
-	if (CP_Input_GetMouseWorldX() >= CP_System_GetWindowWidth() / 2 - 250 && CP_Input_GetMouseWorldX() <= CP_System_GetWindowWidth() / 2 + 250 && CP_Input_GetMouseWorldY() >= CP_System_GetWindowHeight() / 2 + 65 && CP_Input_GetMouseWorldY() <= CP_System_GetWindowHeight() / 2 + 115) {
+	if (CP_Input_GetMouseWorldX() >= (float)(CP_System_GetWindowWidth() / 2 - 250) && CP_Input_GetMouseWorldX() <= (float)(CP_System_GetWindowWidth() / 2 + 250) && CP_Input_GetMouseWorldY() >= (float)(CP_System_GetWindowHeight() / 2 + 65) && CP_Input_GetMouseWorldY() <= (float)(CP_System_GetWindowHeight() / 2 + 115)) {
 		settings_alpha_3 = 50;
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
 			retry_game(checkpoint[0].current_checkpoint);
 
-			return 0;
+		//	return 0;
 		}
 	}
 	else {
 		settings_alpha_3 = 0;
 	}
 
-	if (CP_Input_GetMouseWorldX() >= CP_System_GetWindowWidth() / 2 - 250 && CP_Input_GetMouseWorldX() <= CP_System_GetWindowWidth() / 2 + 250 && CP_Input_GetMouseWorldY() >= CP_System_GetWindowHeight() / 2 + 165 && CP_Input_GetMouseWorldY() <= CP_System_GetWindowHeight() / 2 + 215) {
+	if (CP_Input_GetMouseWorldX() >= (float)(CP_System_GetWindowWidth() / 2 - 250) && CP_Input_GetMouseWorldX() <= (float)(CP_System_GetWindowWidth() / 2 + 250) && CP_Input_GetMouseWorldY() >= (float)(CP_System_GetWindowHeight() / 2 + 165) && CP_Input_GetMouseWorldY() <= (float)(CP_System_GetWindowHeight() / 2 + 215)) {
 		settings_alpha_4 = 50;
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) { // Menu on retry game
 			if (checkpoint[0].current_checkpoint != 1) {
@@ -192,17 +192,17 @@ void settings_menu(void) {
 
 
 			}
-			return 0;
+			//return 0;
 		}
 	}
 	else {
 		settings_alpha_4 = 0;
 	}
-	if (CP_Input_GetMouseWorldX() >= CP_System_GetWindowWidth() / 2 - 250 && CP_Input_GetMouseWorldX() <= CP_System_GetWindowWidth() / 2 + 250 && CP_Input_GetMouseWorldY() >= CP_System_GetWindowHeight() / 2 + 265 && CP_Input_GetMouseWorldY() <= CP_System_GetWindowHeight() / 2 + 315) {
+	if (CP_Input_GetMouseWorldX() >= (float)(CP_System_GetWindowWidth() / 2 - 250) && CP_Input_GetMouseWorldX() <= (float)(CP_System_GetWindowWidth() / 2 + 250) && CP_Input_GetMouseWorldY() >= (float)(CP_System_GetWindowHeight() / 2 + 265) && CP_Input_GetMouseWorldY() <= (float)(CP_System_GetWindowHeight() / 2 + 315)) {
 		settings_alpha_5 = 50;
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
 			CP_Engine_SetNextGameState(mainmenu_init, mainmenu_update, mainmenu_exit);
-			return 0;
+			//return 0;
 		}
 	}
 	else {
@@ -215,10 +215,10 @@ void settings_menu(void) {
 void volumeControl(void) {
 	CP_Settings_Fill(CP_Color_Create(50, 50, 50, 0));
 	CP_Settings_RectMode(CP_POSITION_CORNER);
-	float screenborderX = CP_System_GetWindowWidth() / 4;
-	float screenborderY = CP_System_GetWindowHeight() / 4;
-	float screensizeX = CP_System_GetWindowWidth() / 2;
-	float screensizeY = CP_System_GetWindowHeight() / 2;
+	float screenborderX = (float)(CP_System_GetWindowWidth() / 4);
+	float screenborderY = (float)(CP_System_GetWindowHeight() / 4);
+	float screensizeX = (float)(CP_System_GetWindowWidth() / 2);
+	float screensizeY = (float)(CP_System_GetWindowHeight() / 2);
 
 	CP_Vector volumeMin = CP_Vector_Set(screenborderX + screensizeX / 4, (screenborderY + screensizeY / 2) - 10);
 
@@ -276,12 +276,12 @@ void movement(void) {
 
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
 			if (energy > 40) {
-				float x = CP_System_GetWindowWidth() / 2;
-				float y = CP_System_GetWindowHeight() / 2;
+				float x = (float)(CP_System_GetWindowWidth() / 2);
+				float y = (float)(CP_System_GetWindowHeight() / 2);
 
 				CP_Color color = CP_Color_Create(255, 255, 255, 220);
 				CP_Vector outv = CP_Vector_Normalize(CP_Vector_Subtract(CP_Vector_Set(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY), CP_Vector_Set(x - WorldX, y - WorldY)));
-				float a = CP_Math_Degrees(atan2(outv.y, outv.x));
+				float a = CP_Math_Degrees((float)(atan2(outv.y, outv.x)));
 				for (int i = -18; i < 18; i++) {
 					CP_Vector v = AngleToVector(a + i * 1);
 					CreateRay(player1.x - WorldX, player1.y - WorldY, 25, v.x, v.y, 2, color, true, 200, true);
@@ -304,7 +304,7 @@ void movement(void) {
 			CP_Color color = CP_Color_Create(255, 255, 255, 220);
 
 			for (int i = 0; i < 36; i++) {
-				CP_Vector v = AngleToVector(i * 10);
+				CP_Vector v = AngleToVector((float)(i * 10));
 				CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x, v.y, 2, color, false, 130, true);
 
 
@@ -321,7 +321,7 @@ void movement(void) {
 		else {
 			if (CP_Input_KeyDown(KEY_W)) {
 				player1.acceleration_y += (MAXSPEED - player1.acceleration_y) / MAXSPEED;
-				player1.velocity_y -= player1.acceleration_y * 0.1;
+				player1.velocity_y -= (float)(player1.acceleration_y * 0.1);
 				time++;
 
 			}
@@ -334,7 +334,7 @@ void movement(void) {
 			if (CP_Input_KeyDown(KEY_S)) {
 
 				player1.acceleration_y += (MAXSPEED - player1.acceleration_y) / MAXSPEED;
-				player1.velocity_y += player1.acceleration_y * 0.1;
+				player1.velocity_y += (float)(player1.acceleration_y * 0.1);
 				time++;
 			}
 			else if (CP_Input_KeyReleased(KEY_S)) {
@@ -350,7 +350,7 @@ void movement(void) {
 		else {
 			if (CP_Input_KeyDown(KEY_D)) {
 				player1.acceleration_x += (MAXSPEED - player1.acceleration_x) / MAXSPEED;
-				player1.velocity_x += player1.acceleration_x * 0.1;
+				player1.velocity_x += (float)(player1.acceleration_x * 0.1);
 				time++;
 			}
 			else if (CP_Input_KeyReleased(KEY_D)) {
@@ -361,7 +361,7 @@ void movement(void) {
 			}
 			if (CP_Input_KeyDown(KEY_A)) {
 				player1.acceleration_x += (MAXSPEED - player1.acceleration_x) / MAXSPEED;
-				player1.velocity_x -= player1.acceleration_x * 0.1;
+				player1.velocity_x -= (float)(player1.acceleration_x * 0.1);
 				time++;
 			}
 			else if (CP_Input_KeyReleased(KEY_A)) {
@@ -378,7 +378,7 @@ void movement(void) {
 					CP_Color color = CP_Color_Create(255, 255, 255, 150);
 
 					for (int i = 0; i < 18; i++) {
-						CP_Vector v = AngleToVector(i * 20);
+						CP_Vector v = AngleToVector((float)(i * 20));
 						CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 2, color, false, 150, true);
 					}
 				}
@@ -387,15 +387,15 @@ void movement(void) {
 		}
 		WorldX -= player1.velocity_x;
 		WorldY -= player1.velocity_y;
-		player1.velocity_y *= 0.9;
-		player1.velocity_x *= 0.9;
+		player1.velocity_y *= (float)0.9;
+		player1.velocity_x *= (float)0.9;
 
 		time++;
 		if (time > 25) {
 			CP_Color color = CP_Color_Create(255, 255, 255, 150);
 
 			for (int i = 0; i < 18; i++) {
-				CP_Vector v = AngleToVector(i * 20);
+				CP_Vector v = AngleToVector((float)(i * 20));
 				CreateRay(player1.x - WorldX, player1.y - WorldY, 20, v.x, v.y, 4, color, false, 50, true);
 			}
 			time = 0;
@@ -406,7 +406,7 @@ void movement(void) {
 	game_states == theMap ?
 		CP_Settings_Fill(CP_Color_Create(188, 158, 130, 255)),
 		CP_Settings_RectMode(CP_POSITION_CORNER), // Line below draws a border
-		CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 4, CP_System_GetWindowHeight() / 4, (CP_System_GetWindowWidth() + 50) / 2, (CP_System_GetWindowHeight() + 50) / 2),
+		CP_Graphics_DrawRect((float)(CP_System_GetWindowWidth() / 4), (float)(CP_System_GetWindowHeight() / 4), (float)((CP_System_GetWindowWidth() + 50) / 2), (float)((CP_System_GetWindowHeight() + 50) / 2)),
 		mapScale() : 0;
 }
 
@@ -414,7 +414,7 @@ void movement(void) {
 
 void controller_init(void) {
 	Sound_Init();
-	volume = 0.1;
+	volume = (float)0.1;
 }
 
 

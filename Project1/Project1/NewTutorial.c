@@ -1,5 +1,5 @@
 /*
-All content © 2021 DigiPen Institute of Technology Singapore, all rights reserved.
+All content ï¿½ 2021 DigiPen Institute of Technology Singapore, all rights reserved.
 
 Tutorial section made by Kian Chew
 Tutorial messages pop up after certain timing,
@@ -40,7 +40,6 @@ void newtutorial_init(void)
 	player.y = 540;
 	WorldX = 0;
 	WorldY = 0;
-	can_move = 1;
 }
 
 void newtutorial_update(void)
@@ -72,7 +71,7 @@ void newtutorial_update(void)
 	//Tutorial Skip button
 	CP_Settings_Fill(CP_Color_Create(120, 120, 120, 50));
 	CP_Settings_TextSize(50.0f);
-	CP_Font_DrawText("PRESS T TO SKIP TUTORIAL", 700, 100);
+	CP_Font_DrawText("PRESS T TO SKIP TUTORIAL", 550, 100);
 	if (CP_Input_KeyTriggered(KEY_T))
 	{
 		CP_Engine_SetNextGameState(subgame_init, subgame_update, subgame_exit);
@@ -101,7 +100,7 @@ void newtutorial_update(void)
 		CP_Color color = CP_Color_Create(255, 255, 255, 150);
 
 		for (int i = 0; i < 18; i++) {
-			CP_Vector v = AngleToVector(i * (float)20);
+			CP_Vector v = AngleToVector(i * 20.f);
 			CreateRay(player.x,player.y, 20, v.x, v.y, 4, color, false, 50, true);
 
 
@@ -116,7 +115,7 @@ void newtutorial_update(void)
 		{
 			CP_Color color = CP_Color_Create(255, 255, 0, 50);
 			for (int i = 0; i < 20; i++) {
-				CP_Vector v = AngleToVector(i * (float)18);
+				CP_Vector v = AngleToVector(i * 18.f);
 				CreateRay(1100, 540, 10, v.x, v.y, 1, color, false, 100, false);
 			}
 			delay = 0;
@@ -133,6 +132,10 @@ void newtutorial_update(void)
 			CP_Settings_Fill(CP_Color_Create(120, 120, 120, countdown));
 			CP_Settings_TextSize(50.0f);
 			CP_Font_DrawText("Welcome Captain, this is your current position on our radar", 345, 435);
+			CP_Settings_RectMode(CP_POSITION_CENTER);
+			CP_Settings_Stroke(CP_Color_Create(150, 150, 150, 255));
+			CP_Settings_Fill(CP_Color_Create(25, 25, 25, 0));
+			CP_Graphics_DrawRect(960, 540, 75, 75);
 		}
 		if (totalElapsedTime > 500)
 		{
@@ -235,7 +238,7 @@ void newtutorial_update(void)
 			{
 				tut_stage = Enemy_Spawn;
 				countdown = 0;
-				can_move = 0;
+
 				CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
 				CP_Color color = CP_Color_Create(0, 255, 255, 50);
 				for (int i = 0; i < 36; i++) {
@@ -260,8 +263,10 @@ void newtutorial_update(void)
 		CP_Settings_Fill(CP_Color_Create(120, 120, 120, countdown));
 		CP_Settings_TextSize(50.0f);
 		CP_Font_DrawText("Red Pings are enemies, they can't be killed", (CP_System_GetWindowWidth() / 2.0f) - 400, (CP_System_GetWindowHeight() / 2.5f));
+		CP_Font_DrawText("Press 1", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f)+200.0f);
+		
 
-		if (countdown > 1000)
+		if (CP_Input_KeyTriggered(KEY_1))
 		{
 			tut_stage = Enemy_Move;
 			countdown = 0;
@@ -269,14 +274,15 @@ void newtutorial_update(void)
 		}
 
 	}
-
+	//Introduce Stealth movement
 	if (tut_stage == Enemy_Move)
 	{
 		CP_Settings_Fill(CP_Color_Create(120, 120, 120, countdown));
 		CP_Settings_TextSize(50.0f);
 		CP_Font_DrawText("Touching an enemy will KILL YOU", (CP_System_GetWindowWidth() / 2.0f) - 400, (CP_System_GetWindowHeight() / 2.5f));
+		CP_Font_DrawText("Press 2", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f) + 200.0f);
 
-		if (countdown > 1000)
+		if (CP_Input_KeyTriggered(KEY_2))
 		{
 			tut_stage = Enemy_Sound;
 			countdown = 0;
@@ -291,11 +297,9 @@ void newtutorial_update(void)
 
 			CP_Settings_Fill(CP_Color_Create(120, 120, 120, countdown));
 			CP_Settings_TextSize(50.0f);
-			CP_Font_DrawText("Enemies follow any sound", (CP_System_GetWindowWidth() / 2.0f) - 200, (CP_System_GetWindowHeight() / 2.5f));
-			CP_Font_DrawText("Watch", (CP_System_GetWindowWidth() / 2.0f) - 150, (CP_System_GetWindowHeight() / 2.5f) + 200.0f);
+			CP_Font_DrawText("Enemies follow your sound", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f));
+			CP_Font_DrawText("Watch", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f) + 200.0f);
 
-			if (countdown == 200)
-			{
 
 				CP_Sound_PlayAdvanced(ping, volume, 2, FALSE, 0);
 				CP_Color color = CP_Color_Create(0, 255, 255, 220);
@@ -310,42 +314,54 @@ void newtutorial_update(void)
 			{
 				sound_stage = Sound_Distract;
 				countdown = 0;
-				can_move = 1;
 
 			}
 		}
-		
+		// Enemy follow ping made by player
 		if (sound_stage == Sound_Distract) {
-
+			isplayer = 1;
 			CP_Settings_Fill(CP_Color_Create(120, 120, 120, countdown));
 			CP_Settings_TextSize(50.0f);
 			CP_Font_DrawText("Your beams will attract enemies", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f));
 			CP_Font_DrawText("Use this to your advantage...", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f) + 200.0f);
-			CP_Settings_Fill(CP_Color_Create(120, 120, 120, countdown));
-			CP_Settings_TextSize(50.0f);
-			CP_Font_DrawText("Left Click to Use your sound cannon", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f) + 250.0f);
-			CP_Settings_TextSize(20.0f);
-			CP_Font_DrawText("LMB", 805, (CP_System_GetWindowHeight() / 2.5f) + 200.0f);
-			CP_Settings_Stroke(CP_Color_Create(150, 150, 150, countdown));
-			CP_Settings_Fill(CP_Color_Create(25, 25, 25, 0));
-			CP_Graphics_DrawRectAdvanced(825, (CP_System_GetWindowHeight() / 2.5f) + 200.0f, 50.0f, 50.0f, 0, 10.0f);
+
 
 			if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT))
+			{
+				sound_stage = Sound_Trigger;
+				countdown = 0;
+
+			}
+		}
+		// Player scans a checkpoint and triggers enemies
+		if (sound_stage == Sound_Trigger) {
+
+			CP_Settings_Fill(CP_Color_Create(120, 120, 120, countdown));
+			CP_Settings_TextSize(50.0f);
+			CP_Font_DrawText("When you scan a checkpoint, they'll be coming", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f));
+			CP_Font_DrawText("Press Space", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f) + 200.0f);
+
+
+			//create a CP ping ping.
+			//enemy walk to the BLUE ping. 
+			if (CP_Input_KeyTriggered(KEY_SPACE))
 			{
 				tut_stage = Enemy_Kill;
 				countdown = 0;
 
 			}
 		}
+
 		
+
 	}
-	
+	//Enemies kill players, death screen reload to main game.
 	if (tut_stage == Enemy_Kill)
 	{
 		CP_Settings_Fill(CP_Color_Create(120, 120, 120, countdown));
 		CP_Settings_TextSize(50.0f);
-		CP_Font_DrawText("Good luck out there", (CP_System_GetWindowWidth() / 2.0f) - 250, (CP_System_GetWindowHeight() / 2.5f));
-		CP_Font_DrawText("Try and make it out alive", (CP_System_GetWindowWidth() / 2.0f) - 250, (CP_System_GetWindowHeight() / 2.5f) + 200.0f);
+		CP_Font_DrawText("Good luck out there", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f));
+		CP_Font_DrawText("Try and make it out alive", (CP_System_GetWindowWidth() / 2.0f) - 100, (CP_System_GetWindowHeight() / 2.5f) + 200.0f);
 
 		if (countdown > 1000)
 		{
@@ -371,10 +387,16 @@ void newtutorial_update(void)
 		if (CP_Input_KeyTriggered(KEY_SPACE)) 
 		{
 			CP_Engine_SetNextGameState(subgame_init, subgame_update, subgame_exit);
+
 		}
 
 	}
 
+	CP_Settings_TextSize(20.0f);
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	char buffer3[100] = { 0 };
+	sprintf_s(buffer3, _countof(buffer3), "X:%.0f\nY:%.0f", CP_Input_GetMouseWorldX(), CP_Input_GetMouseWorldY());
+	CP_Font_DrawText(buffer3, CP_Input_GetMouseX(), CP_Input_GetMouseY() - 20);
 
 }
 
