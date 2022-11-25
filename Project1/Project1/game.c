@@ -214,6 +214,7 @@ void subgame_init(void) {
 	//set up sound cast system
 	loadwalls();
 	createcpwalls();
+	gate_checkpoint_init();
 	// Player initialisation
 
 	CheckPoint_1_Triggered = 0;
