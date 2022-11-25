@@ -10,6 +10,7 @@
 #include <math.h>
 #include "enemy.h"
 #include "NewTutorial.h"
+#include "menu.h"
 
 
 #define MAXSPEED 4
@@ -128,7 +129,7 @@ void settings_menu(void) {
 	//CP_Font_DrawText("Retry from Last Check Point", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 );
 	CP_Font_DrawText("Retry from Last Check Point", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 100);
 	CP_Font_DrawText("Retry Game", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 200);
-	CP_Font_DrawText("Exit Game", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 300);
+	CP_Font_DrawText("Quit to Menu", CP_System_GetWindowWidth() / 2, CP_System_GetWindowHeight() / 2 + 300);
 
 	CP_Settings_Stroke(CP_Color_Create(220, 220, 220, 255));
 	CP_Settings_RectMode(CP_POSITION_CENTER);
@@ -200,7 +201,7 @@ void settings_menu(void) {
 	if (CP_Input_GetMouseWorldX() >= CP_System_GetWindowWidth() / 2 - 250 && CP_Input_GetMouseWorldX() <= CP_System_GetWindowWidth() / 2 + 250 && CP_Input_GetMouseWorldY() >= CP_System_GetWindowHeight() / 2 + 265 && CP_Input_GetMouseWorldY() <= CP_System_GetWindowHeight() / 2 + 315) {
 		settings_alpha_5 = 50;
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
-			CP_Engine_Terminate();
+			CP_Engine_SetNextGameState(mainmenu_init, mainmenu_update, mainmenu_exit);
 			return 0;
 		}
 	}
