@@ -115,6 +115,17 @@ void draw_credits(const char* str, float size, float dist) {
 	CP_Font_DrawText(str, CP_System_GetWindowWidth() / 2, 350.0f + CreditsY + CreditsH);
 	CreditsH += dist;
 }
+void draw_copyrightSymbol(float size, float dist) {
+	
+	CP_Settings_TextSize(size);
+	CP_Settings_NoFill();
+	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
+	CP_Graphics_DrawCircle((CP_System_GetWindowWidth() / 2) + 200, 350.0f + CreditsY + CreditsH - 95, 65);
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	CP_Font_DrawText("C", (CP_System_GetWindowWidth() / 2) + 200, 350.0f + CreditsY + CreditsH - 100);
+	CreditsH += dist;
+}
+
 
 void credits_init(void) {
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
@@ -142,6 +153,12 @@ void credit_scene(void) {
 
 	draw_credits("Project", 200, 350);
 	draw_credits("SONAR", 500, 700);
+
+	draw_credits("WWW.DIGIPEN.EDU", 75, 100);
+	draw_credits("All Content ", 75, 100);
+	draw_copyrightSymbol(75, 0);
+	draw_credits("2022 DigiPen Institute of Technology Singapore.", 75, 100);
+	draw_credits("All Rights Reserved", 75, 300);
 
 	draw_credits("Team Members", 125, 150);
 	draw_credits("LIU HAN QING", 50, 100);
@@ -192,9 +209,7 @@ void credit_scene(void) {
 
 
 
-	draw_credits("WWW.DIGIPEN.EDU", 75, 100);
-	draw_credits("All Content 2022 DigiPen Institute of Technology Singapore.", 75, 100);
-	draw_credits("All Rights Reserved", 75, 300);
+	
 	//©
 
 	draw_credits("Thanks for playing!", 100, 300);

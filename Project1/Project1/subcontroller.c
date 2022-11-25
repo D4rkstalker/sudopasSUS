@@ -313,32 +313,6 @@ void movement(void) {
 			energy -= 60;
 
 		}
-		//else if (CP_Input_MouseTriggered(MOUSE_BUTTON_3)) {
-		//	CP_Color color = CP_Color_Create(50, 50, 255, 255);
-		//	for (int i = 0; i < 36; i++) {
-		//		CP_Vector v = AngleToVector(i * 10);
-		//		CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x * 200, v.y * 200, 5, color, false);
-
-
-		//	}
-
-		//}
-
-		//if (CP_Input_KeyTriggered(KEY_N)) {
-		//	if (energy > 30) {
-		//		CP_Color color = CP_Color_Create(0, 255, 0, 255);
-
-		//		for (int i = 0; i < 36; i++) {
-		//			CP_Vector v = AngleToVector(i * 10);
-		//			CreateRay(-WorldX + CP_System_GetWindowWidth() / 2, -WorldY + CP_System_GetWindowHeight() / 2, 50, v.x * 200, v.y * 200, 1, color, false);
-
-
-		//		}
-
-		//		energy -= 30;
-		//		CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
-		//	}
-		//}
 
 		if (CP_Input_KeyDown(KEY_W) && CP_Input_KeyDown(KEY_S)) {
 			player1.acceleration_y = 0;
