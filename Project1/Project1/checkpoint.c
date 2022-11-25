@@ -70,11 +70,7 @@ void draw_checkpoint_ping(float delay, float x, float y)
 void draw_checkpoint_1(void)
 {
 
-	point_1.pos.x = 1640;
-	point_1.pos.y = 2235;
-	point_1.pos = CP_Vector_Scale(point_1.pos, 2);
-	point_1.w = 50;
-	point_1.h = 50;
+
 
 
 	if (debug == 1) {
@@ -98,11 +94,6 @@ void draw_checkpoint_1(void)
 void draw_checkpoint_2(void)
 {
 
-	point_2.pos.x = 2960;
-	point_2.pos.y = 1375;
-	point_2.pos = CP_Vector_Scale(point_2.pos, 2);
-	point_2.w = 50;
-	point_2.h = 50;
 
 	if (debug == 1) {
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
@@ -123,11 +114,7 @@ void draw_checkpoint_2(void)
 //checkpoint 3 position
 void draw_checkpoint_3(void)
 {
-	point_3.pos.x = 540;
-	point_3.pos.y = 1190;
-	point_3.pos = CP_Vector_Scale(point_3.pos, 2);
-	point_3.w = 50;
-	point_3.h = 50;
+	
 
 	if (debug == 1) {
 		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
@@ -148,11 +135,7 @@ void draw_checkpoint_3(void)
 //exit position
 void draw_exit(void)
 {
-	point_exit.pos.x = 2425;
-	point_exit.pos.y = 247;
-	point_exit.pos = CP_Vector_Scale(point_exit.pos, 2);
-	point_exit.w = 300;
-	point_exit.h = 200;
+
 
 	draw_checkpoint_ping(150, point_exit.pos.x, point_exit.pos.y + 25);
 
@@ -380,4 +363,31 @@ void checkpoint_reset(void) {
 	CheckPoint_2_Triggered = 0;
 	CheckPoint_3_Triggered = 0;
 	exit_Triggered = 0;
+}
+
+void gate_checkpoint_init(void)
+{
+	point_1.pos.x = 1640;
+	point_1.pos.y = 2235;
+	point_1.pos = CP_Vector_Scale(point_1.pos, 2);
+	point_1.w = 50;
+	point_1.h = 50;
+
+	point_2.pos.x = 2960;
+	point_2.pos.y = 1375;
+	point_2.pos = CP_Vector_Scale(point_2.pos, 2);
+	point_2.w = 50;
+	point_2.h = 50;
+
+	point_3.pos.x = 540;
+	point_3.pos.y = 1190;
+	point_3.pos = CP_Vector_Scale(point_3.pos, 2);
+	point_3.w = 50;
+	point_3.h = 50;
+
+	point_exit.pos.x = 2425;
+	point_exit.pos.y = 247;
+	point_exit.pos = CP_Vector_Scale(point_exit.pos, 2);
+	point_exit.w = 300;
+	point_exit.h = 200;
 }
