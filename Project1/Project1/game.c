@@ -231,6 +231,8 @@ void subgame_init(void) {
 
 	WorldX = -370 + (float) CP_System_GetWindowWidth() / 2;
 	WorldY = -4465 + (float) CP_System_GetWindowHeight() / 2;
+
+	//Set up beacon system -HQ
 	InitBeacon(point_1.pos);
 }
 
@@ -279,6 +281,7 @@ void subgame_update(void) {
 	//draw checkpoints
 	draw_checkpoint();
 
+	//death feedback -HQ
 	if (enemy_touch(WorldX, WorldY) == 1 && dead != 1) {
 		//CP_Settings_TextSize(50.0f);
 		//CP_Font_DrawText("You are Dead", (float) CP_System_GetWindowWidth() / 2, (float) CP_System_GetWindowHeight() / 2 - 200);

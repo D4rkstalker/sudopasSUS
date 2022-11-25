@@ -4,6 +4,11 @@
 #include <math.h>
 #include <stdbool.h>
 #include "subcontroller.h"
+
+//Beacon Script -Liu Hanqing
+
+//Serves as a waypoint marker system to guide the player
+
 CP_Vector beacon ;
 CP_Vector target;
 float size;
@@ -24,6 +29,10 @@ void BeaconNext(CP_Vector pos) {
 
 }
 
+
+//quick mafs
+
+//draws the beacon at edge of the screen
 void lineLine(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4) {
 
     float uA = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1));
@@ -47,6 +56,7 @@ void lineRect(float x1, float y1, float x2, float y2, float rx, float ry, float 
 
 void UpdateBeacon() {
 	//float d = CP_Math_Degrees(atan2(v.y, v.x));
+    //cool shrink and flicker effect
     if (size > 21) {
         size-= 100;
     }

@@ -1,11 +1,9 @@
-/*
-All content © 2021 DigiPen Institute of Technology Singapore, all rights reserved.
-*/
-
 #include <cprocessing.h>
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
+
+//Utils.c -cargame.c
 
 CP_Vector AngleToVector(float angle)
 {
