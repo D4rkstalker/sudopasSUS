@@ -8,6 +8,7 @@
 #include "music.h"
 #include "enemy.h"
 #include "credits.h"
+#include "beacon.h"
 
 CheckPoint point_1;
 CheckPoint point_2;
@@ -220,7 +221,7 @@ void cp1_triggered(void)
 				CP_Vector v = AngleToVector(i * 5.f);
 				CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 2, color, false, 150, true);
 			}
-
+			BeaconNext(point_2.pos);
 
 		}
 		/*CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
@@ -297,6 +298,7 @@ void cp2_triggered(void)
 				CP_Vector v = AngleToVector(i * 5);
 				CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 2, color, false, 150, true);
 			}
+			BeaconNext(point_3.pos);
 
 			return 1;
 
@@ -376,6 +378,7 @@ void cp3_triggered(void)
 				CP_Vector v = AngleToVector(i * 5);
 				CreateRay(player1.x - WorldX, player1.y - WorldY, 30, v.x, v.y, 1, color, false, 250, true);
 			}
+			BeaconNext(point_exit.pos);
 
 			return 1;
 
