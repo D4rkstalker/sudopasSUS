@@ -57,6 +57,9 @@
     <ClInclude Include="NewTutorial.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="beacon.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -99,6 +102,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="NewTutorial.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="beacon.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
