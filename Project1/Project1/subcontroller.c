@@ -13,7 +13,7 @@
 #include "menu.h"
 
 
-#define MAXSPEED 40
+#define MAXSPEED 4
 #define TutSpeed 2
 
 CP_Vector mouseMovement;
