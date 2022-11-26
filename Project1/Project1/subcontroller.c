@@ -1,3 +1,13 @@
+/*
+All content © 2021 DigiPen Institute of Technology Singapore, all rights reserved.
+
+Subcontroller by Ming Rui
+settings_menu by Jonathan
+soundPing by Han Qing
+
+*/
+
+
 #include <stdio.h>
 #include "cprocessing.h"
 #include "subcontroller.h"
@@ -13,7 +23,7 @@
 #include "menu.h"
 
 
-#define MAXSPEED 40
+#define MAXSPEED 4
 #define TutSpeed 2
 
 CP_Vector mouseMovement;
@@ -54,15 +64,7 @@ void tutorialMovement(int isplayer) {
 			}
 
 
-
-
 			CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
-			//CP_Sound_StopGroup(CP_SOUND_GROUP_MUSIC);
-			//CP_Sound_PlayMusic((bgm_submarine));
-
-
-	
-
 
 	}
 	else if (CP_Input_MouseTriggered(MOUSE_BUTTON_2)) {
@@ -257,14 +259,46 @@ void controlskeys(void) {
 	if (CP_Input_KeyTriggered(KEY_M)) {
 		game_states = game_states != theMap ? theMap : resume;
 	}
-	/* Obsolete, to be removed
-	if (CP_Input_KeyTriggered(KEY_T)) {
-		CP_Sound_PlayAdvanced(ping, volume, 1.0f, FALSE, CP_SOUND_GROUP_0);
-	}
-	*/
 }
 
+void soundPing(void) {
+	if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
+		if (energy > 40) {
+			float x = CP_System_GetWindowWidth() / 2.f;
+			float y = CP_System_GetWindowHeight() / 2.f;
 
+			CP_Color color = CP_Color_Create(255, 255, 255, 220);
+			CP_Vector outv = CP_Vector_Normalize(CP_Vector_Subtract(CP_Vector_Set(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY), CP_Vector_Set(x - WorldX, y - WorldY)));
+			float a = CP_Math_Degrees((float)atan2(outv.y, outv.x));
+			for (int i = -18; i < 18; i++) {
+				CP_Vector v = AngleToVector(a + i * 1);
+				CreateRay(player1.x - WorldX, player1.y - WorldY, 25, v.x, v.y, 2, color, true, 200, true);
+
+			}
+
+
+
+			energy -= 40;
+			CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
+
+		}
+
+
+	}
+	else if (CP_Input_MouseTriggered(MOUSE_BUTTON_2) && energy > 60) {
+		CP_Color color = CP_Color_Create(255, 255, 255, 220);
+
+		for (int i = 0; i < 36; i++) {
+			CP_Vector v = AngleToVector((float)(i * 10));
+			CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x, v.y, 2, color, false, 130, true);
+
+
+		}
+		CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
+		energy -= 60;
+
+	}
+}
 
 void movement(void) {
 	controlskeys();
@@ -272,45 +306,7 @@ void movement(void) {
 
 	if (game_states == resume) {
 
-		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
-			if (energy > 40) {
-				float x = CP_System_GetWindowWidth() / 2.f;
-				float y = CP_System_GetWindowHeight() / 2.f;
-
-				CP_Color color = CP_Color_Create(255, 255, 255, 220);
-				CP_Vector outv = CP_Vector_Normalize(CP_Vector_Subtract(CP_Vector_Set(CP_Input_GetMouseWorldX() - WorldX, CP_Input_GetMouseWorldY() - WorldY), CP_Vector_Set(x - WorldX, y - WorldY)));
-				float a = CP_Math_Degrees((float)atan2(outv.y, outv.x));
-				for (int i = -18; i < 18; i++) {
-					CP_Vector v = AngleToVector(a + i * 1);
-					CreateRay(player1.x - WorldX, player1.y - WorldY, 25, v.x, v.y, 2, color, true, 200, true);
-
-				}
-
-
-
-				energy -= 40;
-				CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
-				//CP_Sound_StopGroup(CP_SOUND_GROUP_MUSIC);
-				//CP_Sound_PlayMusic((bgm_submarine));
-
-
-			}
-
-
-		}
-		else if (CP_Input_MouseTriggered(MOUSE_BUTTON_2) && energy > 60) {
-			CP_Color color = CP_Color_Create(255, 255, 255, 220);
-
-			for (int i = 0; i < 36; i++) {
-				CP_Vector v = AngleToVector((float)(i * 10));
-				CreateRay(player1.x - WorldX, player1.y - WorldY, 50, v.x, v.y, 2, color, false, 130, true);
-
-
-			}
-			CP_Sound_PlayAdvanced(ping, volume, 1, FALSE, 0);
-			energy -= 60;
-
-		}
+		soundPing();
 
 		if (CP_Input_KeyDown(KEY_W) && CP_Input_KeyDown(KEY_S)) {
 			player1.acceleration_y = 0;

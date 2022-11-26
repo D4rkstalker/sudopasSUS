@@ -42,11 +42,6 @@ void game_init(void)
 	logo = CP_Image_Load("Assets/DigiPen_Singapore_WEB_RED.png");
 	CP_Settings_ImageMode(CP_POSITION_CORNER);
 	CP_Settings_ImageWrapMode(CP_IMAGE_WRAP_CLAMP);
-
-	/*for (int i = 0; i < numParticles; ++i) {
-		ParticleCreate(&particles[i]);
-	}*/
-
 	CP_System_SetWindowSize(1920, 1080);
 }
 

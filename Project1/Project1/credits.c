@@ -79,7 +79,7 @@ void credits_ping(void) {
 
 void credits_scroll(void) {
 
-	if (-CreditsY < CreditsBottom) { // Auto scroll, remove if unwanted
+	if (-CreditsY < CreditsBottom) { 
 		CreditsY -= 10;
 	}
 
@@ -106,6 +106,7 @@ void credits_button(int button, int* buttonalpha) {
 		*buttonalpha = 50;
 		if (CP_Input_MouseTriggered(MOUSE_BUTTON_1)) {
 			if (button == 0) {
+				CheckPoint_3_Triggered = 0;
 				CP_Engine_SetNextGameStateForced(mainmenu_init, mainmenu_update, mainmenu_exit);
 			}
 			else {
