@@ -363,6 +363,7 @@ void checkpoint_reset(void) {
 	CheckPoint_2_Triggered = 0;
 	CheckPoint_3_Triggered = 0;
 	exit_Triggered = 0;
+	BeaconNext(point_1.pos);
 }
 
 void gate_checkpoint_init(void)
