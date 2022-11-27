@@ -19,6 +19,11 @@ int splashstate = 0;
 
 void splashscreen_init(void) {
 	logo = CP_Image_Load("../Assets/DigiPen_Singapore_WEB_WHITE.png");
+
+	if (logo == NULL) {
+		logo = CP_Image_Load("Assets/DigiPen_Singapore_WEB_WHITE.png");
+	}
+
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
 	CP_Settings_ImageWrapMode(CP_IMAGE_WRAP_CLAMP);
 
