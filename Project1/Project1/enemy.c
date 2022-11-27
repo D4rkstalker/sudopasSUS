@@ -11,6 +11,7 @@
 #include "enemy.h"
 #include "music.h"
 #include "checkpoint.h"
+#include "beacon.h"
 
 //enemy.c done by Jonathan Ho
 
@@ -27,10 +28,12 @@ void retry_game(int i) {
 	menu_alpha = 0;
 	state = 0;
 	if (i == 5 && -WorldX < 1000) {
+		/*
 		if (CheckPoint_3_Triggered == 1) {
 			CheckPoint_3_Triggered = 0;
 			cpwallinit(cp3_gate);
-		}
+			BeaconNext(point_3.pos);
+		}*/
 	}
 	WorldX = -checkpoint[i].respawn_x + CP_System_GetWindowWidth() / 2;
 	WorldY = -checkpoint[i].respawn_y + CP_System_GetWindowHeight() / 2;
